@@ -18,16 +18,16 @@ function Header() {
           className="flex items-center gap-4 justify-between pn:max-sm:hidden
       "
         >
-          <Link href="/about" className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white ">
+          <Link href="/about" className="hover:underline duration-75 text-lg shadow-md text-white ">
             About us
           </Link>
           <Link
             href={"/contact"}
-            className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white "
+            className="hover:underline duration-75 text-lg shadow-md text-white "
           >
             Contact us
           </Link>
-          <Link href="/shipping" className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white ">
+          {/* <Link href="/shipping" className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white ">
             Shipping
           </Link>
           <Link href="/cancellation" className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white ">
@@ -38,7 +38,7 @@ function Header() {
           </Link>
           <Link href="/privacy" className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white ">
             Privacy Policy
-          </Link>
+          </Link> */}
 
         </div>
         <div
