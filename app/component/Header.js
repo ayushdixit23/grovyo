@@ -25,7 +25,7 @@ function Header() {
             href={"/contact"}
             className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white "
           >
-            Contant us
+            Contact us
           </Link>
           <Link href="/shipping" className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white ">
             Shipping
