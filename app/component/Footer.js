@@ -36,6 +36,9 @@ function Footer() {
           <Link href="/terms" className="hover:underline duration-75 text-xs md:text-base shadow-md text-white ">
             Terms & Conditions
           </Link>
+          <Link href="/return" className="hover:underline duration-75 text-xs md:text-base shadow-md text-white ">
+            Return Policy
+          </Link>
           <Link href="/privacy" className="hover:underline duration-75 text-xs md:text-base shadow-md text-white ">
             Privacy Policy
           </Link>

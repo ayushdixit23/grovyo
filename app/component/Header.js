@@ -67,6 +67,9 @@ function Header() {
             <Link href="/shipping" className="text-xl font-semibold py-2 drop-shadow-[0_0px_15px_rgba(255,255,255,1)]">
               Shipping Policy
             </Link>
+            <Link href="/return" className="text-xl font-semibold py-2 drop-shadow-[0_0px_15px_rgba(255,255,255,1)]">
+              Return Policy
+            </Link>
             <Link href="/privacy" className="text-xl font-semibold py-2 drop-shadow-[0_0px_15px_rgba(255,255,255,1)]">
               Privacy Policy
             </Link>
