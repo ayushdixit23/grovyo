@@ -50,7 +50,7 @@ function Header() {
         </div>
       </div>
       <div
-        className={`absolute duration-500 sm:hidden left-0 w-full z-10 bg-white ${menu ? "top-0 " : "-top-[500px]"
+        className={`absolute duration-500 sm:hidden left-0 w-full z-10 bg-white ${menu ? "top-0 " : "-top-[600px]"
           }`}
       >
         <div className="w-full justify-center items-center p-3 flex flex-col text-black">
