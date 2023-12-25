@@ -18,14 +18,26 @@ function Header() {
           className="flex items-center gap-4 justify-between pn:max-sm:hidden
       "
         >
-          <Link href="/about" className="hover:underline duration-75 text-lg shadow-md text-white ">
+          <Link href="/about" className="hover:underline duration-75 text-sm  shadow-md text-white ">
             About us
           </Link>
           <Link
             href={"/contact"}
-            className="hover:underline duration-75 text-lg shadow-md text-white "
+            className="hover:underline duration-75 text-sm  shadow-md text-white "
           >
             Contact us
+          </Link>
+          <Link
+            href={"/deleterequest"}
+            className="hover:underline duration-75 text-sm  shadow-md text-white "
+          >
+            Data Deletion Request
+          </Link>
+          <Link
+            href={"/requestdata"}
+            className="hover:underline duration-75 text-sm  shadow-md text-white "
+          >
+            Account Deletion Request
           </Link>
           {/* <Link href="/shipping" className="hover:underline duration-75 text-xs md:text-sm shadow-md text-white ">
             Shipping
@@ -50,7 +62,7 @@ function Header() {
         </div>
       </div>
       <div
-        className={`absolute duration-500 sm:hidden left-0 w-full z-10 bg-white ${menu ? "top-0 " : "-top-[600px]"
+        className={`absolute duration-500 sm:hidden left-0 w-full z-10 bg-white ${menu ? "top-0 " : "-top-[1000px]"
           }`}
       >
         <div className="w-full justify-center items-center p-3 flex flex-col text-black">
@@ -76,6 +88,13 @@ function Header() {
             <Link href="/cancellation" className="text-xl font-semibold py-2 drop-shadow-[0_0px_15px_rgba(255,255,255,1)]">
               Cancellation Policy
             </Link>
+            <Link href={"/deleterequest"} className="text-xl font-semibold py-2 drop-shadow-[0_0px_15px_rgba(255,255,255,1)]">
+              Data Deletion Request
+            </Link>
+            <Link href={"/requestdata"} className="text-xl font-semibold py-2 drop-shadow-[0_0px_15px_rgba(255,255,255,1)]">
+              Account Deletion Request
+            </Link>
+
             <div className="sm:hidden my-1">
               <div className="flex items-center flex-wrap gap-3"></div>
             </div>
