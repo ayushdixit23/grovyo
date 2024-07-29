@@ -70,7 +70,7 @@ const Account = () => {
       data.append("bio", profile.bio);
 
       const response = await axios.post(
-        `${API}/webprofileinfo/${user?.id}`,
+        `${API}/login/profileinfo/${user?.id}`,
         data
       );
 
@@ -112,7 +112,7 @@ const Account = () => {
   useEffect(() => {
     if (user?.id) {
       axios
-        .get(`${API}/webgetprofileinfo/${user?.id}`)
+        .get(`${API}/login/getprofileinfo/${user?.id}`)
         .then((res) => {
           setData(res.data);
         })

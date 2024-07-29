@@ -67,13 +67,11 @@ const CommunityChat = ({ d, i, data, dispatch, tId, socket, messages }) => {
         dispatch(setMessages(updatedMessages));
       } else {
         const updatedMessages = messages.filter((f) => f?.mesId !== msgId);
-
         dispatch(setMessages(updatedMessages));
       }
-
       setDelopen(false);
       const res = await axios.post(
-        `${API}/web/deletemessagestopic/${data?.id}`,
+        `${API}/chats/v1/deletemessagestopic/${data?.id}`,
         {
           topicId: tId,
           msgIds: msgId,

@@ -124,7 +124,7 @@ function CommunityFeed({ id }) {
   const fetchCommunity = async () => {
     try {
       setLoad(true);
-      const res = await axios.get(`${API}/compostfeed/${data?.id}/${id}`);
+      const res = await axios.get(`${API}/chats/compostfeed/${data?.id}/${id}`);
       setMemcount(res?.data?.community?.memberscount);
       setTitle(res.data.community.title);
       setTopics(res.data.community.topics);
@@ -143,7 +143,7 @@ function CommunityFeed({ id }) {
   const handleReport = async () => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/web/reporting/${data?.id}`, {
+        await axios.post(`${API}/chats/v1/reporting/${data?.id}`, {
           data: reports,
           id: id,
           type: "Community",
@@ -159,7 +159,7 @@ function CommunityFeed({ id }) {
   const unjoinmembers = async () => {
     try {
       setIsjoined(!isjoined);
-      await axios.post(`${API}/unjoinmember/${data?.id}/${id}`);
+      await axios.post(`${API}/chats/unjoin/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -168,7 +168,7 @@ function CommunityFeed({ id }) {
   const deleteCommunity = async () => {
     try {
       const res = await axios.post(
-        `${API}/web/removecomwithposts/${data?.id}/${id}`
+        `${API}/post/removecomwithposts/${data?.id}/${id}`
       );
       if (res.data?.success) {
         router.push("/main/feed/community");
@@ -181,7 +181,7 @@ function CommunityFeed({ id }) {
   const handleMute = async () => {
     try {
       setIsMuted(!isMuted);
-      await axios.post(`${API}/mutecom/${data?.id}/${id}`);
+      await axios.post(`${API}/chats/v1/mutecom/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -194,7 +194,7 @@ function CommunityFeed({ id }) {
       } else {
         setComtype("public");
       }
-      await axios.post(`${API}/setcomtype/${data?.id}/${id}`);
+      await axios.post(`${API}/chats/v1/setcomtype/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -206,7 +206,7 @@ function CommunityFeed({ id }) {
       try {
         const res = await axios.post(
           `
-          ${API}/v1/createtopicporder/${data?.id}/${topicData?.id}`,
+          ${API}/payments/v1/createtopicporder/${data?.id}/${topicData?.id}`,
           { path }
         );
         if (res.data.success) {
@@ -230,10 +230,13 @@ function CommunityFeed({ id }) {
 
   const fetchallPosts = async (topicid = "") => {
     try {
-      const res = await axios.post(`${API}/fetchallposts/${data?.id}/${id}`, {
-        postId: "",
-        topicId: topicid,
-      });
+      const res = await axios.post(
+        `${API}/chats/v1/fetchallposts/${data?.id}/${id}`,
+        {
+          postId: "",
+          topicId: topicid,
+        }
+      );
 
       if (res.data.success) {
         setIsTopicJoined(res.data?.topicjoined);
@@ -250,7 +253,7 @@ function CommunityFeed({ id }) {
   const fetchTopics = async (topicId) => {
     try {
       const res = await axios.get(
-        `${API}/gettopicmessages/${data?.id}/${topicId}`
+        `${API}/chats/gettopicmessages/${data?.id}/${topicId}`
       );
 
       if (res.data.success) {
@@ -324,7 +327,9 @@ function CommunityFeed({ id }) {
         },
         socket,
       });
-      const res = await axios.post(`${API}/likepost/${data?.id}/${postId}`);
+      const res = await axios.post(
+        `${API}/post/likepost/${data?.id}/${postId}`
+      );
     } catch (error) {
       console.log(error);
     }
@@ -387,7 +392,7 @@ function CommunityFeed({ id }) {
       form.append("data", JSON.stringify(mess));
       form.append("media", content);
 
-      const res = await axios.post(`${API}/sendchatfile`, form, {
+      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -174,7 +174,7 @@ function Newforyou({ id }) {
   const fetchCommunity = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API}/compostfeed/${data?.id}/${id}`);
+      const res = await axios.get(`${API}/chats/compostfeed/${data?.id}/${id}`);
       if (res.data.success) {
         setMembers(res.data.members);
         setMemcount(res?.data?.community?.memberscount);
@@ -199,7 +199,7 @@ function Newforyou({ id }) {
   const handleMute = async () => {
     try {
       setIsMuted(!isMuted);
-      await axios.post(`${API}/mutecom/${data?.id}/${id}`);
+      await axios.post(`${API}/chats/v1/mutecom/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -208,7 +208,7 @@ function Newforyou({ id }) {
   const handleReport = async () => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/web/reporting/${data?.id}`, {
+        await axios.post(`${API}/chats/unjoin/${data?.id}`, {
           data: reports,
           id: id,
           type: "Community",
@@ -233,7 +233,7 @@ function Newforyou({ id }) {
   const deleteCommunity = async () => {
     try {
       const res = await axios.post(
-        `${API}/web/removecomwithposts/${data?.id}/${id}`
+        `${API}/post/removecomwithposts/${data?.id}/${id}`
       );
       if (res.data?.success) {
         router.push("/main/feed/newForYou");
@@ -250,7 +250,7 @@ function Newforyou({ id }) {
       } else {
         setComtype("public");
       }
-      await axios.post(`${API}/setcomtype/${data?.id}/${id}`);
+      await axios.post(`${API}/chats/v1/setcomtype/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -298,7 +298,9 @@ function Newforyou({ id }) {
         },
         socket,
       });
-      const res = await axios.post(`${API}/likepost/${data?.id}/${postId}`);
+      const res = await axios.post(
+        `${API}/post/likepost/${data?.id}/${postId}`
+      );
       if (res.data.success) {
         if (liked) {
           const newwfeed = com.map((d) =>
@@ -331,10 +333,13 @@ function Newforyou({ id }) {
 
   const fetchallPosts = async (topicid = "") => {
     try {
-      const res = await axios.post(`${API}/fetchallposts/${data?.id}/${id}`, {
-        postId: "",
-        topicId: topicid,
-      });
+      const res = await axios.post(
+        `${API}/chats/v1/fetchallposts/${data?.id}/${id}`,
+        {
+          postId: "",
+          topicId: topicid,
+        }
+      );
       console.log(res.data, "ads lle ");
       if (res.data.success) {
         setIsTopicJoined(res.data?.topicjoined);
@@ -351,7 +356,7 @@ function Newforyou({ id }) {
   const fetchTopics = async (topicId) => {
     try {
       const res = await axios.get(
-        `${API}/gettopicmessages/${data?.id}/${topicId}`
+        `${API}/chats/gettopicmessages/${data?.id}/${topicId}`
       );
 
       if (res.data.success) {
@@ -383,7 +388,7 @@ function Newforyou({ id }) {
 
   const joinmembers = async () => {
     try {
-      const res = await axios.post(`${API}/joinmember/${data?.id}/${id}`);
+      const res = await axios.post(`${API}/chats/joincom/${data?.id}/${id}`);
       if (res.data.success) {
         await fetchCommunity();
         await fetchallPosts();
@@ -458,7 +463,7 @@ function Newforyou({ id }) {
       form.append("data", JSON.stringify(mess));
       form.append("media", content);
 
-      const res = await axios.post(`${API}/sendchatfile`, form, {
+      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

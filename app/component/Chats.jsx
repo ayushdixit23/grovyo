@@ -56,13 +56,13 @@ import { useTheme } from "next-themes";
 import Loader from "./Loader";
 import { BsChevronLeft, BsThreeDotsVertical } from "react-icons/bs";
 
-const Chats = ({ id, con, show, setVisible }) => (
+const Chats = ({ id, con }) => (
   <SearchContextManager apiKey={"BhiAZ1DOyIHjZlGxrtP2NozVsmpJ27Kz"}>
-    <Components id={id} con={con} setVisible={setVisible} />
+    <Components id={id} con={con} />
   </SearchContextManager>
 );
 
-const Components = ({ id, con, show, setVisible }) => {
+const Components = ({ id, con }) => {
   // const { data } = useAuthContext();
   // const { socket } = useSocketContext();
   // const params = useParams();
@@ -121,7 +121,9 @@ const Components = ({ id, con, show, setVisible }) => {
 
   const fetchChats = async () => {
     try {
-      const res = await axios.get(`${API}/fetchconvs/${data?.id}/${id}/${con}`);
+      const res = await axios.get(
+        `${API}/chats/fetchconvs/${data?.id}/${id}/${con}`
+      );
       console.log(res.data, "resdata ");
       setIsBlocked(res.data.isblocked);
       setCanblock(res.data.canblock);
@@ -141,7 +143,7 @@ const Components = ({ id, con, show, setVisible }) => {
   const handleReport = async ({ type }) => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/web/reporting/${data?.id}`, {
+        await axios.post(`${API}/chats/v1/reporting/${data?.id}`, {
           data: reports,
           id: con,
           type: type,
@@ -161,7 +163,7 @@ const Components = ({ id, con, show, setVisible }) => {
         data: { roomId: con, userId: data?.id, action: canblock },
         socket,
       });
-      const res = await axios.post(`${API}/blockpeople/${data?.id}`, {
+      const res = await axios.post(`${API}/chats/blockpeople/${data?.id}`, {
         userid: id,
         time: Date.now(),
       });
@@ -250,7 +252,7 @@ const Components = ({ id, con, show, setVisible }) => {
       if (messages?.length >= 20) {
         // setLoad(true);
         const res = await axios.post(
-          `${API}/loadmorechatmsg/${data?.id}`,
+          `${API}/chats/v1/loadmorechatmsg/${data?.id}`,
           {
             convId: on,
             sequence: parseInt(
@@ -396,7 +398,7 @@ const Components = ({ id, con, show, setVisible }) => {
     form.append("data", JSON.stringify(mess));
 
     try {
-      const res = await axios.post(`${API}/sendchatfile`, form, {
+      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -534,7 +536,7 @@ const Components = ({ id, con, show, setVisible }) => {
       //   console.log(res.data);
       // setLoad(true);
 
-      const res = await axios.post(`${API}/sendchatfile`, form, {
+      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -40,7 +40,7 @@ function page() {
   const removeItem = async (cardId, productId) => {
     try {
       const res = await axios.post(`
-        ${API}/removecartweb/${user?.id}/${cardId}/${productId}
+        ${API}/payments/removecartweb/${user?.id}/${cardId}/${productId}
       `);
       if (res?.data?.success) {
         await fetchCart();
@@ -98,7 +98,7 @@ function page() {
       });
       setData(newData);
       const res = await axios.post(
-        `${API}/updatequantityweb/${user?.id}/${cartId}`,
+        `${API}/payments/updatequantityweb/${user?.id}/${cartId}`,
         {
           quantity: quantity + 1,
         }
@@ -127,7 +127,7 @@ function page() {
         });
         setData(newData);
         const res = await axios.post(
-          `${API}/updatequantityweb/${user?.id}/${cartId}`,
+          `${API}/payments/updatequantityweb/${user?.id}/${cartId}`,
           { quantity: quantity - 1 }
         );
         console.log(res.data);
@@ -139,7 +139,7 @@ function page() {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get(`${API}/fetchcart/${user?.id}`);
+      const res = await axios.get(`${API}/payments/fetchcart/${user?.id}`);
       // console.log(res.data?.data)
       setData(res.data?.data);
       setUpdateAddress({
@@ -192,7 +192,7 @@ function page() {
       const productId = data.map((d) => {
         return d?.c?.product?._id;
       });
-      const res = await axios.post(`${API}/cod/${user?.id}`, {
+      const res = await axios.post(`${API}/payments/cod/${user?.id}`, {
         deliverycharges: 28,
         productId,
       });
@@ -210,12 +210,15 @@ function page() {
       const productId = data.map((d) => {
         return d?.c?.product?._id;
       });
-      const res = await axios.post(`${API}/createrzporder/${user?.id}`, {
-        deliverycharges: 28,
-        productId,
-        total: actualPrice * 100,
-        path: "main/library/Cart",
-      });
+      const res = await axios.post(
+        `${API}/payments/createrzporder/${user?.id}`,
+        {
+          deliverycharges: 28,
+          productId,
+          total: actualPrice * 100,
+          path: "main/library/Cart",
+        }
+      );
 
       if (res.data.success) {
         router.push(res.data?.url);
@@ -439,7 +442,7 @@ function page() {
               </div>
             ))}
 
-            <div className="w-full px-3 gap-3 mt-4 bg-white dark:bg-[#0D0F10] dark:text-white flex flex-col justify-between">
+            <div className="w-full sm:hidden px-3 gap-3 mt-4 bg-white dark:bg-[#0D0F10] dark:text-white flex flex-col justify-between">
               <div className="text-[16px] font-semibold text-black dark:text-white">
                 PRICE DETAILS{" "}
                 {data.map((d, i) => (

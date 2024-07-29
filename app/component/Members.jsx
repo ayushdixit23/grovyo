@@ -16,14 +16,19 @@ const Members = ({ id, comId, dash }) => {
 
   useEffect(() => {
     if (id && comId)
-      axios.get(`${API}/web/getallmembers/${id}/${comId}`).then((res) => {
-        setAdmin({
-          dp: res.data?.admindp,
-          fullname: res.data.admin.fullname,
-          username: res.data.admin.username,
+      axios
+        .get(`${API}/chats/web/getallmembers/${id}/${comId}`)
+        .then((res) => {
+          setAdmin({
+            dp: res.data?.admindp,
+            fullname: res.data.admin.fullname,
+            username: res.data.admin.username,
+          });
+          setMembers(res.data.members);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-        setMembers(res.data.members);
-      });
   }, [id, comId]);
 
   return (

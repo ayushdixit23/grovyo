@@ -11,7 +11,7 @@ function page({ params }) {
   const fetchData = async () => {
     try {
       const res = await axios.post(
-        "https://work.grovyo.xyz/api/v1/getprosite",
+        "https://monarchs.grovyo.xyz/api/product/getprosite",
         // "http://localhost:7190/api/v1/getprosite",
         {
           username: decodeUsernameAndNumber(params.id),
@@ -33,12 +33,14 @@ function page({ params }) {
     <div>
       <div className="h-[100vh] w-[100vw] bg-slate-400 flex justify-center items-center">
         {data ? (
-          <div dangerouslySetInnerHTML={{ __html: data }} className="h-full w-full"/>
+          <div
+            dangerouslySetInnerHTML={{ __html: data }}
+            className="h-full w-full"
+          />
         ) : (
           <>
             <div className="flex flex-col w-full justify-center items-center h-full p-6">
               <div className="animate-pulse h-full w-full rounded-2xl"></div>
-             
             </div>
           </>
         )}

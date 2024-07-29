@@ -51,7 +51,7 @@ export default function ChatLayout({ children }) {
 
   const fetchallChats = async () => {
     try {
-      const res = await axios.get(`${API}/fetchallchatsnew/${user?.id}`);
+      const res = await axios.post(`${API}/chats/v1/fetchallchatsnew/${user?.id}`);
       if (res.data.success) {
         dispatch(setData(res.data.conv))
         setLoading(false)
@@ -73,7 +73,7 @@ export default function ChatLayout({ children }) {
   // accept or reject
   const handleStatus = async (index, status, d) => {
     try {
-      const res = await axios.post(`${API}/acceptorrejectmesgreq`, {
+      const res = await axios.post(`${API}/chats/acceptorrejectmesgreq`, {
         reciever: user.id,
         sender: d?.req?.id?._id,
         status: status,
@@ -95,7 +95,7 @@ export default function ChatLayout({ children }) {
 
   const removingchat = async (currectconvId) => {
     try {
-      const res = await axios.post(`${API}/removeconversation/${user?.id}`, {
+      const res = await axios.post(`${API}/chats/removeconversation/${user?.id}`, {
         convId: currectconvId,
       });
 
@@ -112,7 +112,7 @@ export default function ChatLayout({ children }) {
   // fetch Requests
   const fetchreqs = async () => {
     try {
-      const res = await axios.get(`${API}/fetchallmsgreqs/${user.id}`);
+      const res = await axios.get(`${API}/chats/fetchallmsgreqs/${user.id}`);
 
       if (res?.data?.success) {
         const d = res?.data?.dps;

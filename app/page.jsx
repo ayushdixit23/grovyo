@@ -20,7 +20,8 @@ import Contact from "./assets/Contact.png";
 import { key } from "./utils/key";
 import { MdVerified } from "react-icons/md";
 import dynamic from "next/dynamic";
-const VideoCall = dynamic(() => import("./component/VideoCall"));
+import { API } from "@/Essentials";
+// const VideoCall = dynamic(() => import("./component/VideoCall"));
 // import { VideoCall } from "./component/VideoCall";
 
 function page() {
@@ -62,9 +63,7 @@ function page() {
     setText(t);
     try {
       if (t) {
-        const res = await axios.post(
-          `https://back.grovyo.xyz/api/searchpros?query=${t}`
-        );
+        const res = await axios.post(`${API}/search/searchpros?query=${t}`);
         if (res?.data?.data?.success) {
           const pros = res?.data?.data?.pros;
           const dp = res?.data?.data?.dps;
@@ -149,7 +148,7 @@ function page() {
           if (filteredIds.length > 0) {
             try {
               const res = await axios.post(
-                `https://work.grovyo.xyz/api/web/recentSearch`,
+                `${API}/search/recentSearch`,
                 filteredIds
               );
               setRecentSearch(res.data.users);

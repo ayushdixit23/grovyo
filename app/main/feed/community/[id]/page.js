@@ -124,7 +124,7 @@ function Components({ params }) {
     try {
       setLoad(true)
       const res = await axios.get(
-        `${API}/compostfeed/${data?.id}/${params?.id}`
+        `${API}/chats/compostfeed/${data?.id}/${params?.id}`
       );
       if (res.data.success) {
         setMemcount(res?.data?.community?.memberscount);
@@ -149,7 +149,7 @@ function Components({ params }) {
   const handleReport = async () => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/web/reporting/${data?.id}`, {
+        await axios.post(`${API}/chats/v1/reporting/${data?.id}`, {
           data: reports,
           id: params?.id,
           type: "Community",
@@ -165,7 +165,7 @@ function Components({ params }) {
   const unjoinmembers = async () => {
     try {
       setIsjoined(!isjoined);
-      await axios.post(`${API}/unjoinmember/${data?.id}/${params?.id}`);
+      await axios.post(`${API}/chats/unjoin/${data?.id}/${params?.id}`);
       router.push("/main/feed/community")
     } catch (error) {
       console.log(error);
@@ -175,7 +175,7 @@ function Components({ params }) {
   const joinmembers = async () => {
     try {
       const res = await axios.post(
-        `${API}/joinmember/${data?.id}/${params?.id}`
+        `${API}/chats/joincom/${data?.id}/${params?.id}`
       );
       if (res.data.success) {
         await fetchCommunity();
@@ -189,10 +189,10 @@ function Components({ params }) {
   const deleteCommunity = async () => {
     try {
       const res = await axios.post(
-        `${API}/web/removecomwithposts/${data?.id}/${params?.id}`
+        `${API}/post/removecomwithposts/${data?.id}/${params?.id}`
       );
       if (res.data?.success) {
-        router.push("/main/feed/community");
+        router.push("/main/feed/community"); app / main / feed / community / [id] / page.js
       }
     } catch (error) {
       console.log(error);
@@ -202,7 +202,7 @@ function Components({ params }) {
   const handleMute = async () => {
     try {
       setIsMuted(!isMuted);
-      await axios.post(`${API}/mutecom/${data?.id}/${params?.id}`);
+      await axios.post(`${API}/chats/v1/mutecom/${data?.id}/${params?.id}`);
     } catch (error) {
       console.log(error);
     }
@@ -215,7 +215,7 @@ function Components({ params }) {
       } else {
         setComtype("public");
       }
-      await axios.post(`${API}/setcomtype/${data?.id}/${params?.id}`);
+      await axios.post(`${API}/chats/v1/setcomtype/${data?.id}/${params?.id}`);
     } catch (error) {
       console.log(error);
     }
@@ -227,7 +227,7 @@ function Components({ params }) {
       try {
         const res = await axios.post(
           `
-          ${API}/v1/createtopicporder/${data?.id}/${topicData?.id}`,
+          ${API}/payments/v1/createtopicporder/${data?.id}/${topicData?.id}`,
           { path }
         );
         if (res.data.success) {
@@ -252,7 +252,7 @@ function Components({ params }) {
   const fetchallPosts = async (topicid = "") => {
     try {
       const res = await axios.post(
-        `${API}/fetchallposts/${data?.id}/${params?.id}`,
+        `${API}/chats/v1/fetchallposts/${data?.id}/${params?.id}`,
         { postId: "", topicId: topicid }
       );
 
@@ -271,7 +271,7 @@ function Components({ params }) {
   const fetchTopics = async (topicId) => {
     try {
       const res = await axios.get(
-        `${API}/gettopicmessages/${data?.id}/${topicId}`
+        `${API}/chats/gettopicmessages/${data?.id}/${topicId}`
       );
 
       if (res.data.success) {
@@ -345,7 +345,7 @@ function Components({ params }) {
         },
         socket,
       });
-      const res = await axios.post(`${API}/likepost/${data?.id}/${postId}`);
+      const res = await axios.post(`${API}/post/likepost/${data?.id}/${postId}`);
     } catch (error) {
       console.log(error);
     }
@@ -408,7 +408,7 @@ function Components({ params }) {
       form.append("data", JSON.stringify(mess));
       form.append("media", content);
 
-      const res = await axios.post(`${API}/sendchatfile`, form, {
+      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

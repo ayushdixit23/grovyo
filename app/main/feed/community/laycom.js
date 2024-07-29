@@ -57,7 +57,7 @@ export default function CommunityLayout({ children }) {
 
   const comfetchfeed = async () => {
     try {
-      const res = await axios.get(`${API}/joinedcomnews3/${data?.id}`);
+      const res = await axios.get(`${API}/chats/joinedcomnews3/${data?.id}`);
       console.log(res.data, "com");
       setFeed(res.data?.mergedData);
       setLoading(false)
@@ -82,7 +82,7 @@ export default function CommunityLayout({ children }) {
         },
         socket,
       });
-      const res = await axios.post(`${API}/likepost/${data?.id}/${postId}`);
+      const res = await axios.post(`${API}/post/likepost/${data?.id}/${postId}`);
       if (res.data.success) {
         // if (liked) {
         //   const newwfeed = feed.map((d) =>

@@ -59,10 +59,9 @@ export default function NewforyouLayout({ children }) {
 		})
 	}, [])
 
-
 	const fetchfeed = async () => {
 		try {
-			const res = await axios.get(`${API}/newfetchfeeds3/${data?.id}`);
+			const res = await axios.get(`${API}/chats/web/newfetchfeeds3/${data?.id}`);
 
 			if (res.data.success) {
 				setFeed(res.data?.mergedData);
@@ -74,7 +73,7 @@ export default function NewforyouLayout({ children }) {
 
 	const joinmembers = async (comId, i) => {
 		try {
-			const res = await axios.post(`${API}/joinmember/${data?.id}/${comId}`);
+			const res = await axios.post(`${API}/chats/joincom/${data?.id}/${comId}`);
 			if (res.data.success) {
 				const newwfeed = feed.map((d) =>
 					d?.posts?.community._id === comId ? { ...d, subs: "subscribed" } : d
@@ -88,7 +87,7 @@ export default function NewforyouLayout({ children }) {
 
 	const unjoinmembers = async (comId) => {
 		try {
-			const res = await axios.post(`${API}/unjoinmember/${data?.id}/${comId}`);
+			const res = await axios.post(`${API}/chats/unjoin/${data?.id}/${comId}`);
 			if (res.data.success) {
 				const newwfeed = feed.map((d) =>
 					d?.posts?.community._id === comId ? { ...d, subs: "unsubscribed" } : d
@@ -102,7 +101,7 @@ export default function NewforyouLayout({ children }) {
 
 	const loadmoreData = async () => {
 		try {
-			const res = await axios.get(`${API}/fetchmorefeeddata/${data?.id}`);
+			const res = await axios.get(`${API}/chats/fetchmorefeeddata/${data?.id}`);
 
 			if (res.data.success) {
 				setFeed([...feed, ...res.data.mergedData]);
@@ -128,7 +127,7 @@ export default function NewforyouLayout({ children }) {
 				},
 				socket,
 			});
-			const res = await axios.post(`${API}/likepost/${data?.id}/${postId}`);
+			const res = await axios.post(`${API}/post/likepost/${data?.id}/${postId}`);
 			if (res.data.success) {
 				if (liked) {
 					const newwfeed = feed.map((d) =>

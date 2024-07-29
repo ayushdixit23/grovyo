@@ -89,7 +89,7 @@ const Components = () => {
   const fetchChats = async () => {
     try {
       const res = await axios.get(
-        `${API}/fetchconvs/${data?.id}/${params?.id}/${params?.con}`
+        `${API}/chats/fetchconvs/${data?.id}/${params?.id}/${params?.con}`
       );
 
       setIsBlocked(res.data.isblocked);
@@ -246,7 +246,7 @@ const Components = () => {
       if (messages?.length >= 20) {
         // setLoad(true);
         const res = await axios.post(
-          `${API}/loadmorechatmsg/${data?.id}`,
+          `${API}/chats/v1/loadmorechatmsg/${data?.id}`,
           {
             convId: params.con,
             sequence: parseInt(
@@ -329,7 +329,7 @@ const Components = () => {
     form.append("data", JSON.stringify(mess));
 
     try {
-      const res = await axios.post(`${API}/sendchatfile`, form, {
+      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -469,7 +469,7 @@ const Components = () => {
       //   console.log(res.data);
       // setLoad(true);
 
-      const res = await axios.post(`${API}/sendchatfile`, form, {
+      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -560,7 +560,7 @@ const Components = () => {
   const handleReport = async ({ type }) => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/web/reporting/${data?.id}`, {
+        await axios.post(`${API}/chats/v1/reporting/${data?.id}`, {
           data: reports,
           id: params?.con,
           type: type,
@@ -585,7 +585,7 @@ const Components = () => {
         },
         socket,
       });
-      const res = await axios.post(`${API}/blockpeople/${data?.id}`, {
+      const res = await axios.post(`${API}/chats/blockpeople/${data?.id}`, {
         userid: params?.id,
         time: Date.now(),
       });
@@ -1156,14 +1156,13 @@ const Components = () => {
                     reply && replyId ? "h-[76%]" : "h-[80%]"
                   }`}
                 >
-               
                   <InfiniteScroll
                     dataLength={messages?.length}
                     next={loadmore}
                     style={{
                       display: "flex",
                       flexDirection: "column-reverse",
-                    }} 
+                    }}
                     inverse={true}
                     hasMore={end}
                     height={"100%"}
@@ -1277,8 +1276,6 @@ const Components = () => {
                         reply && replyId ? "" : "-mt-2"
                       }  w-full dark:bg-bluelight`}
                     >
-                  
-
                       {reply && replyId && (
                         <div className="flex justify-between p-1 px-2 rounded-[10px] m-1 items-center dark:text-white text-black">
                           <div

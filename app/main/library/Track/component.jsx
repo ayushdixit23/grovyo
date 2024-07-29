@@ -13,7 +13,7 @@ function page() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`${API}/fetchorders/${user?.id}`);
+      const res = await axios.get(`${API}/payments/fetchorders/${user?.id}`);
       console.log(res.data);
       setOrders(res.data?.data);
     } catch (error) {
@@ -142,7 +142,7 @@ function page() {
                         </div>
                         <div className=" text-black dark:text-white text-[12px]">
                           ₹
-                          {Number(order?.orders?.data?.[k].price) *
+                          {Number(order?.orders?.data?.[k]?.price) *
                             Number(order?.orders?.data?.[k]?.qty)}
                         </div>
                       </div>

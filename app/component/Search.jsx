@@ -23,7 +23,6 @@ function Search({ setShow }) {
   const [load, setLoad] = useState(false);
   const [posts, setPosts] = useState([]);
   const { theme } = useTheme();
-
   const [all, setAll] = useState({
     prosites: [],
     community: [],
@@ -38,7 +37,7 @@ function Search({ setShow }) {
   const searchAll = async () => {
     try {
       const res = await axios.post(
-        `${API}/websearchforall/${user?.id}?query=${text}`
+        `${API}/search/websearchforall/${user?.id}?query=${text}`
       );
       if (res.data.success) {
         setAll({
@@ -54,7 +53,9 @@ function Search({ setShow }) {
 
   const searchforposts = async () => {
     try {
-      const res = await axios.post(`${API}/websearchforposts?query=${text}`);
+      const res = await axios.post(
+        `${API}/search/websearchforposts?query=${text}`
+      );
       if (res.data.success) {
         console.log(res.data, "posts");
         setPosts(res.data.posts);
@@ -66,7 +67,7 @@ function Search({ setShow }) {
 
   const recentSearchs = async () => {
     try {
-      const res = await axios.get(`${API}/webmobileSearch/${user?.id}`);
+      const res = await axios.get(`${API}/search/webSearch/${user?.id}`);
       if (res.data.success) {
         setRecentSearchCom(res.data?.recentSearchesCommunity);
         setRecentSearchPro(res.data?.recentSearchesProsites);
@@ -78,7 +79,7 @@ function Search({ setShow }) {
 
   const handleSearch = async () => {
     setActive("prosites"), setClick(1);
-    const res = await axios.post(`${API}/searchpros?query=${text}`);
+    const res = await axios.post(`${API}/search/websearchpros?query=${text}`);
     if (res?.data?.data?.success) {
       const pros = res?.data?.data?.pros;
       const dp = res?.data?.data?.dps;
@@ -91,7 +92,9 @@ function Search({ setShow }) {
 
   const comm = async () => {
     setActive("communities"), setClick(2);
-    const res = await axios.post(`${API}/searchcoms/${user?.id}?query=${text}`);
+    const res = await axios.post(
+      `${API}/search/searchcoms/${user?.id}?query=${text}`
+    );
     if (res?.data?.success) {
       const pros = res?.data?.data?.coms;
       const dp = res?.data?.data?.dps;
@@ -108,9 +111,12 @@ function Search({ setShow }) {
 
   const addSearchCom = async (sId) => {
     try {
-      const res = await axios.post(`${API}/addRecentCommunity/${user?.id}`, {
-        sId,
-      });
+      const res = await axios.post(
+        `${API}/search/addRecentCommunity/${user?.id}`,
+        {
+          sId,
+        }
+      );
       if (res.data.success) {
         recentSearchs();
       }
@@ -121,9 +127,12 @@ function Search({ setShow }) {
 
   const addSearchPro = async (sId) => {
     try {
-      const res = await axios.post(`${API}/addRecentProsite/${user?.id}`, {
-        sId,
-      });
+      const res = await axios.post(
+        `${API}/search/addRecentProsite/${user?.id}`,
+        {
+          sId,
+        }
+      );
       if (res.data.success) {
         recentSearchs();
       }
@@ -134,7 +143,7 @@ function Search({ setShow }) {
   const removeSearchCom = async (sId) => {
     try {
       const res = await axios.post(
-        `${API}/removeRecentSrcCommunity/${user?.id}`,
+        `${API}/search/removeRecentSrcCommunity/${user?.id}`,
         { sId }
       );
       if (res.data.success) {
@@ -148,7 +157,7 @@ function Search({ setShow }) {
   const removeSearchPro = async (sId) => {
     try {
       const res = await axios.post(
-        `${API}/removeRecentSrcProsite/${user?.id}`,
+        `${API}/search/removeRecentSrcProsite/${user?.id}`,
         { sId }
       );
       if (res.data.success) {

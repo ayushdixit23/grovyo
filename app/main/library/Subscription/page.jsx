@@ -10,7 +10,9 @@ const page = () => {
 
   const fetchSubscription = async () => {
     try {
-      const res = await axios.get(`${API}/fetchallsubscriptions/${data?.id}`);
+      const res = await axios.get(
+        `${API}/payments/fetchallsubscriptions/${data?.id}`
+      );
       console.log(res.data);
       if (res.data.success) {
         setSub(res.data.merged);
