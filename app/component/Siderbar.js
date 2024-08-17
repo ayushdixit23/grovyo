@@ -50,7 +50,7 @@ function Sidebar() {
           <div className="h-[40px] w-[40px] ">
             <Link href={`/${data?.username}`} className="w-full h-full">
               <img
-                className="w-full h-full object-cover rounded-[18px] ring-1 ring-white dark:ring-[#273142] bg-white dark:bg-bluedark "
+                className="w-full h-full object-cover rounded-[15px] ring-1 ring-white dark:ring-[#273142] bg-white dark:bg-bluedark "
                 src={data?.dp}
               //alt="pix"
               />

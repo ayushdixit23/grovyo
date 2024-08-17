@@ -24,7 +24,7 @@ const CommunityPost = forwardRef(
             //ads
             <div
               className="bg-white 
-          dark:bg-[#121212] border dark:border-none border-[#DEE1E5] p-3  rounded-xl"
+          dark:bg-[#121212] border dark:border-none  border-[#DEE1E5] p-3  rounded-xl"
             >
               {/* header */}
               <div className="w-[100%] rounded-2xl flex flex-col items-center ">
@@ -239,7 +239,7 @@ const CommunityPost = forwardRef(
               <div className="sm:px-2 sm:pl-10 mt-1  py-1 w-[100%] rounded-lg flex gap-2 items-center">
                 <div
                   onClick={() => setShowComments(true)}
-                  className="text-sm border border-[#D7EDED] dark:border-[#292929] p-2 dark:bg-[#171717] rounded-xl text-k dark:text-white w-full "
+                  className="text-sm border border-[#D7EDED]  dark:border-[#1A1D21] p-2 dark:bg-[#171717] rounded-xl text-k dark:text-white w-full "
                 >
                   View Comments
                 </div>
@@ -248,7 +248,7 @@ const CommunityPost = forwardRef(
                     onClick={() => handleLike(d?.posts?._id, d?.liked)}
                     className={`dark:bg-graydark flex justify-center rounded-xl ${
                       d?.liked ? "dark:text-white " : ""
-                    } items-center border dark:border-[#1A1D21] gap-1 p-2 px-4`}
+                    } items-center border dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
                   >
                     {d?.liked ? (
                       <Image src={liked} className="w-[20px] h-[20px]" />
@@ -266,7 +266,7 @@ const CommunityPost = forwardRef(
                       );
                       setShare(true);
                     }}
-                    className="rounded-xl bg-[#f4f4f4] p-2 dark:bg-graydark"
+                    className="rounded-xl bg-[#f4f4f4] flex justify-center items-center border dark:border-[#1A1D21] h-[36px] w-[46px] dark:bg-graydark"
                   >
                     <VscSend />
                   </div>

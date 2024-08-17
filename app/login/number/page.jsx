@@ -12,7 +12,7 @@ import Cookies from "js-cookie";
 import { useAuthContext } from "../../utils/AuthWrapper";
 import { QRCodeSVG } from "qrcode.react";
 import { RiLoader4Line, RiLockPasswordLine } from "react-icons/ri";
-import { decryptaes } from "@/app/utils/useful";
+import { decryptaes, reportErrorToServer } from "@/app/utils/useful";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail, MdOutlineMailOutline } from "react-icons/md";
 import dynamic from "next/dynamic";
@@ -119,6 +119,8 @@ function page() {
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + 30);
 
+      localStorage.setItem("username", res.data?.data?.username);
+
       Cookies.set("access_token", res.data.access_token, {
         expires: expirationDate,
       });
@@ -135,23 +137,38 @@ function page() {
   };
 
   const fetchid = async () => {
-    await axios
-      .post(`${API}/login/webapplogin`, { phone: "91" + number })
-      .then(async function (res) {
-        if (res.data.success === true) {
-          if (res.data.userexists) {
-            await cookiesSetter(res);
+    try {
+      await axios
+        .post(`${API}/login/webapplogin`, { phone: "91" + number })
+        .then(async function (res) {
+          if (res.data.success === true) {
+            if (res.data.userexists) {
+              await cookiesSetter(res);
+            } else {
+              toast.error("Seems like you don't have an account in the app.");
+            }
           } else {
-            toast.error("Seems like you don't have an account in the app.");
+            toast.error("Something went wrong...");
           }
-        } else {
+        })
+        .catch(async function (error) {
+          const data = {
+            name: "POST",
+            message: error?.message || "Unknown error",
+            code: error.response?.status || "No status",
+            path: `${API}/login/webapplogin`,
+            syscall: error?.name || "Unknown syscall",
+            stack: error?.stack || "No stack trace",
+            userId: null,
+            timestamp: new Date().toISOString(),
+            platform: "web-app",
+          };
+          await reportErrorToServer(data);
           toast.error("Something went wrong...");
-        }
-      })
-      .catch(function (error) {
-        console.log(error, "fetchid");
-        toast.error("Something went wrong...");
-      });
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // function onCaptchaVerify() {

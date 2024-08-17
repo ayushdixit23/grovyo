@@ -186,10 +186,10 @@ const Account = () => {
                       {data?.data?.image ? (
                         <label
                           htmlFor="settings"
-                          className="relative light:border max-h-[100px] sm:z-30 rounded-[30px] max-w-[100px]"
+                          className="relative light:border max-h-[100px] sm:z-30 rounded-[32px] max-w-[100px]"
                         >
                           <img
-                            className="w-full h-full object-cover min-h-[100px] min-w-[100px] bg-cover rounded-[30px] max-h-[100px] max-w-[100px]"
+                            className="w-full h-full object-cover min-h-[100px] min-w-[100px] bg-cover rounded-[32px] max-h-[100px] max-w-[100px]"
                             src={
                               typeof profile.image === "string"
                                 ? data?.data?.image
@@ -232,7 +232,7 @@ const Account = () => {
                             ) : (
                               <>
                                 <img
-                                  className="w-full h-full object-cover bg-cover rounded-[30px] max-h-[100px] max-w-[100px]"
+                                  className="w-full h-full object-cover bg-cover rounded-[32px] max-h-[100px] max-w-[100px]"
                                   src={URL.createObjectURL(profile.image)}
                                   alt=""
                                 />

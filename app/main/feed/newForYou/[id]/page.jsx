@@ -47,6 +47,7 @@ import unmutepic from "../../../../assets/unmute.png";
 import logout from "../../../../assets/logout.png";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { setPathForSharing, setPreview } from "@/app/redux/slice/remember";
+import ImageComponent from "@/app/component/ImageComponent";
 // import memberspic from "../../../../assets/members.svg";
 // const SearchExperienceComNewForYou = ({ params }) => (
 //   <SearchContextManager apiKey={"BhiAZ1DOyIHjZlGxrtP2NozVsmpJ27Kz"}>
@@ -193,7 +194,7 @@ function Components({ params }) {
   const fetchCommunity = async () => {
     try {
       setLoading(true);
-      const res = await axios.post(
+      const res = await axios.get(
         `${API}/chats/compostfeed/${data?.id}/${params?.id}`
       );
       if (res.data.success) {
@@ -944,12 +945,19 @@ function Components({ params }) {
                   {/* <div>
                     <MdOutlineArrowBackIosNew className="text-2xl" />
                   </div> */}
-                  <div className="h-[46px] w-[46px]">
+                  {/* <div className="h-[46px] w-[46px]">
                     <img
                       src={dp}
                       className="w-full h-full object-cover rounded-[14px] bg-red-300 "
                     />
-                  </div>
+                  </div> */}
+
+                  <ImageComponent
+                    src={dp}
+                    width="w-[46px]"
+                    height="h-[46px]"
+                    borderRadius="rounded-[18px]"
+                  />
                 </div>
                 <div className="flex pl-2 justify-between w-full items-center gap-2">
                   <div className="flex gap-1 flex-col ">
@@ -968,11 +976,11 @@ function Components({ params }) {
                             zIndex: `${y}`,
                           }}
                           key={y}
-                          className="w-[32px] h-[32px]"
+                          className="w-[32px]  h-[32px]"
                         >
                           <img
                             src={m?.dp}
-                            className="h-full object-contain rounded-[22px] w-full"
+                            className="h-full border-2 border-black object-cover rounded-[12px] w-full"
                           />
                         </div>
                       ))}
@@ -980,7 +988,7 @@ function Components({ params }) {
                         style={{
                           marginLeft: `-${members.length + 10}px`,
                         }}
-                        className="h-[32px] z-10 flex justify-center items-center text-[10px] text-[#686B6E] rounded-[22px] bg-[#1A1D21] w-[32px]"
+                        className="h-[32px] border-2 border-black z-10 flex justify-center items-center text-[10px] text-[#686B6E] rounded-[12px] bg-[#1A1D21] w-[32px]"
                       >
                         <div>+</div>
                         <div>{memcount - members.length}</div>
@@ -1401,12 +1409,19 @@ function Components({ params }) {
                   {/* <div>
                     <MdOutlineArrowBackIosNew className="text-2xl" />
                   </div> */}
-                  <div>
+                  {/* <div>
                     <img
                       src={dp}
                       className="h-[45px] w-[55px] rounded-[14px] bg-slate-300 "
                     />
-                  </div>
+                  </div> */}
+
+                  <ImageComponent
+                    src={dp}
+                    width="w-[46px]"
+                    height="h-[46px]"
+                    borderRadius="rounded-[18px]"
+                  />
                 </div>
                 <div className="flex pl-2 justify-between w-full items-center gap-2">
                   <div className="flex gap-1 flex-col">
@@ -1428,7 +1443,7 @@ function Components({ params }) {
                         >
                           <img
                             src={m?.dp}
-                            className="h-full object-contain rounded-[22px] w-full"
+                            className="h-full object-cover border-2 border-black rounded-[12px] w-full"
                           />
                         </div>
                       ))}
@@ -1436,7 +1451,7 @@ function Components({ params }) {
                         style={{
                           marginLeft: `-${members.length + 10}px`,
                         }}
-                        className="h-[32px] z-10 flex justify-center items-center text-[10px] bg-[#DEE1E5] text-[#686B6E] rounded-[22px] dark:bg-[#1A1D21] w-[32px]"
+                        className="h-[32px] z-10 flex border-2 border-black justify-center items-center text-[10px] bg-[#DEE1E5] text-[#686B6E] rounded-[12px] dark:bg-[#1A1D21] w-[32px]"
                       >
                         <div>+</div>
                         <div>{memcount - members.length}</div>
@@ -1571,12 +1586,19 @@ function Components({ params }) {
 
               <div className="w-full z-10 h-[100%] justify-center backdrop-blur-sm items-center flex absolute bottom-0 ">
                 <div className="flex bg-[#F1F1F1] sm:min-w-[350px] shadow-custom-lg sm:max-w-[400px] dark:bg-[#1A1D21] justify-center items-center px-4 gap-4 py-4 rounded-2xl flex-col">
-                  <div className=" mt-3 w-[60px] h-[60px] rounded-[18px]">
+                  {/* <div className=" mt-3 w-[60px] h-[60px] rounded-[18px]">
                     <img
                       src={dp}
                       className="h-full w-full rounded-[19px] bg-slate-300 "
                     />
-                  </div>
+                  </div> */}
+
+                  <ImageComponent
+                    src={dp}
+                    width="w-[60px]"
+                    height="h-[60px]"
+                    borderRadius="rounded-[20px]"
+                  />
 
                   <div className="sm:text-[18px] text-center font-semibold">
                     {title}

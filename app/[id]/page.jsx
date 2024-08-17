@@ -24,6 +24,7 @@ const page = ({ params }) => {
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [state, setState] = useState("");
+  const [isRequested, setIsRequested] = useState(false);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -34,19 +35,29 @@ const page = ({ params }) => {
     url: `https://grovyo.com/${params?.id}`, // Add your website URL here if relevant
   };
 
-  const fetchData = async () => {
+  const fetchData = async (username) => {
     try {
       setIsLoading(true);
-      const res = await axios.get(
-        // `https://work.grovyo.xyz/api/v1/getprositedetails/${params.id}`
-        `${API}/product/getprositedetails/${params.id}`
-      );
-      setBio(res.data.data.userDetails);
-      setComs(res.data.data.communitywithDps);
-      setProduct(res.data.data.productsWithDps);
-      setIsLoading(false);
 
-      if (!res.data.success) {
+      let res;
+
+      if (username) {
+        res = await axios.get(
+          `${API}/product/getprositedetails/${params.id}?username=${username}`
+        );
+      } else {
+        res = await axios.get(`${API}/product/getprositedetails/${params.id}`);
+      }
+
+      if (res.data.success) {
+        setBio(res.data?.data?.userDetails);
+        setComs(res.data?.data?.communitywithDps);
+        setProduct(res.data?.data?.productsWithDps);
+        setIsLoading(false);
+        setIsRequested(res.data?.data?.userDetails?.isRequested);
+      }
+
+      if (res.data.userExists == false) {
         setUser(false);
       }
     } catch (error) {
@@ -68,8 +79,10 @@ const page = ({ params }) => {
 
         if (res.data.success) {
           toast.success("Chat Request Send!");
+          setIsRequested(true);
         } else {
           toast.error("Something Went Wrong!");
+          setIsRequested(false);
         }
       } else {
         toast.error("You are Not Login");
@@ -82,13 +95,12 @@ const page = ({ params }) => {
   };
 
   useEffect(() => {
+    const username = localStorage.getItem("username");
     setIsLoading(true);
-    fetchData();
+    if (params?.id) {
+      fetchData(username);
+    }
   }, [params.id]);
-
-  // console.log(bio, "bio");
-  // console.log(coms, "coms");
-  // console.log(product, "product");
 
   if (loading) {
     return (
@@ -343,7 +355,7 @@ const page = ({ params }) => {
     );
   }
 
-  if (!user) {
+  if (user === false) {
     return (
       <>
         <section className="relative z-10 flex select-none flex-col justify-center w-full  items-center bg-black h-screen py-[120px]">
@@ -384,7 +396,7 @@ const page = ({ params }) => {
         />
 
         <div
-          className={`text-black  dark:text-white overflow-auto no-scrollbar relative w-full h-full `}
+          className={`text-black dark:text-white overflow-auto no-scrollbar relative w-full h-full `}
         >
           {/* header */}
           <div className=" w-full flex justify-between absolute h-[100px] items-center px-2 sm:px-5">
@@ -399,7 +411,7 @@ const page = ({ params }) => {
               <div className="px-2 pr-4 ">
                 <div className="text-[16px] flex items-center  text-[#fcfcfc] font-bold">
                   <div className=" text-[#ffffff] pr-[2px] [text-shadow:1px_1px_2px_var(--tw-shadow-color)]">
-                    {bio?.fullname}{" "}
+                    {bio?.fullname}
                   </div>
                   {bio?.isverified && <MdVerified className="text-blue-700" />}
                 </div>
@@ -408,7 +420,6 @@ const page = ({ params }) => {
                 </div>
               </div>
             </div>
-
             <>
               {bio?.useDefaultProsite == false && (
                 <>
@@ -518,19 +529,15 @@ const page = ({ params }) => {
                 </>
               )}
             </>
-            <div
-              onClick={createChatRequest}
-              className="p-2 cursor-pointer text-sm px-5 bg-blue-500 text-white rounded-2xl"
-            >
-              Chat
-            </div>
-            {/* <a
-              target="_blank"
-              href={"https://login.grovyo.com/"}
-              className="p-2 px-5 bg-blue-500 text-white rounded-2xl"
-            >
-              Sign up
-            </a> */}
+            {data?.id !== bio?.id && isRequested === false && (
+              <div
+                onClick={createChatRequest}
+                className="p-2 cursor-pointer text-sm px-5 bg-blue-500 text-white rounded-2xl"
+              >
+                Chat
+              </div>
+            )}{" "}
+            {(data?.id === bio?.id || isRequested === true) && <div></div>}
           </div>
           {/* prosite */}
           <div>

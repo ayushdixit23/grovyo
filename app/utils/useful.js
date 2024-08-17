@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import aesjs from "aes-js";
+import axios from "axios";
 const getKey = () => {
   try {
     return JSON.parse(process.env.NEXT_PUBLIC_KEY);
@@ -130,3 +131,12 @@ export const checkToken = async (token) => {
   }
 };
 
+export const reportErrorToServer = async (data) => {
+  try {
+    console.log(data)
+    const res = await axios.post(`http://localhost:4050/error/createError`, data);
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -21,6 +21,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import CommunityFeed from "@/app/component/CommunityFeed";
 import { setHide } from "@/app/redux/slice/remember";
 import { useDispatch } from "react-redux";
+import ImageComponent from "@/app/component/ImageComponent";
+import Image from "next/image";
+import liked from "../../../assets/liked.png";
+import lightunlike from "../../../assets/lightunlike.png";
+import darkunlike from "../../../assets/darkunlike.png";
+import { useTheme } from "next-themes";
 
 export default function CommunityLayout({ children }) {
   const { data } = useAuthContext();
@@ -32,7 +38,7 @@ export default function CommunityLayout({ children }) {
   const [share, setShare] = useState(false);
   const router = useRouter()
   const [loading, setLoading] = useState(true)
-
+  const { theme } = useTheme()
   const [datas, setDatas] = useState([])
 
   const calculateDif = (a, b) => {
@@ -69,6 +75,7 @@ export default function CommunityLayout({ children }) {
   };
 
   const handleLike = async (postId, liked) => {
+    console.log(postId, "hj")
     try {
       const randomNumber = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
       socketemitfunc({
@@ -311,65 +318,14 @@ export default function CommunityLayout({ children }) {
             <div className="h-[10vh] pn:max-sm:h-[16vh]"></div>
 
             <div
-              className={`h-[92vh] pn:max-sm:h-[87vh] ${styles.customScrollbar} overflow-auto `}
+              className={`h-[92vh] pn:max-sm:h-[87vh] w-full ${styles.customScrollbar} overflow-auto `}
             >
 
-              <div className="md:flex gap-2 mt-[10px] w-full grid grid-cols-2 p-3 items-center md:justify-center">
-                {datas.map((d, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col justify-center border-[2px] dark:border-[#1A1D21] light:border-[#f9f9f9] rounded-xl w-full p-2 "
-                  >
-                    <div className="bg-[#f9f9f9] w-full dark:bg-bluedark dark:text-white flex-wrap flex justify-center items-center rounded-lg py-2">
-                      <div className="w-full h-[90px] flex justify-center items-center ">
-                        <img
-                          src={`${d?.productImage}`}
-                          alt="img"
-                          className=" w-full h-full object-cover"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-1 text-lg font-medium">
-                      <div className="text-[12px] dark:text-white font-semibold ">
-                        {d?.name?.length > 20 ? `${d?.name.slice(0, 20)}...` : d?.name}
-                      </div>
-                      {/* <div className="text-[#737373] text-[14px]">
-                  sold by {d?.brandname}
-                </div> */}
-                      <div className="text-[12px] dark:text-white flex gap-1 items-center font-bold">
-                        <div>₹ {d?.isvariant ? d?.variants[0].category[0]?.discountedprice : d?.discountedprice}</div>
-                        {d?.isvariant ?
-                          <span className="text-sm dark:text-white font-semibold text-[#5585FF]">
-                            {calculateDif(d?.variants[0].category[0]?.discountedprice, d?.variants[0].category[0]?.price)}% off
-                          </span> :
-                          <span className="text-sm font-semibold text-[#5585FF]">
-                            {calculateDif(d?.discountedprice, d?.price)}% off
-                          </span>
-                        }
-                      </div>
-                      <div className="font-semibold dark:text-white text-[12px]">
-                        M.R.P:
-                        <del className="font-semibold px-2 text-[#FF0000]">
-                          ₹{d?.isvariant ? d?.variants[0].category[0].price : d?.price}
-                        </del>
-                      </div>
-                    </div>
 
-
-                    <Link
-                      href={`/product/${d?._id}`}
-                      className="text-black ring-1 ring-black bg-white rounded-2xl flex justify-center items-center space-x-2 p-2 w-full"
-                    >
-                      View
-                    </Link>
-
-                  </div>
-                ))}
-              </div >
               {/* mt-[125px] */}
 
               {/* post 1*/}
-              <div className=" w-full mt-[25px] rounded-xl mb-[6px]">
+              <div className=" w-full mt-[25px] rounded-xl mb-[4px] px-2">
                 <div className="bg-[#151315] bg-com-image bg-cover bg-center w-full rounded-2xl p-2 text-white text-center h-[160px] flex flex-col justify-evenly items-center">
                   <div className="font-semibold">Don't have a community ?</div>
                   <div className="text-[12px] w-[85%]">
@@ -498,13 +454,16 @@ export default function CommunityLayout({ children }) {
                           className="w-[100%] bg-white dark:bg-graydark flex px-1 justify-between items-center "
                         >
                           <div className="h-[55px] pn:max-sm:h-[50px] flex flex-row items-center ">
-                            <div className=" flex object-scale-down items-center ">
+                            {/* <div className=" flex object-scale-down items-center ">
                               <img
                                 src={d?.dps}
                                 className="h-[35px] w-[35px] dark:ring-[#273142] pn:max-sm:w-[30px] pn:max-sm:h-[30px] 
 													pn:max-sm:rounded-[13px] rounded-[15px] ring-1 ring-white bg-white dark:bg-graydark "
                               />
-                            </div>
+                            </div> */}
+
+                            <ImageComponent src={d?.dps} width="w-[35px] pn:max-sm:w-[30px]" borderRadius="pn:max-sm:rounded-[13px] rounded-[15px]" height="h-[35px] pn:max-sm:h-[30px] " />
+
                             {/* Community name */}
                             <div className="flex flex-col justify-center px-2 items-start ">
                               <div className="flex flex-col space-y-[0.5px] justify-start items-start">
@@ -548,10 +507,10 @@ export default function CommunityLayout({ children }) {
                               ? `/main/feed/community?id=${d?.community?._id}`
                               : `/main/feed/community/${d?.community?._id}`
                           }
-                          className=""
+
                         >
                           <div
-                            className={`bg-[#f4f4f4] lg:max-w-[360px] dark:bg-graydark rounded-xl ${d?.urls.length > 1
+                            className={`bg-[#f4f4f4]  dark:bg-graydark rounded-xl ${d?.urls.length > 1
                               ? "overflow-x-scroll no-scrollbar"
                               : null
                               } flex flex-col justify-center items-center `}
@@ -645,9 +604,9 @@ export default function CommunityLayout({ children }) {
                               )}
                             </div>
 
-                            <div className="h-[20px] sm:h-[25px] px-2 w-[100%] flex flex-col">
+                            <div className="py-1 px-2 w-[100%] flex flex-col">
                               <div className="text-[14px] pn:max-sm:text-[12px] dark:text-[#f5f5f5] text-black w-[100%] font-medium text-ellipsis overflow-hidden px-1">
-                                {d?.posts.title}
+                                {d?.posts[0]?.title.length > 50 ? `${d?.posts[0]?.title.slice(0, 50)}...` : d?.posts[0]?.title}
                               </div>
                             </div>
                           </div>
@@ -656,31 +615,31 @@ export default function CommunityLayout({ children }) {
                         <div className="px-2 w-full h-[40px] flex justify-between items-center">
                           <div className="flex flex-row gap-2 items-center  w-[100%]">
                             <div className="flex flex-row justify-start mt-1 ">
-                              <div className="h-[20px] w-[20px] rounded-lg  bg-slate-200 ">
+                              <div className="h-[20px] w-[20px] rounded-lg ">
                                 <img
                                   src={d?.memdps[0]}
-                                  className="h-[20px] w-[20px] rounded-2xl bg-yellow-300 "
+                                  className="object-cover rounded-2xl w-full h-full "
                                 />
                               </div>
-                              <div className="h-[20px] w-[20px] rounded-lg -ml-[10px] bg-slate-300 ">
+                              <div className="h-[20px] w-[20px] rounded-lg -ml-[10px] ">
                                 {" "}
                                 <img
                                   src={d?.memdps[1]}
-                                  className="h-[20px] w-[20px] rounded-2xl bg-yellow-300 "
+                                  className="object-cover rounded-2xl w-full h-full "
                                 />
                               </div>
-                              <div className="h-[20px] w-[20px] rounded-lg  -ml-[10px] bg-slate-400 ">
+                              <div className="h-[20px] w-[20px] rounded-lg  -ml-[10px]  ">
                                 {" "}
                                 <img
                                   src={d?.memdps[2]}
-                                  className="h-[20px] w-[20px] rounded-2xl bg-yellow-300 "
+                                  className="object-cover rounded-2xl w-full h-full "
                                 />
                               </div>
-                              <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 ">
+                              <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] ">
                                 {" "}
                                 <img
                                   src={d?.memdps[3]}
-                                  className="h-[20px] w-[20px] rounded-2xl bg-yellow-300 "
+                                  className="object-cover rounded-2xl w-full h-full "
                                 />
                               </div>
                             </div>
@@ -689,17 +648,26 @@ export default function CommunityLayout({ children }) {
                               <span> Member</span>
                             </div>
                           </div>
-                          <div className="flex gap-2">
+                          <div className="flex items-center gap-2">
+
+
                             <div
-                              onClick={() => handleLike(d?.posts[0]?._id, d?.liked)}
-                              className={`flex justify-center rounded-xl items-center gap-1 ${d?.liked
-                                ? "bg-[#bc7e36] dark:text-black dark:bg-yellow-300 text-white"
-                                : "bg-[#f4f4f4] dark:bg-bluedark"
-                                }  p-2`}
+                              onClick={() => handleLike(d?.posts?.[0]?._id, d?.liked)}
+                              className={`dark:bg-graydark flex justify-center rounded-xl ${d?.liked ? "dark:text-white " : ""
+                                } items-center border w-full dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
                             >
-                              <PiHandsClapping />
+
+                              {d?.liked ? (
+                                <Image src={liked} className="w-[43px] " />
+                              ) : theme == "dark" ? (
+                                <Image src={darkunlike} className="w-[43px] " />
+                              ) : (
+                                <Image src={lightunlike} className="w-[43px] " />
+                              )}
                               <div className="text-[12px]">{d?.posts[0]?.likes}</div>
                             </div>
+
+
                             <div
                               onClick={() => {
                                 if (isMobile) {
@@ -714,7 +682,7 @@ export default function CommunityLayout({ children }) {
 
                                 setShare(true);
                               }}
-                              className="rounded-xl bg-[#f4f4f4] p-2 dark:bg-bluedark "
+                              className="rounded-xl bg-[#f4f4f4] border dark:border-[#1A1D21] p-2 dark:bg-bluedark "
                             >
                               <VscSend />
                             </div>

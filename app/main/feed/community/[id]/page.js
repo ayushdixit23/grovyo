@@ -39,6 +39,7 @@ import unmutepic from "../../../../assets/unmute.png";
 import memberspic from "../../../../assets/members.png";
 import { setPreview } from "@/app/redux/slice/remember";
 import { IoDocument } from "react-icons/io5";
+import ImageComponent from "@/app/component/ImageComponent";
 
 function Components({ params }) {
   const { data } = useAuthContext();
@@ -127,16 +128,17 @@ function Components({ params }) {
         `${API}/chats/compostfeed/${data?.id}/${params?.id}`
       );
       if (res.data.success) {
+        console.log(res.data, "daatttatatta")
+        setTitle(res.data?.community?.title);
         setMemcount(res?.data?.community?.memberscount);
+        setIsjoined(res.data?.subs);
+        setDp(res.data?.dp);
         setIsMuted(res.data?.muted[0]?.muted);
         setMembers(res.data?.members);
-        setTitle(res.data?.community?.title);
-        setTId(res.data?.community?.topics[0]._id);
+        setTId(res.data?.community?.topics[0]?._id);
         setComtype(res.data?.community?.type);
         setCreatorId(res.data?.community?.creator._id);
         setTopics(res.data?.community.topics);
-        setIsjoined(res.data?.subs);
-        setDp(res.data?.dp);
         setLoad(false)
       }
     } catch (error) {
@@ -852,12 +854,19 @@ function Components({ params }) {
                 {/* <div>
                   <MdOutlineArrowBackIosNew className="text-2xl" />
                 </div> */}
-                <div>
+                {/* <div>
                   <img
                     src={dp}
                     className="h-[45px] w-[45px] rounded-[14px] bg-slate-300 "
                   />
-                </div>
+                </div> */}
+
+                <ImageComponent
+                  src={dp}
+                  width="w-[45px]"
+                  height="h-[45px]"
+                  borderRadius="rounded-[17px]"
+                />
               </div>
               <div className="flex justify-between w-full items-center gap-2 px-4">
                 <div className="flex gap-1 flex-col">

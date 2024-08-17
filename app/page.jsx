@@ -173,7 +173,7 @@ function page() {
       <div
         onClick={() => setOpen(false)}
         className={`duration-700  ${
-          open ? "right-0 z-50" : "-right-[1000px] -z-10"
+          open ? "right-0 z-40" : "-right-[1000px] -z-10"
         } w-screen  fixed h-screen `}
       >
         {/* popup */}
@@ -364,11 +364,17 @@ function page() {
               >
                 Download now
               </a>
-              <div className="text-2xl z-50 font-semibold text-white">
+              <div className="text-2xl z-50 cursor-pointer font-semibold text-white">
                 {open ? (
-                  <MdOutlineClose className="" onClick={() => setOpen(false)} />
+                  <MdOutlineClose
+                    className="z-50"
+                    onClick={() => setOpen(false)}
+                  />
                 ) : (
-                  <RxHamburgerMenu onClick={() => setOpen(true)} />
+                  <RxHamburgerMenu
+                    className="z-50"
+                    onClick={() => setOpen(true)}
+                  />
                 )}
               </div>
             </div>

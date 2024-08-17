@@ -25,6 +25,13 @@ import Newforyou from "@/app/component/Newforyou";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setHide } from "@/app/redux/slice/remember";
+import ImageComponent from "@/app/component/ImageComponent";
+import Image from "next/image";
+
+import liked from "../../../assets/liked.png";
+import lightunlike from "../../../assets/lightunlike.png";
+import darkunlike from "../../../assets/darkunlike.png";
+import { useTheme } from "next-themes";
 //import { PauseIcon, PlayIcon } from '@vidstack/react/icons';
 
 export default function NewforyouLayout({ children }) {
@@ -39,6 +46,7 @@ export default function NewforyouLayout({ children }) {
 	const [share, setShare] = useState(false);
 	const router = useRouter()
 	const compath = useSelector((state) => state.remember.compath);
+	const { theme } = useTheme()
 
 
 	const [datas, setDatas] = useState([])
@@ -349,7 +357,7 @@ export default function NewforyouLayout({ children }) {
 				<div className="w-[100%] h-[100vh] bg-white dark:bg-[#0D0D0D] flex pn:max-md:justify-center ">
 					<div className=" pn:max-md:h-[96vh] lg:w-[27%] md:w-[32%] sm:w-[37%] h-screen md:overflow-auto scrollbar-hide select-none dark:border:[#273142] flex flex-col w-full items-center md:border-r-2 border-[#f7f7f7] dark:border-[#131619] self-end ">
 						{/* post 1*/}
-						{/* <div className="h-[10vh]"></div> */}
+						<div className="h-[10vh]"></div>
 
 						{/* <div className="md:h-[100vh] h-[10vh]"></div> */}
 						<div
@@ -368,9 +376,9 @@ export default function NewforyouLayout({ children }) {
 								dataLength={feed.length}
 								next={loadmoreData}
 								loader={
-									<>
+									<div className="px-2">
 
-										<div className="bg-slate-50 dark:bg-graydark  pn:max-sm:p-3 w-[100%]  p-4 pn:max-md:rounded-2xl">
+										<div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-md:rounded-2xl">
 											<div className="w-[100%] rounded-2xl flex flex-col items-center ">
 												<div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
 													<div className="w-[15%] flex object-scale-down items-center h-[100%] ">
@@ -400,7 +408,7 @@ export default function NewforyouLayout({ children }) {
 											</div>
 										</div>
 										<div className="w-full border-b-[0.5px] "></div>
-										<div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
+										<div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] pn:max-md:rounded-2xl ">
 											<div className="w-[100%] rounded-2xl flex flex-col items-center ">
 												<div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
 													<div className="w-[15%] flex object-scale-down items-center h-[100%] ">
@@ -430,7 +438,7 @@ export default function NewforyouLayout({ children }) {
 											</div>
 										</div>
 										<div className="w-full border-b-[0.5px] "></div>
-										<div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
+										<div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] pn:max-md:rounded-2xl ">
 											<div className="w-[100%] rounded-2xl flex flex-col items-center ">
 												<div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
 													<div className="w-[15%] flex object-scale-down items-center h-[100%] ">
@@ -460,7 +468,7 @@ export default function NewforyouLayout({ children }) {
 											</div>
 										</div>
 										<div className="w-full border-b-[0.5px] "></div>
-									</>
+									</div>
 								}
 								hasMore={true}
 								endMessage={
@@ -472,60 +480,9 @@ export default function NewforyouLayout({ children }) {
 
 								scrollableTarget="scrollableDiv"
 							>
-								<div className="sm:my-1 my-4 w-full bg-white dark:bg-graydark">
-
-									<div className="md:flex gap-2 mt-[40px] w-full grid h-full max-h-full grid-cols-2 p-3 items-center md:justify-center">
-										{datas.map((d, i) => (
-											<div
-												key={i}
-												className="flex flex-col justify-center border-[2px] dark:border-[#1A1D21] light:border-[#f9f9f9] rounded-xl w-full p-2 "
-											>
-												<div className="bg-[#f9f9f9] w-full dark:bg-bluedark dark:text-white flex-wrap flex justify-center items-center rounded-lg py-2">
-													<div className="w-full h-[90px] flex justify-center items-center ">
-														<img
-															src={`${d?.productImage}`}
-															alt="img"
-															className=" w-full h-full object-cover"
-														/>
-													</div>
-												</div>
-												<div className="flex flex-col gap-1 text-lg font-medium">
-													<div className="text-[12px] dark:text-white font-semibold ">
-														{d?.name?.length > 20 ? `${d?.name.slice(0, 20)}...` : d?.name}
-													</div>
-													{/* <div className="text-[#737373] text-[14px]">
-                  sold by {d?.brandname}
-                </div> */}
-													<div className="text-[12px] dark:text-white flex gap-1 items-center font-bold">
-														<div>₹ {d?.isvariant ? d?.variants[0].category[0]?.discountedprice : d?.discountedprice}</div>
-														{d?.isvariant ?
-															<span className="text-sm dark:text-white font-semibold text-[#5585FF]">
-																{calculateDif(d?.variants[0].category[0]?.discountedprice, d?.variants[0].category[0]?.price)}% off
-															</span> :
-															<span className="text-sm font-semibold text-[#5585FF]">
-																{calculateDif(d?.discountedprice, d?.price)}% off
-															</span>
-														}
-													</div>
-													<div className="font-semibold dark:text-white text-[12px]">
-														M.R.P:
-														<del className="font-semibold px-2 text-[#FF0000]">
-															₹{d?.isvariant ? d?.variants[0].category[0].price : d?.price}
-														</del>
-													</div>
-												</div>
+								<div className="sm:my-1 px-2 my-4 w-full bg-white dark:bg-graydark">
 
 
-												<Link
-													href={`/product/${d?._id}`}
-													className="text-black ring-1 ring-black bg-white rounded-2xl flex justify-center items-center space-x-2 p-2 w-full"
-												>
-													View
-												</Link>
-
-											</div>
-										))}
-									</div >
 									<>
 										{feed.map((d, i) => (
 											<>
@@ -658,8 +615,6 @@ export default function NewforyouLayout({ children }) {
 														<div className="w-full border-b-[0.5px] pt-1"></div>
 													</div>
 												) : (
-													// normal posts
-
 													<div
 														key={i}
 														className="bg-slate-50 dark:bg-transparent pn:max-md:rounded-2xl"
@@ -678,13 +633,16 @@ export default function NewforyouLayout({ children }) {
 															className="w-[100%] bg-white dark:bg-transparent flex px-1 justify-between items-center "
 														>
 															<div className="h-[55px] pn:max-sm:h-[50px] flex flex-row items-center ">
-																<div className=" flex object-scale-down items-center h-[100%] ">
+																{/* <div className=" flex object-scale-down items-center h-[100%] ">
 																	<img
 																		src={d?.dps}
-																		className="h-[35px] w-[35px] pn:max-sm:w-[30px] pn:max-sm:h-[30px] pn:max-sm:rounded-[13px] 
+																		className="  pn:max-sm:rounded-[13px] 
 																	rounded-[15px]  ring-1 ring-white dark:ring-[#273142] bg-white dark:bg-bluelight "
 																	/>
-																</div>
+																</div> */}
+
+																<ImageComponent src={d?.dps} borderRadius={"pn:max-sm:rounded-[13px] rounded-[15px]"} width="w-[35px] pn:max-sm:w-[30px]" height="h-[35px] pn:max-sm:h-[30px]" />
+
 																{/* Community name */}
 																<div className="flex flex-col justify-center px-2 items-start">
 																	<div className="flex flex-col space-y-[0.5px] justify-start items-start">
@@ -801,17 +759,6 @@ export default function NewforyouLayout({ children }) {
 																						<div className=" rounded-2xl h-full overflow-hidden relative ">
 																							<div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
 
-																							{/* <MediaPlayer
-                                            src={d?.urls[0]?.content}
-                                            onQualitiesChange={480}
-                                            className=" z-0 h-[300px] sm:h-[260px]"
-                                          >
-                                            <MediaProvider />
-                                            <DefaultVideoLayout
-                                              thumbnails={d?.urls[0]?.content}
-                                              icons={defaultLayoutIcons}
-                                            />
-                                          </MediaPlayer> */}
 																							<VideoPlayer
 																								key={i}
 																								src={d?.urls[0]?.content}
@@ -838,7 +785,7 @@ export default function NewforyouLayout({ children }) {
 														</Link>
 
 														{/* end */}
-														<div className="px-2 w-full h-[40px] flex justify-between items-center">
+														<div className="px-2 w-full py-2 flex justify-between items-center">
 															<Link
 																onClick={() => {
 																	if (isMobile) {
@@ -853,31 +800,31 @@ export default function NewforyouLayout({ children }) {
 																className="flex flex-row gap-2 items-center  w-[100%]"
 															>
 																<div className="flex flex-row justify-start mt-1 z-0">
-																	<div className="h-[20px] w-[20px] rounded-lg z-30  bg-slate-200 ">
+																	<div className="h-[20px] w-[20px] rounded-lg z-30 ">
 																		<img
 																			src={d?.memdps[0]}
-																			className="h-[20px] w-[20px] rounded-2xl bg-white dark:bg-bluelight "
+																			className="w-full h-full object-cover rounded-2xl  "
 																		/>
 																	</div>
-																	<div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px]  bg-slate-300 ">
+																	<div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px]">
 																		{" "}
 																		<img
 																			src={d?.memdps[1]}
-																			className="h-[20px] w-[20px] rounded-2xl bg-white dark:bg-bluelight "
+																			className="w-full h-full object-cover rounded-2xl  "
 																		/>
 																	</div>
-																	<div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 ">
-																		{" "}
+																	<div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px]">
+
 																		<img
 																			src={d?.memdps[2]}
-																			className="h-[20px] w-[20px] rounded-2xl bg-white dark:bg-blueligh "
+																			className="w-full h-full object-cover rounded-2xl  "
 																		/>
 																	</div>
-																	<div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 ">
+																	<div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px]">
 																		{" "}
 																		<img
 																			src={d?.memdps[3]}
-																			className="h-[20px] w-[20px] rounded-2xl bg-white dark:bg-blueligh "
+																			className="w-full h-full object-cover rounded-2xl"
 																		/>
 																	</div>
 																</div>
@@ -890,9 +837,9 @@ export default function NewforyouLayout({ children }) {
 																	</span>
 																</div>
 															</Link>
-															<div className="flex gap-2  ">
+															<div className="flex gap-2 items-center">
 																{/* Like button */}
-																<div
+																{/* <div
 																	onClick={() =>
 																		handleLike(d?.posts?._id, d?.liked)
 																	}
@@ -905,7 +852,24 @@ export default function NewforyouLayout({ children }) {
 																	<div className="text-[12px] ">
 																		{d?.posts?.likes}
 																	</div>
+																</div> */}
+
+																<div
+																	onClick={() => handleLike(d?.posts?._id, d?.liked)}
+																	className={`dark:bg-graydark flex justify-center rounded-xl ${d?.liked ? "dark:text-white " : ""
+																		} items-center border w-full dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
+																>
+
+																	{d?.liked ? (
+																		<Image src={liked} className="w-[23px] " />
+																	) : theme == "dark" ? (
+																		<Image src={darkunlike} className="w-[23px] " />
+																	) : (
+																		<Image src={lightunlike} className="w-[23px] " />
+																	)}
+																	<div className="text-[12px]">{d?.posts?.likes}</div>
 																</div>
+
 																<div
 																	onClick={() => {
 																		if (isMobile) {
@@ -925,7 +889,7 @@ export default function NewforyouLayout({ children }) {
 																		}
 																		setShare(true);
 																	}}
-																	className="rounded-xl bg-[#f4f4f4] dark:bg-bluedark p-2"
+																	className="rounded-xl bg-[#f4f4f4] flex justify-center items-center border dark:border-[#1A1D21] dark:bg-bluedark p-2"
 																>
 																	<VscSend />
 																</div>
