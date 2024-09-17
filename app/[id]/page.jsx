@@ -1,9 +1,7 @@
 "use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Logo from "../assets/Logo.png";
 import styles from "../CustomScrollbarComponent.module.css";
-import Image from "next/image";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
 import Bio from "../component/Bio";
@@ -14,10 +12,13 @@ import { IoIosChatbubbles } from "react-icons/io";
 import { API } from "@/Essentials";
 import toast from "react-hot-toast";
 import Loader from "../component/Loader";
+import { useSocketContext } from "../utils/SocketWrapper";
+import FooterComponent from "../component/FooterComponent";
 
 const page = ({ params }) => {
   const [coms, setComs] = useState([]);
   const { data, auth } = useAuthContext();
+  const { socket } = useSocketContext();
   const [bio, setBio] = useState(null);
   const [product, setProduct] = useState([]);
   const [user, setUser] = useState(true);
@@ -55,6 +56,11 @@ const page = ({ params }) => {
         setProduct(res.data?.data?.productsWithDps);
         setIsLoading(false);
         setIsRequested(res.data?.data?.userDetails?.isRequested);
+
+        socket?.emit("prositeCount", {
+          prositeUserId: res.data?.data?.userDetails?.id,
+          userId: data ? data?.id : null,
+        });
       }
 
       if (res.data.userExists == false) {
@@ -100,7 +106,7 @@ const page = ({ params }) => {
     if (params?.id) {
       fetchData(username);
     }
-  }, [params.id]);
+  }, [params.id, socket]);
 
   if (loading) {
     return (
@@ -338,7 +344,7 @@ const page = ({ params }) => {
             <div className=" flex justify-center pt-2 items-center px-4">
               <div className=" w-[100%] h-[1px] rounded-full"></div>
             </div>
-            <div className="py-2 items-center  justify-between  pn:max-sm:justify-center px-2 w-[100%] mt-4 flex flex-row">
+            {/* <div className="py-2 items-center  justify-between  pn:max-sm:justify-center px-2 w-[100%] mt-4 flex flex-row">
               <div className="flex flex-row items-center pn:max-sm:hidden gap-2">
                 <Image src={Logo} className="h-[35px] w-[35px] rounded-2xl" />
                 <div className="text-black dark:text-white text-[18px] font-bold font-sans">
@@ -348,7 +354,9 @@ const page = ({ params }) => {
               <div className="text-black dark:text-white text-[12px] text-center font-sans">
                 Copyright © 2023 Grovyo Templates | All Rights Reserved
               </div>
-            </div>
+            </div> */}
+
+            <FooterComponent />
           </div>
         </div>
       </>
@@ -673,7 +681,7 @@ const page = ({ params }) => {
           <div className=" flex justify-center  pt-2 items-center px-4">
             <div className=" w-[100%] h-[1px] rounded-full"></div>
           </div>
-          <div className="py-2 items-center  justify-between  pn:max-sm:justify-center px-2 w-[100%] mt-4 flex flex-row">
+          {/* <div className="py-2 items-center  justify-between  pn:max-sm:justify-center px-2 w-[100%] mt-4 flex flex-row">
             <div className="flex flex-row items-center pn:max-sm:hidden gap-2">
               <Image src={Logo} className="h-[35px] w-[35px] rounded-2xl" />
               <div className="text-black dark:text-white text-[18px] font-bold font-sans">
@@ -683,7 +691,9 @@ const page = ({ params }) => {
             <div className="text-black dark:text-white text-[12px] text-center font-sans">
               Copyright © 2023 Grovyo Templates | All Rights Reserved
             </div>
-          </div>
+          </div> */}
+
+          <FooterComponent />
         </div>
       </div>
     </>

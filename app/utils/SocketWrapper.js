@@ -54,10 +54,10 @@ export const SocketContextProvider = ({ children }) => {
   useEffect(() => {
     let newSocket;
     if (AUTH) {
-      const url = "https://rooms.grovyo.xyz"
+      const url = "http://192.168.1.8:4400"
+      // const url = "https://rooms.grovyo.xyz"
 
       newSocket = io(url, {
-
         auth: { id: data?.id, type: "web" },
         reconnectionAttempts: 100,
         reconnectionDelay: 3000,

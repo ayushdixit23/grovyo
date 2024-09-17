@@ -26,20 +26,24 @@ function page() {
   const router = useRouter();
   const [number, setNumber] = useState("7521847004");
   const [loading, setLoading] = useState(false);
+  const emailOtpRef = useRef();
   const [showOTP, setShowOTP] = useState(false);
   const { f, setData } = useAuthContext();
   const otpInputRef = useRef(null);
   const [change, setChange] = useState(1);
-  // const [email, setEmail] = useState("");
-  // const [pass, setPass] = useState("");
-  const [email, setEmail] = useState("ayush23@gmail.com");
-  const [pass, setPass] = useState("12345678");
+  const [email, setEmail] = useState("fsayush100@gmail.com");
+  const [pass, setPass] = useState("");
+  // const [email, setEmail] = useState("ayush23@gmail.com");
+  // const [pass, setPass] = useState("12345678");
   const [load, setLoad] = useState(false);
   const [loadingqr, setLoadingqr] = useState(false);
   const [qrCodeValue, setQRCodeValue] = useState("");
   const newRandomString = generateRandomString(17);
   const starCountRef = ref(database, `/qr/`);
   const strignref = useRef(null);
+
+  const [showEmailOtp, setShowEmailOtp] = useState(false);
+  const [emailOtp, setEmailOtp] = useState(false);
 
   const handleOtpChange = (otp) => {
     try {
@@ -49,6 +53,121 @@ function page() {
       console.log(error);
     }
   };
+
+  const handleEmailOtpChange = (otp) => {
+    try {
+      setEmailOtp(otp);
+    } catch (error) {
+      toast.error("Something Went Wrong!");
+      console.log(error);
+    }
+  };
+
+  const verifyOtpEmail = async (e) => {
+    e.preventDefault();
+    try {
+      if (emailOtp.length !== 6) {
+        toast.error("Enter 6 digit otp!");
+        return;
+      }
+
+      const data = {
+        email,
+        otp: emailOtp,
+      };
+      const res = await axios.post(`${API}/login/emailotplogin`, data);
+      if (!res.data.success) {
+        if (res.data.userexists === false) {
+          toast.error("User Not Found!");
+          return;
+        } else if (res.data.otpSuccess === false) {
+          toast.error("Otp Verification Failed!");
+          return;
+        } else {
+          toast.error("Something Went Wrong!");
+          return;
+        }
+      } else {
+        const a = await cookiesSetter(res);
+        if (a === true) {
+          toast.success("Login successful");
+          router.push("/main/dashboard");
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendOtpEmail = async (e) => {
+    e.preventDefault();
+    if (!email) {
+      toast.error("Please Enter the Email!");
+      return;
+    }
+    try {
+      const data = {
+        email,
+      };
+      const res = await axios.post(`${API}/login/requestOtp`, data);
+      if (!res.data.success) {
+        if (res.data.emailFound === false) {
+          toast.error("Email Not Found!");
+          return;
+        } else {
+          toast.error("Something Went Wrong!");
+          return;
+        }
+      } else {
+        setShowEmailOtp(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    let otpCapture = document.getElementById("send-email-otp");
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (email) {
+          sendOtpEmail(event);
+        }
+      }
+    };
+
+    if (otpCapture) {
+      otpCapture.addEventListener("keypress", handleKeyPress);
+    }
+    return () => {
+      if (otpCapture) {
+        otpCapture.removeEventListener("keypress", handleKeyPress);
+      }
+    };
+  }, [email]);
+
+  useEffect(() => {
+    const verifyOtp = emailOtpRef.current;
+    const handleKeyPress = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (emailOtp.length === 6) {
+          verifyOtpEmail(event);
+        }
+      }
+    };
+
+    if (verifyOtp) {
+      verifyOtp.addEventListener("keypress", handleKeyPress);
+    }
+
+    return () => {
+      if (verifyOtp) {
+        verifyOtp.removeEventListener("keypress", handleKeyPress);
+      }
+    };
+  }, [emailOtp, emailOtpRef]);
 
   function generateRandomString(length) {
     const characters = "0123456789abcdefghijklmnopqrstuvwxyz";
@@ -115,6 +234,7 @@ function page() {
   }, []);
 
   const cookiesSetter = async (res) => {
+    console.log(res.data, "da");
     try {
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + 30);
@@ -171,55 +291,6 @@ function page() {
     }
   };
 
-  // function onCaptchaVerify() {
-  //   if (!window.recaptchaVerifier) {
-  //     window.recaptchaVerifier = new RecaptchaVerifier(
-  //       auth,
-  //       "recaptcha-container",
-  //       {
-  //         size: "invisible",
-  //         callback: (response) => {
-  //           onSignup();
-  //         },
-  //         "expired-callback": () => {},
-  //       }
-  //     );
-  //   }
-  // }
-
-  // function onSignup() {
-  //   setLoading(true);
-  //   onCaptchaVerify();
-  //   setSeconds(30);
-  //   const appVerifier = window.recaptchaVerifier;
-
-  //   const formatPh = "+91" + number;
-  //   signInWithPhoneNumber(auth, formatPh, appVerifier)
-  //     .then((confirmationResult) => {
-  //       window.confirmationResult = confirmationResult;
-  //       setLoading(false);
-  //       setShowOTP(true);
-  //       toast.success("Successfully!");
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       setLoading(false);
-  //     });
-  // }
-
-  // function verifyOTP() {
-  //   setLoading(true);
-  //   window.confirmationResult
-  //     .confirm(otp)
-  //     .then(async (res) => {
-  //       setLoading(false);
-  //       fetchid();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setLoading(false);
-  //     });
-  // }
   const handleCreate = async () => {
     setLoad(true);
 
@@ -310,7 +381,6 @@ function page() {
     e.preventDefault();
     setLoading(true);
 
-    // Assuming OTPlessSignin.verify returns a promise
     try {
       const result = await window?.OTPlessSignin.verify({
         channel: "PHONE",
@@ -319,7 +389,6 @@ function page() {
         countryCode: "+91",
       });
 
-      // console.log(result, result.status, "result");
       if (result.success) {
         await fetchid();
       } else {
@@ -506,25 +575,73 @@ function page() {
                     change === 2 ? "" : "hidden"
                   }`}
                 >
-                  <div className="flex items-center rounded-2xl px-3 dark:bg-[#1A1D21] bg-[#DEE1E5]">
-                    <div className="">
-                      <MdOutlineMailOutline />
-                    </div>
-                    <input
-                      onKeyPress={(e) => {
-                        if (e.key === "Enter") {
-                          // onSignup();
-                          handleCreate();
-                        }
-                      }}
-                      type="email"
-                      className=" w-full text-black dark:text-[#fff] placeholder:text-sm outline-none rounded-2xl dark:bg-[#1A1D21] bg-[#DEE1E5] p-3 px-2"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email"
-                    />
-                  </div>
-                  <div className="flex items-center rounded-2xl px-3 dark:bg-[#1A1D21] bg-[#DEE1E5]">
+                  {showEmailOtp && (
+                    <>
+                      <div
+                        ref={otpInputRef}
+                        className=" w-full flex gap-4 ml-[20px] justify-center   items-center"
+                      >
+                        <DynamicOtpInput
+                          value={emailOtp}
+                          onChange={handleEmailOtpChange}
+                          OTPLength={6}
+                          otpType="number"
+                          // ref={otpInputRef}
+                          disabled={false}
+                          autoFocus
+                          className="opt-container sm:mt-3"
+                        ></DynamicOtpInput>
+                      </div>
+                      <div className="py-2 ">
+                        <div
+                          //onClick={onSignup}
+                          onClick={verifyOtpEmail}
+                          className="h-[50px] w-full select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
+                        >
+                          {loading && (
+                            <CgSpinner size={20} className="m-1 animate-spin" />
+                          )}
+                          <span className={`${loading ? "hidden" : ""} `}>
+                            Continue
+                          </span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {showEmailOtp === false && (
+                    <>
+                      <div className="flex items-center rounded-2xl px-3 dark:bg-[#1A1D21] bg-[#DEE1E5]">
+                        <div className="">
+                          <MdOutlineMailOutline />
+                        </div>
+                        <input
+                          id="send-email-otp"
+                          type="email"
+                          className=" w-full text-black dark:text-[#fff] placeholder:text-sm outline-none rounded-2xl dark:bg-[#1A1D21] bg-[#DEE1E5] p-3 px-2"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Enter your email"
+                        />
+                      </div>
+                      <div className="py-2 ">
+                        <div
+                          //onClick={onSignup}
+                          onClick={sendOtpEmail}
+                          className="h-[50px] w-full select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
+                        >
+                          {loading && (
+                            <CgSpinner size={20} className="m-1 animate-spin" />
+                          )}
+                          <span className={`${loading ? "hidden" : ""} `}>
+                            Continue
+                          </span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* <div className="flex items-center rounded-2xl px-3 dark:bg-[#1A1D21] bg-[#DEE1E5]">
                     <div className="">
                       <RiLockPasswordLine />
                     </div>
@@ -541,21 +658,7 @@ function page() {
                       onChange={(e) => setPass(e.target.value)}
                       placeholder="Enter your password"
                     />
-                  </div>
-                  <div className="py-5 ">
-                    <div
-                      //onClick={onSignup}
-                      onClick={handleCreate}
-                      className="h-[50px] w-full select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
-                    >
-                      {loading && (
-                        <CgSpinner size={20} className="m-1 animate-spin" />
-                      )}
-                      <span className={`${loading ? "hidden" : ""} `}>
-                        Continue
-                      </span>
-                    </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

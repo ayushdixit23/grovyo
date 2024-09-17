@@ -1,83 +1,62 @@
 import React from "react";
-import Image from "next/image";
-import { BsLinkedin } from "react-icons/bs";
-// import Instagram from "../assest/Instagram.svg";
-// import Facebook from "../assest/Facebook.svg";
-// import Twitter from "../assest/Twitter.svg";
-function Body() {
-  // const [names, setNames] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [msg, setMsg] = useState("");
-  // const [allentry, setAllentry] = useState([]);
 
-  // const submitform = (e) => {
-  //   e.preventDefault();
-  //   const [newentry, setNewentry] = {
-  //     names: names,
-  //     email: email,
-  //     phone: phone,
-  //     msg: msg,
-  //   };
-  //   setAllentry([...allentry, newentry]);
-  //   console.log(allentry);
-  //   console.log(names);
-  //   console.log(email);
-  //   console.log(phone);
-  //   setNames("");
-  //   setEmail("");
-  //   setPhone("");
-  //   setMsg("");
-  // };
-
+const page = () => {
   return (
-    <>
-      <div>
-        <div className="flex flex-col justify-center items-center">
-          <div className="py-3 px-1"></div>
-          <div className="sm:text-3xl text-xl font-bold tracking-wide py-2">
-            CONTACT US
-          </div>
-          <div className="sm:text-xl text-base py-2 text-center font-semibold">
-            Let's build something awesome together
-          </div>
-        </div>
-        <div className="flex justify-center h-full items-center scrollbar-hide">
-          <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLScppKY_9Nhxc4aMz2LjkERIiV4LH6PqKWjTyHhVrTu64ZH3OQ/viewform?embedded=true"
-            width="640"
-            height="580"
-            frameBorder="0"
-            marginHeight="0"
-            marginWidth="0"
-            title="form"
-          >
-            Loading…
-          </iframe>
-        </div>
-        <div className="flex flex-col items-center text-center justify-center  py-5">
-          <div className="text-lg">Contact : grovyoinc@gmail.com</div>
-          <div className="flex justify-center space-x-2 my-5">
-            {/* <div>
-              <Image src={Facebook} alt="facebook" width={35} height={30} />
-            </div>
-            <div>
-              <Image src={Twitter} alt="twitter" width={40} height={35} />
-            </div>
-            <div>
-              <Image src={Instagram} alt="instagram" width={35} height={30} />
-            </div> */}
-            <a
-              aria-label="linkedin"
-              href="https://www.linkedin.com/company/grovyo"
-            >
-              <BsLinkedin className="text-2xl" />
-            </a>
-          </div>
+    <div className="w-[90%] mx-[5%] mt-[7%] flex flex-col gap-[50px] ">
+      <div className="flex flex-col gap-6">
+        <div>Get Started</div>
+        <div className=" text-3xl sm:text-5xl md:text-7xl font-bold">
+          Get in touch with us. <br />
+          We're here to assist you.
         </div>
       </div>
-    </>
-  );
-}
+      <div className="flex flex-col gap-[30px] min-w-[70%]">
+        <div className="flex flex-col gap-4 sm:flex sm:flex-row sm:justify-between w-full">
+          <div className="sm:w-[32%]">
+            <div className="">Your Name</div>
 
-export default Body;
+            <input
+              type="text"
+              className=" border-b border-[#CACACA] outline-none bg-transparent  w-full"
+            />
+          </div>
+          <div className="sm:w-[32%]">
+            <div className="">Email Address</div>
+            <div>
+              <input
+                type="email"
+                className=" border-b border-[#CACACA] outline-none bg-transparent w-full "
+              />
+            </div>
+          </div>
+          <div className="sm:w-[32%]">
+            <div className="">Phone Number (optional)</div>
+            <div>
+              <input
+                type="tel"
+                className="border-b border-[#CACACA] outline-none bg-transparent w-full "
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-7">
+          <div>Message</div>
+          <div>
+            {" "}
+            <input
+              type="text"
+              className="  border-b border-[#CACACA] outline-none bg-transparent w-full "
+            />
+          </div>
+        </div>
+        <div>
+          <button className="border-none rounded-3xl bg-[#127DF7] px-5 py-3 pp:px-[32px] pp:py-5">
+            Leave us a Message &#8594;
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default page;

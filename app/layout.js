@@ -36,7 +36,6 @@ export default function RootLayout({ children }) {
         `}
         </Script>
 
-
       </head>
       <body className={`${plus_jakarta_sans.className}`}>
         <ThemeProvider

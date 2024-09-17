@@ -196,16 +196,7 @@ export default function ChatLayout({ children }) {
                 </div>
               }
             </>
-            {/* <div className="w-[100%] rounded-xl my-1 bg-slate-100 animate-pulse h-[70px] px-4 flex flex-row "></div>
-            <div className="h-[1px] w-[80%] rounded-full flex self-center bg-[#f9f9f9]"></div>
-            <div className="w-[100%] rounded-xl my-1 bg-slate-100 animate-pulse h-[70px] px-4 flex flex-row "></div>
-            <div className="h-[1px] w-[80%] rounded-full flex self-center bg-[#f9f9f9]"></div>
-            <div className="w-[100%] rounded-xl my-1 bg-slate-100 animate-pulse h-[70px] px-4 flex flex-row "></div>
-            <div className="h-[1px] w-[80%] rounded-full flex self-center bg-[#f9f9f9]"></div>
-            <div className="w-[100%] rounded-xl my-1 bg-slate-100 animate-pulse h-[70px] px-4 flex flex-row "></div>
-            <div className="h-[1px] w-[80%] rounded-full flex self-center bg-[#f9f9f9]"></div>
-            <div className="w-[100%] rounded-xl my-1 bg-slate-100 animate-pulse h-[70px] px-4 flex flex-row "></div>
-            <div className="h-[1px] w-[80%] rounded-full flex self-center bg-[#f9f9f9]"></div> */}
+           
           </div>
         </div>
       )}

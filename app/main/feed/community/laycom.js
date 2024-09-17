@@ -672,11 +672,11 @@ export default function CommunityLayout({ children }) {
                               onClick={() => {
                                 if (isMobile) {
                                   setShareValue(
-                                    `https://grovyo.com/main/feed/newForYou?id=${d?.posts?.community?._id}#${d?.posts?._id}`
+                                    `https://grovyo.com/main/feed/newForYou?id=${d?.community?._id}#${d?.posts?.[0]?._id}`
                                   );
                                 } else {
                                   setShareValue(
-                                    `https://grovyo.com/main/feed/newForYou/${d?.posts?.community?._id}#${d?.posts?._id}`
+                                    `https://grovyo.com/main/feed/newForYou/${d?.community?._id}#${d?.posts?.[0]?._id}`
                                   );
                                 }
 

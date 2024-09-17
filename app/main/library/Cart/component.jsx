@@ -192,11 +192,18 @@ function page() {
       const productId = data.map((d) => {
         return d?.c?.product?._id;
       });
-      const res = await axios.post(`${API}/payments/cod/${user?.id}`, {
-        deliverycharges: 28,
-        productId,
-      });
-
+      // const res = await axios.post(`${API}/payments/cod/${user?.id}`, {
+      //   deliverycharges: 28,
+      //   productId,
+      // });
+      const res = await axios.post(
+        `http://localhost:7700/api/createnewproductorder/${user?.id}`,
+        {
+          deliverycharges: 28,
+          productId,
+        }
+      );
+ 
       if (res.data.success) {
         toast.success("Order Placed!");
       }
@@ -499,8 +506,8 @@ function page() {
 
               <div
                 onClick={() => {
-                  // placeOrderWithCash();
-                  placeOrderWithOnline();
+                  placeOrderWithCash();
+                  // placeOrderWithOnline();
                 }}
                 className="py-2 flex justify-center font-semibold text-[13px] items-center bg-[#2e7eef] text-white rounded-xl px-4"
               >
@@ -886,8 +893,8 @@ function page() {
                 </div>
                 <div
                   onClick={() => {
-                    // placeOrderWithCash();
-                    placeOrderWithOnline();
+                    placeOrderWithCash();
+                    // placeOrderWithOnline();
                   }}
                   className="bg-black rounded-lg flex flex-row justify-center items-center py-3"
                 >

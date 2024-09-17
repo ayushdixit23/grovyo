@@ -354,25 +354,6 @@ function Components({ params }) {
     }
   };
 
-  const fetchallPosts = async (topicid = "") => {
-    try {
-      const res = await axios.post(
-        `${API}/chats/v1/fetchallposts/${data?.id}/${params?.id}`,
-        { postId: "", topicId: topicid }
-      );
-      console.log(res.data, "ads lle ");
-      if (res.data.success) {
-        setIsTopicJoined(res.data?.topicjoined);
-        if (res.data.topic) {
-          setTopicData(res.data.topic);
-        }
-        setCom(res.data?.mergedData);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const fetchTopics = async (topicId) => {
     try {
       const res = await axios.get(
@@ -414,6 +395,25 @@ function Components({ params }) {
       if (res.data.success) {
         await fetchCommunity();
         await fetchallPosts();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchallPosts = async (topicid = "") => {
+    try {
+      const res = await axios.post(
+        `${API}/chats/v1/fetchallposts/${data?.id}/${params?.id}`,
+        { postId: "", topicId: topicid }
+      );
+      console.log(res.data, "ads lle ");
+      if (res.data.success) {
+        setIsTopicJoined(res.data?.topicjoined);
+        if (res.data.topic) {
+          setTopicData(res.data.topic);
+        }
+        setCom(res.data?.mergedData);
       }
     } catch (error) {
       console.log(error);

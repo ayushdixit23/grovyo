@@ -32,10 +32,14 @@ module.exports = {
         lightlogin: "url('./assets/lightlogin.png')",
         lightpiclogin: "url('./assets/lightpiclogin.png')",
         defaultprositelight: "url('./assets/defaultprositelight.png')",
-        defaultprositedark: "url('./assets/defaultprositedark.png')"
+        defaultprositedark: "url('./assets/defaultprositedark.png')",
+        'creator': "url('./assets/background.png')",
       },
       boxShadow: {
         'custom-lg': '0 10px 15px -3px rgba(255, 255, 255, 0.07), 0 4px 6px -2px rgba(255, 255, 255, 0.07)',
+        'inner-custom': 'inset 0 0 0 8% rgba(255, 255, 255, 0.15)', // Customize the shadow as needed
+        // You can add more custom inner shadows here
+
       },
       fontFamily: {
         plus_jakarta_sans: ['var(--font-plus_jakarta_sans)'],
