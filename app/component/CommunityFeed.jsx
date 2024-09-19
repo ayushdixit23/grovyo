@@ -1,8 +1,11 @@
 "use client";
-
+import { API } from "@/Essentials";
+import { useAuthContext } from "@/app/utils/AuthWrapper";
+import Input from "@/app/component/Input";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { socketemitfunc, useSocketContext } from "@/app/utils/SocketWrapper";
+import styles from "@/app/CustomScrollbarComponent.module.css";
 import {
   setContent,
   setMessage,
@@ -13,15 +16,15 @@ import {
 } from "@/app/redux/slice/comChatSlice";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import InfiniteScroll from "react-infinite-scroll-component";
-import styles from "@/app/CustomScrollbarComponent.module.css";
 import toast from "react-hot-toast";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import VideoPlayer from "@/app/component/VideoPlayer";
 import CommunityChat from "@/app/component/CommunityChat";
 import { RxCross2 } from "react-icons/rx";
-import { IoReorderThreeOutline } from "react-icons/io5";
-
+import Members from "@/app/component/Members";
+import Link from "next/link";
+import CommunityPost from "@/app/component/CommunityPost";
+import Loader from "@/app/component/Loader";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import Image from "next/image";
 import publicimage from "@/app/assets/public.png";
 import privateimage from "@/app/assets/private.png";
@@ -31,17 +34,11 @@ import mutepic from "@/app/assets/mute.png";
 import logout from "@/app/assets/logout.png";
 import unmutepic from "@/app/assets/unmute.png";
 import memberspic from "@/app/assets/members.png";
-import Members from "@/app/component/Members";
-import Link from "next/link";
-import CommunityPost from "@/app/component/CommunityPost";
-import { useAuthContext } from "../utils/AuthWrapper";
-import { useSocketContext, socketemitfunc } from "../utils/SocketWrapper";
-import { API } from "@/Essentials";
-import Input from "./Input";
-import Loader from "./Loader";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { setPreview } from "@/app/redux/slice/remember";
+import { IoDocument } from "react-icons/io5";
+import ImageComponent from "@/app/component/ImageComponent";
 
-function CommunityFeed({ id }) {
+function Components({ id }) {
   const { data } = useAuthContext();
   const { socket } = useSocketContext();
   const [com, setCom] = useState([]);
@@ -50,14 +47,16 @@ function CommunityFeed({ id }) {
   const [topics, setTopics] = useState([]);
   const [tId, setTId] = useState("");
   // const [messages, setMessages] = useState([]);
+  const [members, setMembers] = useState([]);
   const [shareValue, setShareValue] = useState("");
   const [share, setShare] = useState(false);
   const [currentState, setCurrentState] = useState("post");
   const [memcount, setMemcount] = useState(0);
   const [isTopicJoined, setIsTopicJoined] = useState(false);
   const [topicData, setTopicData] = useState("");
-  const [members, setMembers] = useState([]);
+  const [isjoined, setIsjoined] = useState(false);
   const path = usePathname();
+  const [load, setLoad] = useState(true);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const messages = useSelector((state) => state.comChat.messages);
@@ -69,16 +68,14 @@ function CommunityFeed({ id }) {
   const name = useSelector((state) => state.comChat.name);
   const content = useSelector((state) => state.comChat.content);
   const size = useSelector((state) => state.comChat.size);
-  const [load, setLoad] = useState(true);
+  const preview = useSelector((state) => state.remember.preview);
   const msgs = useSelector((state) => state.comChat.message);
   const [reports, setReports] = useState([]);
   const [comtype, setComtype] = useState("");
   const reply = useSelector((state) => state.comChat.reply);
   const replyId = useSelector((state) => state.comChat.replyId);
-  const [isjoined, setIsjoined] = useState(false);
   const [creatorId, setCreatorId] = useState("");
   const [isMuted, setIsMuted] = useState(false);
-  const preview = useSelector((state) => state.remember.preview);
   const [isMobile, setIsMobile] = useState(null);
 
   useEffect(() => {
@@ -105,34 +102,24 @@ function CommunityFeed({ id }) {
     };
   }, []);
 
-  useEffect(() => {
-    if (isMobile) {
-      if (id) {
-        router.push(`/main/feed/community?id=${id}`);
-      } else {
-        router.push(`/main/feed/community`);
-      }
-    } else {
-      if (id) {
-        router.push(`/main/feed/community/${id}`);
-      } else {
-        router.push(`/main/feed/community`);
-      }
-    }
-  }, [isMobile]);
-
   const fetchCommunity = async () => {
     try {
       setLoad(true);
       const res = await axios.get(`${API}/chats/compostfeed/${data?.id}/${id}`);
-      setMemcount(res?.data?.community?.memberscount);
-      setTitle(res.data.community.title);
-      setTopics(res.data.community.topics);
-      setDp(res.data?.dp);
-      setComtype(res.data?.community?.type);
-      setMembers(res.data?.members);
-      setCreatorId(res.data?.community?.creator._id);
-      setLoad(false);
+      if (res.data.success) {
+        console.log(res.data, "daatttatatta");
+        setTitle(res.data?.community?.title);
+        setMemcount(res?.data?.community?.memberscount);
+        setIsjoined(res.data?.subs);
+        setDp(res.data?.dp);
+        setIsMuted(res.data?.muted[0]?.muted);
+        setMembers(res.data?.members);
+        setTId(res.data?.community?.topics[0]?._id);
+        setComtype(res.data?.community?.type);
+        setCreatorId(res.data?.community?.creator._id);
+        setTopics(res.data?.community.topics);
+        setLoad(false);
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -160,6 +147,19 @@ function CommunityFeed({ id }) {
     try {
       setIsjoined(!isjoined);
       await axios.post(`${API}/chats/unjoin/${data?.id}/${id}`);
+      router.push("/main/feed/community");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const joinmembers = async () => {
+    try {
+      const res = await axios.post(`${API}/chats/joincom/${data?.id}/${id}`);
+      if (res.data.success) {
+        await fetchCommunity();
+        await fetchallPosts();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -172,6 +172,7 @@ function CommunityFeed({ id }) {
       );
       if (res.data?.success) {
         router.push("/main/feed/community");
+        // app / main / feed / community / [id] / page.js;
       }
     } catch (error) {
       console.log(error);
@@ -232,10 +233,7 @@ function CommunityFeed({ id }) {
     try {
       const res = await axios.post(
         `${API}/chats/v1/fetchallposts/${data?.id}/${id}`,
-        {
-          postId: "",
-          topicId: topicid,
-        }
+        { postId: "", topicId: topicid }
       );
 
       if (res.data.success) {
@@ -554,96 +552,170 @@ function CommunityFeed({ id }) {
   return (
     <>
       {optionType === "reports" && (
-        <div className="fixed inset-0 z-40 flex justify-center items-center w-screen h-screen">
-          <div className="flex justify-center flex-col  items-center h-full w-[40%]">
-            <div className="text-xl">Reports</div>
-            <div>
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
+          <div className="bg-white dark:bg-bluedark rounded-lg shadow-lg w-11/12 md:w-1/3 p-6">
+            <div className="text-2xl font-semibold mb-4 text-center">
+              Reports
+            </div>
+            <div className="space-y-3 text-sm">
               <div
-                onClick={() =>
-                  !reports.includes("CopyRight Infringment") &&
-                  setReports([...reports, "CopyRight Infringment"])
-                }
-                className="p-2 px-5 rounded-xl bg-black text-white"
+                onClick={() => {
+                  if (reports.includes("CopyRight Infringement")) {
+                    setReports(
+                      reports.filter(
+                        (report) => report !== "CopyRight Infringement"
+                      )
+                    );
+                  } else {
+                    setReports([...reports, "CopyRight Infringement"]);
+                  }
+                }}
+                className={`p-3 ${
+                  reports.includes("CopyRight Infringement")
+                    ? "bg-[#0077ff85]"
+                    : "bg-gray-200 dark:bg-[#1A1D21]"
+                } rounded-lg  dark:text-white  text-gray-800 cursor-pointer`}
               >
-                CopyRight Infringment
+                CopyRight Infringement
               </div>
               <div
-                onClick={() =>
-                  !reports.includes("Harrasment") &&
-                  setReports([...reports, "Harrasment"])
-                }
-                className="p-2 px-5 rounded-xl bg-black text-white"
+                onClick={() => {
+                  if (reports.includes("Harrassment")) {
+                    setReports(
+                      reports.filter((report) => report !== "Harrassment")
+                    );
+                  } else {
+                    setReports([...reports, "Harrassment"]);
+                  }
+                }}
+                className={`p-3 ${
+                  reports.includes("Harrassment")
+                    ? "bg-[#0077ff85]"
+                    : "bg-gray-200 dark:bg-[#1A1D21]"
+                } rounded-lg  dark:text-white  text-gray-800 cursor-pointer`}
               >
-                Harrasment
+                Harrassment
               </div>
               <div
-                onClick={() =>
-                  !reports.includes("Nudity") &&
-                  setReports([...reports, "Nudity"])
-                }
-                className="p-2 px-5 rounded-xl bg-black text-white"
+                onClick={() => {
+                  if (reports.includes("Nudity")) {
+                    setReports(reports.filter((report) => report !== "Nudity"));
+                  } else {
+                    setReports([...reports, "Nudity"]);
+                  }
+                }}
+                className={`p-3 ${
+                  reports.includes("Nudity")
+                    ? "bg-[#0077ff85]"
+                    : "bg-gray-200 dark:bg-[#1A1D21]"
+                } rounded-lg  dark:text-white  text-gray-800 cursor-pointer`}
               >
                 Nudity
               </div>
               <div
-                onClick={() =>
-                  !reports.includes("Sexual Content") &&
-                  setReports([...reports, "Sexual Content"])
-                }
-                className="p-2 px-5 rounded-xl bg-black text-white"
+                onClick={() => {
+                  if (reports.includes("Sexual Content")) {
+                    setReports(
+                      reports.filter((report) => report !== "Sexual Content")
+                    );
+                  } else {
+                    setReports([...reports, "Sexual Content"]);
+                  }
+                }}
+                className={`p-3 ${
+                  reports.includes("Sexual Content")
+                    ? "bg-[#0077ff85]"
+                    : "bg-gray-200 dark:bg-[#1A1D21]"
+                } rounded-lg  dark:text-white  text-gray-800 cursor-pointer`}
               >
                 Sexual Content
               </div>
               <div
-                onClick={() =>
-                  !reports.includes("Spam") && setReports([...reports, "Spam"])
-                }
-                className="p-2 px-5 rounded-xl bg-black text-white"
+                onClick={() => {
+                  if (reports.includes("Spam")) {
+                    setReports(reports.filter((report) => report !== "Spam"));
+                  } else {
+                    setReports([...reports, "Spam"]);
+                  }
+                }}
+                className={`p-3 ${
+                  reports.includes("Spam")
+                    ? "bg-[#0077ff85]"
+                    : "bg-gray-200 dark:bg-[#1A1D21]"
+                } rounded-lg  dark:text-white  text-gray-800 cursor-pointer`}
               >
                 Spam
               </div>
               <div
-                onClick={() =>
-                  !reports.includes("Violence") &&
-                  setReports([...reports, "Violence"])
-                }
-                className="p-2 px-5 rounded-xl bg-black text-white"
+                onClick={() => {
+                  if (reports.includes("Violence")) {
+                    setReports(
+                      reports.filter((report) => report !== "Violence")
+                    );
+                  } else {
+                    setReports([...reports, "Violence"]);
+                  }
+                }}
+                className={`p-3 ${
+                  reports.includes("Violence")
+                    ? "bg-[#0077ff85]"
+                    : "bg-gray-200 dark:bg-[#1A1D21]"
+                } rounded-lg  dark:text-white  text-gray-800 cursor-pointer`}
               >
                 Violence
               </div>
               <div
-                onClick={() =>
-                  !reports.includes("Hate Speech") &&
-                  setReports([...reports, "Hate Speech"])
-                }
-                className="p-2 px-5 rounded-xl bg-black text-white"
+                onClick={() => {
+                  if (reports.includes("Hate Speech")) {
+                    setReports(
+                      reports.filter((report) => report !== "Hate Speech")
+                    );
+                  } else {
+                    setReports([...reports, "Hate Speech"]);
+                  }
+                }}
+                className={`p-3 ${
+                  reports.includes("Hate Speech")
+                    ? "bg-[#0077ff85]"
+                    : "bg-gray-200 dark:bg-[#1A1D21]"
+                } rounded-lg  dark:text-white  text-gray-800 cursor-pointer`}
               >
                 Hate Speech
               </div>
               <div
-                onClick={() =>
-                  !reports.includes("Other") &&
-                  setReports([...reports, "Other"])
-                }
-                className="p-2 px-5 rounded-xl bg-black text-white"
+                onClick={() => {
+                  if (reports.includes("Other")) {
+                    setReports(reports.filter((report) => report !== "Other"));
+                  } else {
+                    setReports([...reports, "Other"]);
+                  }
+                }}
+                className={`p-3 ${
+                  reports.includes("Other")
+                    ? "bg-[#0077ff85]"
+                    : "bg-gray-200 dark:bg-[#1A1D21]"
+                } rounded-lg  dark:text-white  text-gray-800 cursor-pointer`}
               >
                 Other
               </div>
-
-              <Link
-                href={`/main/feed/community/${id}`}
-                className="p-2 px-5 rounded-xl bg-black text-white"
-              >
-                Cancel
-              </Link>
-
-              <Link
-                onClick={handleReport}
-                href={`/main/feed/community/${id}`}
-                className="p-2 px-5 rounded-xl bg-black text-white"
-              >
-                Submit
-              </Link>
+              <div className="flex justify-between mt-4">
+                <Link
+                  onClick={() => {
+                    setReports([]);
+                  }}
+                  href={`/main/feed/community/${id}`}
+                  className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
+                >
+                  Cancel
+                </Link>
+                <Link
+                  onClick={handleReport}
+                  href={`/main/feed/community/${id}`}
+                  className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
+                >
+                  Submit
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -657,13 +729,15 @@ function CommunityFeed({ id }) {
           className="fixed inset-0 z-50 bg-black/70 flex justify-center items-center w-screen md:inset-0 h-screen max-h-full"
         >
           <div className="relative p-4 flex justify-center items-center w-full max-w-lg max-h-full">
-            <div className="relative bg-white rounded-lg shadow ">
+            <div className="relative bg-white dark:bg-[#1A1D21] rounded-lg shadow ">
               <div className="flex items-center justify-between p-4 md:p-5">
-                <h3 className="text-lg text-gray-500 ">Share course</h3>
+                <h3 className="text-lg text-gray-500 dark:text-white">
+                  Share course
+                </h3>
                 <button
                   type="button"
                   onClick={() => setShare(false)}
-                  className="text-gray-400  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
+                  className="text-gray-400  hover:dark:bg-gray-400  hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center"
                   data-modal-toggle="course-modal"
                 >
                   <svg
@@ -688,15 +762,15 @@ function CommunityFeed({ id }) {
               <div className="px-4 pb-4 md:px-5 md:pb-5">
                 <label
                   for="course-url"
-                  className="text-sm font-medium text-gray-900 mb-2 block"
+                  className="text-sm dark:text-slate-300 font-medium text-gray-900 mb-2 block"
                 >
                   Share the course link below with your friends:
                 </label>
-                <div className="flex justify-center  items-center  border rounded-lg bg-transparent border-gray-300 text-gray-500 mb-4">
+                <div className="flex justify-center  items-center dark:bg-bluelight  border rounded-lg bg-transparent border-gray-300 text-gray-500 mb-4">
                   <input
                     id="course-url"
                     type="text"
-                    className="col-span-6  text-sm  block w-full p-2.5 "
+                    className="col-span-6 rounded-lg  dark:bg-bluelight dark:text-selectdark text-sm  block w-full p-2.5 "
                     value={shareValue}
                     disabled
                     readonly
@@ -765,18 +839,25 @@ function CommunityFeed({ id }) {
       {load ? (
         <Loader />
       ) : (
-        <div className="w-full">
+        <div className="h-screen relative">
           <div className="flex items-center h-[10%] z-20 w-full pl-2  bg-white dark:border-none border-b-[1px] dark:bg-bluedark">
             <div className="flex items-center gap-2 justify-center">
               {/* <div>
-              <MdOutlineArrowBackIosNew className="text-2xl" />
-            </div> */}
-              <div>
-                <img
-                  src={dp}
-                  className="h-[45px] w-[45px] rounded-[14px] bg-slate-300 "
-                />
-              </div>
+                  <MdOutlineArrowBackIosNew className="text-2xl" />
+                </div> */}
+              {/* <div>
+                  <img
+                    src={dp}
+                    className="h-[45px] w-[45px] rounded-[14px] bg-slate-300 "
+                  />
+                </div> */}
+
+              <ImageComponent
+                src={dp}
+                width="w-[45px]"
+                height="h-[45px]"
+                borderRadius="rounded-[17px]"
+              />
             </div>
             <div className="flex justify-between w-full items-center gap-2 px-4">
               <div className="flex gap-1 flex-col">
@@ -1060,101 +1141,101 @@ function CommunityFeed({ id }) {
               )}
 
               {/* {currentState === "chat" && (
-          <div className="w-full  ">
-            <div
-              id="scrollableDiv"
-              style={{
-                overflow: "auto",
-                display: "flex",
-                flexDirection: "column-reverse",
-              }}
-              className=""
-            >
-            
-              <InfiniteScroll
-                dataLength={messages.length}
+              <div className="w-full  ">
+                <div
+                  id="scrollableDiv"
+                  style={{
+                    overflow: "auto",
+                    display: "flex",
+                    flexDirection: "column-reverse",
+                  }}
+                  className=""
+                >
                 
-                style={{
-                  display: "flex",
-                  flexDirection: "column-reverse",
-                  position: "relative",
-                }}
-                loader={<h4>Loading...</h4>}
-                scrollableTarget="scrollableDiv"
-              >
-                <div className="relative h-full w-full">
-                  {messages?.map((d, i) => (
-                    <CommunityChat
-                      d={d}
-                      data={data}
-                      i={i}
-                      dispatch={dispatch}
-                      tId={tId}
-                      socket={socket}
-                      messages={messages}
-                    />
-                  ))}
+                  <InfiniteScroll
+                    dataLength={messages.length}
+                    
+                    style={{
+                      display: "flex",
+                      flexDirection: "column-reverse",
+                      position: "relative",
+                    }}
+                    loader={<h4>Loading...</h4>}
+                    scrollableTarget="scrollableDiv"
+                  >
+                    <div className="relative h-full w-full">
+                      {messages?.map((d, i) => (
+                        <CommunityChat
+                          d={d}
+                          data={data}
+                          i={i}
+                          dispatch={dispatch}
+                          tId={tId}
+                          socket={socket}
+                          messages={messages}
+                        />
+                      ))}
 
-                  <div className="h-full">
-                    {isTopicJoined && (
-                      <div className="bg-pink-300 sticky bottom-0 left-0 h-full">
-                        {reply && replyId && (
-                          <div className="flex justify-between px-4 items-center">
-                            <div>{reply}</div>
-                            <div>
-                              <RxCross2
-                                onClick={() => {
-                                  dispatch(setType(""));
-                                  dispatch(
-                                    setReplyFunction({
-                                      reply: "",
-                                      replyId: "",
-                                    })
-                                  );
-                                }}
-                              />
+                      <div className="h-full">
+                        {isTopicJoined && (
+                          <div className="bg-pink-300 sticky bottom-0 left-0 h-full">
+                            {reply && replyId && (
+                              <div className="flex justify-between px-4 items-center">
+                                <div>{reply}</div>
+                                <div>
+                                  <RxCross2
+                                    onClick={() => {
+                                      dispatch(setType(""));
+                                      dispatch(
+                                        setReplyFunction({
+                                          reply: "",
+                                          replyId: "",
+                                        })
+                                      );
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                            )}
+                            <Input
+                              sendMessages={sendMessage}
+                              sendgif={sendgif}
+                              senderId={data?.id}
+                              sender_fullname={data?.fullname}
+                              handleSend={handleSend}
+                              dispatch={dispatch}
+                              setContent={setContent}
+                              setMessage={setMessage}
+                              image={data?.dp}
+                              setType={setType}
+                              setincommsgs={setincommsgs}
+                              type={type}
+                              reply={replyFunc}
+                              name={name}
+                              setMessages={setMessages}
+                              content={content}
+                              size={size}
+                              message={msgs}
+                            />
+                          </div>
+                        )}
+                        {!isTopicJoined && (
+                          <div className="flex justify-center h-full items-end ">
+                            <div
+                              onClick={() => handleTopicPurchase()}
+                              className="bg-blue-600 flex justify-center items-center text-white w-full p-2 px-5 rounded-lg"
+                            >
+                            
+                              Unlock Topic at ₹{topicData?.price}/month
                             </div>
                           </div>
                         )}
-                        <Input
-                          sendMessages={sendMessage}
-                          sendgif={sendgif}
-                          senderId={data?.id}
-                          sender_fullname={data?.fullname}
-                          handleSend={handleSend}
-                          dispatch={dispatch}
-                          setContent={setContent}
-                          setMessage={setMessage}
-                          image={data?.dp}
-                          setType={setType}
-                          setincommsgs={setincommsgs}
-                          type={type}
-                          reply={replyFunc}
-                          name={name}
-                          setMessages={setMessages}
-                          content={content}
-                          size={size}
-                          message={msgs}
-                        />
                       </div>
-                    )}
-                    {!isTopicJoined && (
-                      <div className="flex justify-center h-full items-end ">
-                        <div
-                          onClick={() => handleTopicPurchase()}
-                          className="bg-blue-600 flex justify-center items-center text-white w-full p-2 px-5 rounded-lg"
-                        >
-                        
-                          Unlock Topic at ₹{topicData?.price}/month
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  </InfiniteScroll>
                 </div>
-              </InfiniteScroll>
-            </div>
-          </div>
-        )} */}
+              </div>
+            )} */}
 
               {currentState === "chat" && (
                 <div className=" w-full px-2">
@@ -1241,47 +1322,47 @@ function CommunityFeed({ id }) {
                   )}
 
                   {/* {isTopicJoined && (
-                <div className="bg-pink-300 absolute mt-[60px]">
-                  {reply && replyId && (
-                    <div className="flex justify-between px-4 items-center">
-                      <div>{reply}</div>
-                      <div>
-                        <RxCross2
-                          onClick={() => {
-                            dispatch(setType(""));
-                            dispatch(
-                              setReplyFunction({
-                                reply: "",
-                                replyId: "",
-                              })
-                            );
-                          }}
-                        />
-                      </div>
+                    <div className="bg-pink-300 absolute mt-[60px]">
+                      {reply && replyId && (
+                        <div className="flex justify-between px-4 items-center">
+                          <div>{reply}</div>
+                          <div>
+                            <RxCross2
+                              onClick={() => {
+                                dispatch(setType(""));
+                                dispatch(
+                                  setReplyFunction({
+                                    reply: "",
+                                    replyId: "",
+                                  })
+                                );
+                              }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      <Input
+                        sendMessages={sendMessage}
+                        sendgif={sendgif}
+                        handleSend={handleSend}
+                        setContent={setContent}
+                        setMessage={setMessage}
+                        senderId={data?.id}
+                        sender_fullname={data?.fullname}
+                        setType={setType}
+                        type={type}
+                        name={name}
+                        setMessages={setMessages}
+                        setincommsgs={setincommsgs}
+                        content={content}
+                        size={size}
+                        message={msgs}
+                        dispatch={dispatch}
+                        image={data?.dp}
+                        reply={replyFunc}
+                      />
                     </div>
-                  )}
-                  <Input
-                    sendMessages={sendMessage}
-                    sendgif={sendgif}
-                    handleSend={handleSend}
-                    setContent={setContent}
-                    setMessage={setMessage}
-                    senderId={data?.id}
-                    sender_fullname={data?.fullname}
-                    setType={setType}
-                    type={type}
-                    name={name}
-                    setMessages={setMessages}
-                    setincommsgs={setincommsgs}
-                    content={content}
-                    size={size}
-                    message={msgs}
-                    dispatch={dispatch}
-                    image={data?.dp}
-                    reply={replyFunc}
-                  />
-                </div>
-              )} */}
+                  )} */}
 
                   {!isTopicJoined && (
                     <>
@@ -1359,4 +1440,4 @@ function CommunityFeed({ id }) {
   );
 }
 
-export default CommunityFeed;
+export default Components;

@@ -7,10 +7,13 @@ import Image from "next/image";
 import Feature from "./component/Feature";
 import Businesses from "./component/Businesses";
 import Search from "./component/SearchPage";
+import Link from "next/link";
+import { useAuthContext } from "./utils/AuthWrapper";
 
 const Page = () => {
   const [state, setState] = useState("main");
   const [scrolled, setScrolled] = useState(false);
+  const { auth } = useAuthContext();
 
   const handleScroll = () => {
     if (window.scrollY > 10) {
@@ -98,12 +101,14 @@ const Page = () => {
             scrolled ? "bg-black bg-opacity-50" : "bg-transparent"
           } bg-clip-padding backdrop-filter backdrop-blur-sm`}
         >
-          <div className="w-[20%]">
-            <Image
-              src={icon}
-              alt="icon"
-              className="h-[40px] w-[40px] object-contain"
-            />
+          <div className="w-[20%] ">
+            <div>
+              <Image
+                src={icon}
+                alt="icon"
+                className="h-[40px] w-[40px] object-contain"
+              />
+            </div>
           </div>
           <div className="flex-grow hidden sm:flex justify-center items-center w-[60%]">
             <div className="bg-gray-400 flex items-center justify-center space-x-10 h-[80%] bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-25 border border-[#444] px-5 py-2 rounded-full">
@@ -134,9 +139,22 @@ const Page = () => {
             >
               <FiSearch size={20} />
             </div>
-            <div className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]">
-              Login
-            </div>
+
+            {auth ? (
+              <Link
+                href={"/main/feed/newForYou"}
+                className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]"
+              >
+                Login
+              </Link>
+            ) : (
+              <Link
+                href={"/login"}
+                className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
 

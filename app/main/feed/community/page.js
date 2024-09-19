@@ -1,6 +1,4 @@
-import Image from 'next/image'
 import React from 'react'
-// import Empty from "../../../assets/Images/community.png";
 
 function page() {
   return (

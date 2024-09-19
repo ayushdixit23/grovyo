@@ -1,32 +1,9 @@
 "use client";
-
+import { API } from "@/Essentials";
+import { useAuthContext } from "@/app/utils/AuthWrapper";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-
-import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
-import { PiHandsClapping } from "react-icons/pi";
-import { VscSend } from "react-icons/vsc";
-import toast from "react-hot-toast";
-import VideoPlayer from "@/app/component/VideoPlayer";
-import CommunityChat from "@/app/component/CommunityChat";
-import { RxCross2 } from "react-icons/rx";
-import { IoDocument, IoReorderThreeOutline } from "react-icons/io5";
-import Link from "next/link";
-
-import reportspic from "@/app/assets/reports.png";
-import memberspic from "@/app/assets/members.png";
-import deletered from "@/app/assets/reddelete.png";
-import mutepic from "@/app/assets/mute.png";
-import unmutepic from "@/app/assets/unmute.png";
-import styles from "@/app/CustomScrollbarComponent.module.css";
-import logout from "@/app/assets/logout.png";
-import Members from "@/app/component/Members";
-import { useRouter, useSearchParams } from "next/navigation";
-import CommunityPost from "@/app/component/CommunityPost";
-import { useAuthContext } from "../utils/AuthWrapper";
-import { socketemitfunc, useSocketContext } from "../utils/SocketWrapper";
-import Input from "./Input";
+import { socketemitfunc, useSocketContext } from "@/app/utils/SocketWrapper";
 import {
   setContent,
   setMessage,
@@ -34,14 +11,48 @@ import {
   setReplyFunction,
   setType,
   setincommsgs,
-} from "../redux/slice/comChatSlice";
-import { API } from "@/Essentials";
-import Loader from "./Loader";
+} from "@/app/redux/slice/comChatSlice";
+import { useDispatch, useSelector } from "react-redux";
+import styles from "@/app/CustomScrollbarComponent.module.css";
+import moment from "moment";
+// import "@vidstack/react/player/styles/default/theme.css";
+// import "@vidstack/react/player/styles/default/layouts/video.css";
+// import { MediaPlayer, MediaProvider } from "@vidstack/react";
+// import {
+//   defaultLayoutIcons,
+//   DefaultVideoLayout,
+// } from "@vidstack/react/player/layouts/default";
+import Input from "@/app/component/Input";
+import toast from "react-hot-toast";
+import CommunityChat from "@/app/component/CommunityChat";
+import { RxCross2 } from "react-icons/rx";
+import { IoDocument, IoReorderThreeOutline } from "react-icons/io5";
+import Link from "next/link";
+import Members from "@/app/component/Members";
+import { useRouter, useSearchParams } from "next/navigation";
+import CommunityPost from "@/app/component/CommunityPost";
+import Loader from "@/app/component/Loader";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Image from "next/image";
-import { setPathForSharing } from "../redux/slice/remember";
+import reportspic from "@/app/assets/reports.png";
+import memberspic from "@/app/assets/members.png";
+import publicimage from "@/app/assets/public.png";
+import privateimage from "@/app/assets/private.png";
+import deletered from "@/app/assets/reddelete.png";
+import mutepic from "@/app/assets/mute.png";
+import unmutepic from "@/app/assets/unmute.png";
+import logout from "@/app/assets/logout.png";
+import { MdOutlineArrowBackIosNew } from "react-icons/md";
+import { setPathForSharing, setPreview } from "@/app/redux/slice/remember";
+import ImageComponent from "@/app/component/ImageComponent";
+// import memberspic from "../../../../assets/members.svg";
+// const SearchExperienceComNewForYou = ({ params }) => (
+//   <SearchContextManager apiKey={"BhiAZ1DOyIHjZlGxrtP2NozVsmpJ27Kz"}>
+//     <Components params={params} />
+//   </SearchContextManager>
+// );
 
-function Newforyou({ id }) {
+function Components({ id }) {
   const { data } = useAuthContext();
   const { socket } = useSocketContext();
   const [com, setCom] = useState([]);
@@ -55,56 +66,56 @@ function Newforyou({ id }) {
   const [memcount, setMemcount] = useState(0);
   const [currentState, setCurrentState] = useState("post");
   const [shareValue, setShareValue] = useState("");
+  const [loading, setLoading] = useState(true);
   const [share, setShare] = useState(false);
-  const preview = useSelector((state) => state.remember.preview);
   const postsRefs = useRef({});
+  const [members, setMembers] = useState([]);
+  const preview = useSelector((state) => state.remember.preview);
   const [options, setOptions] = useState(false);
   const [refsSet, setRefsSet] = useState(false);
   const searchParams = useSearchParams();
   const optionType = searchParams.get("type");
   const [creatorId, setCreatorId] = useState("");
-  const [members, setMembers] = useState([]);
   const router = useRouter();
   const [comtype, setComtype] = useState("");
+  const [desc, setDesc] = useState("");
   const reply = useSelector((state) => state.comChat.reply);
   const replyId = useSelector((state) => state.comChat.replyId);
   const [reports, setReports] = useState([]);
   const [isMuted, setIsMuted] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [desc, setDesc] = useState("");
   const messages = useSelector((state) => state.comChat.messages);
-  const [isMobile, setIsMobile] = useState(null);
-  const compath = useSelector((state) => state.remember.compath);
 
-  useEffect(() => {
-    const initialWidth = window.innerWidth;
-    if (initialWidth > 821) {
-      setIsMobile(false);
-    } else {
-      setIsMobile(true);
-    }
-  }, []);
+  //   useEffect(() => {
+  //     const initialWidth = window.innerWidth;
+  //     if (initialWidth > 821) {
+  //       setIsMobile(false);
+  //     } else {
+  //       setIsMobile(true);
+  //     }
+  //   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const initialWidth = window.innerWidth;
-      if (initialWidth > 821) {
-        setIsMobile(false);
-      } else {
-        setIsMobile(true);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  console.log("comming from testNewforYou");
 
-  useEffect(() => {
-    if (refsSet) {
-      router.push(compath);
-    }
-  }, [isMobile, compath]);
+  //   useEffect(() => {
+  //     const handleResize = () => {
+  //       const initialWidth = window.innerWidth;
+  //       if (initialWidth > 821) {
+  //         setIsMobile(false);
+  //       } else {
+  //         setIsMobile(true);
+  //       }
+  //     };
+  //     window.addEventListener("resize", handleResize);
+  //     return () => {
+  //       window.removeEventListener("resize", handleResize);
+  //     };
+  //   }, []);
+
+  //   useEffect(() => {
+  //     if (refsSet) {
+  //       router.push(compath);
+  //     }
+  //   }, [isMobile, compath]);
 
   const checkAndSetRefs = () => {
     if (
@@ -120,49 +131,49 @@ function Newforyou({ id }) {
     return () => clearTimeout(timeoutId);
   }, [com, checkAndSetRefs]);
 
-  useEffect(() => {
-    if (refsSet) {
-      setTimeout(() => {
-        const hash = window.location.hash.substring(1); // Get the hash part of the URL
-        if (hash && postsRefs.current[hash]) {
-          if (isMobile) {
-            if (id) {
-              dispatch(
-                setPathForSharing(`/main/feed/newForYou?id=${id}#${hash}`)
-              );
-            } else {
-              dispatch(setPathForSharing(`/main/feed/newForYou`));
-            }
-          } else {
-            if (id) {
-              dispatch(setPathForSharing(`/main/feed/newForYou/${id}#${hash}`));
-            } else {
-              dispatch(setPathForSharing(`/main/feed/newForYou`));
-            }
-          }
-          postsRefs.current[hash].scrollIntoView({ behavior: "smooth" });
-        } else {
-          if (isMobile) {
-            if (id) {
-              dispatch(setPathForSharing(`/main/feed/newForYou?id=${id}`));
-            } else {
-              dispatch(setPathForSharing(`/main/feed/newForYou`));
-            }
-          } else {
-            if (id) {
-              dispatch(setPathForSharing(`/main/feed/newForYou/${id}`));
-            } else {
-              dispatch(setPathForSharing(`/main/feed/newForYou`));
-            }
-          }
+  //   useEffect(() => {
+  //     if (refsSet) {
+  //       setTimeout(() => {
+  //         const hash = window.location.hash.substring(1); // Get the hash part of the URL
+  //         if (hash && postsRefs.current[hash]) {
+  //           if (isMobile) {
+  //             if (id) {
+  //               dispatch(
+  //                 setPathForSharing(`/main/feed/newForYou?id=${id}#${hash}`)
+  //               );
+  //             } else {
+  //               dispatch(setPathForSharing(`/main/feed/newForYou`));
+  //             }
+  //           } else {
+  //             if (id) {
+  //               dispatch(setPathForSharing(`/main/feed/newForYou/${id}#${hash}`));
+  //             } else {
+  //               dispatch(setPathForSharing(`/main/feed/newForYou`));
+  //             }
+  //           }
+  //           postsRefs.current[hash].scrollIntoView({ behavior: "smooth" });
+  //         } else {
+  //           if (isMobile) {
+  //             if (id) {
+  //               dispatch(setPathForSharing(`/main/feed/newForYou?id=${id}`));
+  //             } else {
+  //               dispatch(setPathForSharing(`/main/feed/newForYou`));
+  //             }
+  //           } else {
+  //             if (id) {
+  //               dispatch(setPathForSharing(`/main/feed/newForYou/${id}`));
+  //             } else {
+  //               dispatch(setPathForSharing(`/main/feed/newForYou`));
+  //             }
+  //           }
 
-          console.log(
-            "Hash not found or refs not set correctly in delayed check"
-          );
-        }
-      }, 1000);
-    }
-  }, [refsSet, isMobile]);
+  //           console.log(
+  //             "Hash not found or refs not set correctly in delayed check"
+  //           );
+  //         }
+  //       }, 1000);
+  //     }
+  //   }, [refsSet, isMobile]);
 
   const dispatch = useDispatch();
   const type = useSelector((state) => state.comChat.type);
@@ -179,9 +190,9 @@ function Newforyou({ id }) {
         setMembers(res.data.members);
         setMemcount(res?.data?.community?.memberscount);
         setIsMuted(res.data.muted[0]?.muted);
+        setDesc(res.data.community?.desc);
         setTitle(res.data.community.title);
         setTId(res.data.community.topics[0]._id);
-        setDesc(res.data.community?.desc);
         setComtype(res.data?.community?.type);
         setCreatorId(res.data?.community?.creator._id);
         setTopics(res.data.community.topics);
@@ -208,7 +219,7 @@ function Newforyou({ id }) {
   const handleReport = async () => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/chats/unjoin/${data?.id}`, {
+        await axios.post(`${API}/chats/v1/reporting/${data?.id}`, {
           data: reports,
           id: id,
           type: "Community",
@@ -224,7 +235,7 @@ function Newforyou({ id }) {
   const unjoinmembers = async () => {
     try {
       setIsjoined(!isjoined);
-      await axios.post(`${API}/unjoinmember/${data?.id}/${id}`);
+      await axios.post(`${API}/chats/unjoin/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -286,6 +297,7 @@ function Newforyou({ id }) {
   const handleLike = async (postId, liked) => {
     try {
       // setLike(true);
+      console.log("first");
       const randomNumber = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
       socketemitfunc({
         event: "adviews",
@@ -331,28 +343,6 @@ function Newforyou({ id }) {
     }
   };
 
-  const fetchallPosts = async (topicid = "") => {
-    try {
-      const res = await axios.post(
-        `${API}/chats/v1/fetchallposts/${data?.id}/${id}`,
-        {
-          postId: "",
-          topicId: topicid,
-        }
-      );
-      console.log(res.data, "ads lle ");
-      if (res.data.success) {
-        setIsTopicJoined(res.data?.topicjoined);
-        if (res.data.topic) {
-          setTopicData(res.data.topic);
-        }
-        setCom(res.data?.mergedData);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const fetchTopics = async (topicId) => {
     try {
       const res = await axios.get(
@@ -392,6 +382,25 @@ function Newforyou({ id }) {
       if (res.data.success) {
         await fetchCommunity();
         await fetchallPosts();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchallPosts = async (topicid = "") => {
+    try {
+      const res = await axios.post(
+        `${API}/chats/v1/fetchallposts/${data?.id}/${id}`,
+        { postId: "", topicId: topicid }
+      );
+      console.log(res.data, "ads lle ");
+      if (res.data.success) {
+        setIsTopicJoined(res.data?.topicjoined);
+        if (res.data.topic) {
+          setTopicData(res.data.topic);
+        }
+        setCom(res.data?.mergedData);
       }
     } catch (error) {
       console.log(error);
@@ -780,14 +789,14 @@ function Newforyou({ id }) {
                   onClick={() => {
                     setReports([]);
                   }}
-                  href={`/main/feed/newForYou?id=${id}`}
+                  href={`/main/feed/newForYou/${id}`}
                   className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
                 >
                   Cancel
                 </Link>
                 <Link
                   onClick={handleReport}
-                  href={`/main/feed/newForYou?id=${id}`}
+                  href={`/main/feed/newForYou/${id}`}
                   className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
                 >
                   Submit
@@ -797,7 +806,6 @@ function Newforyou({ id }) {
           </div>
         </div>
       )}
-
       {/* <div onClick={() => setOptions(false)} className={`fixed inset-0 ${options ? "z-40" : "-z-20"} w-screen h-screen`}></div> */}
       {share && (
         <div
@@ -917,29 +925,27 @@ function Newforyou({ id }) {
       ) : (
         <>
           {isjoined ? (
-            <div className="w-full">
+            <div className=" w-full h-[100vh]">
               {/* header */}
-              <div className="flex items-center justify-between h-[10%] px-2 min-w-full dark:bg-bluedark  border-b dark:border-[#131619]">
+              <div className="flex items-center h-[10%] px-2 w-full dark:bg-bluedark  border-b dark:border-[#131619]">
                 <div className="flex items-center gap-2 justify-center">
-                  {/* <div>
-                  <MdOutlineArrowBackIosNew className="text-2xl" />
-                </div> */}
-                  <div className="h-[46px] w-[46px]">
-                    <img
-                      src={dp}
-                      className="w-full h-full object-cover rounded-[14px] bg-red-300 "
-                    />
-                  </div>
-                  <div className="flex gap-1 flex-col">
+                  <ImageComponent
+                    src={dp}
+                    width="w-[46px]"
+                    height="h-[46px]"
+                    borderRadius="rounded-[18px]"
+                  />
+                </div>
+                <div className="flex pl-2 justify-between w-full items-center gap-2">
+                  <div className="flex gap-1 flex-col ">
                     <div className="font-bold">{title}</div>
                     <div className="text-[12px]">
                       {memcount} {memcount > 1 ? "Members" : "Member"}
                     </div>
                   </div>
-                </div>
-                <div className="flex  items-center gap-2">
+
                   <div className="flex justify-center items-center  gap-2">
-                    <div className="flex justify-center  items-center ">
+                    <div className="flex justify-center items-center ">
                       {members?.map((m, y) => (
                         <div
                           style={{
@@ -947,11 +953,11 @@ function Newforyou({ id }) {
                             zIndex: `${y}`,
                           }}
                           key={y}
-                          className="w-[32px] h-[32px]"
+                          className="w-[32px]  h-[32px]"
                         >
                           <img
                             src={m?.dp}
-                            className="h-full object-contain rounded-[22px] w-full"
+                            className="h-full border-2 border-black object-cover rounded-[12px] w-full"
                           />
                         </div>
                       ))}
@@ -959,7 +965,7 @@ function Newforyou({ id }) {
                         style={{
                           marginLeft: `-${members.length + 10}px`,
                         }}
-                        className="h-[32px] z-10 flex justify-center items-center text-[10px] text-[#686B6E] rounded-[22px] bg-[#1A1D21] w-[32px]"
+                        className="h-[32px] border-2 border-black z-10 flex justify-center items-center text-[10px] text-[#686B6E] rounded-[12px] bg-[#1A1D21] w-[32px]"
                       >
                         <div>+</div>
                         <div>{memcount - members.length}</div>
@@ -981,7 +987,7 @@ function Newforyou({ id }) {
                         <div className="flex flex-col font-semibold h-full">
                           <Link
                             className="rounded-lg flex items-center justify-start"
-                            href={`/main/feed/newForYou?id=${id}&type=members`}
+                            href={`/main/feed/newForYou/${id}?type=members`}
                           >
                             <div className="flex justify-center  items-center">
                               <Image
@@ -996,7 +1002,7 @@ function Newforyou({ id }) {
                           {creatorId !== data?.id && (
                             <Link
                               className="flex items-center justify-start"
-                              href={`/main/feed/newForYou?id=${id}&type=reports`}
+                              href={`/main/feed/newForYou/${id}?type=reports`}
                             >
                               <div className="flex justify-center  items-center">
                                 <Image
@@ -1140,7 +1146,7 @@ function Newforyou({ id }) {
                 </div>
               </div>
 
-              <div className="flex gap-2  border-b h-[8%] dark:border-[#131619]">
+              <div className="flex gap-2 border-b h-[8%] dark:border-[#131619]">
                 <div className="flex gap-6 ml-4 text-sm">
                   {topics.map((d, i) => (
                     <div
@@ -1369,19 +1375,26 @@ function Newforyou({ id }) {
               )}
             </div>
           ) : (
-            <div className="h-screen w-full relative">
+            <div className="h-screen relative">
               {/* header */}
               <div className="flex items-center h-[10%] border-b-[1px] px-2 w-full dark:bg-bluedark">
                 <div className="flex items-center gap-2 justify-center">
                   {/* <div>
-                  <MdOutlineArrowBackIosNew className="text-2xl" />
-                </div> */}
-                  <div>
+                    <MdOutlineArrowBackIosNew className="text-2xl" />
+                  </div> */}
+                  {/* <div>
                     <img
                       src={dp}
                       className="h-[45px] w-[55px] rounded-[14px] bg-slate-300 "
                     />
-                  </div>
+                  </div> */}
+
+                  <ImageComponent
+                    src={dp}
+                    width="w-[46px]"
+                    height="h-[46px]"
+                    borderRadius="rounded-[18px]"
+                  />
                 </div>
                 <div className="flex pl-2 justify-between w-full items-center gap-2">
                   <div className="flex gap-1 flex-col">
@@ -1403,7 +1416,7 @@ function Newforyou({ id }) {
                         >
                           <img
                             src={m?.dp}
-                            className="h-full object-contain rounded-[22px] w-full"
+                            className="h-full object-cover border-2 border-black rounded-[12px] w-full"
                           />
                         </div>
                       ))}
@@ -1411,7 +1424,7 @@ function Newforyou({ id }) {
                         style={{
                           marginLeft: `-${members.length + 10}px`,
                         }}
-                        className="h-[32px] z-10 flex justify-center items-center text-[10px] bg-[#DEE1E5] text-[#686B6E] rounded-[22px] dark:bg-[#1A1D21] w-[32px]"
+                        className="h-[32px] z-10 flex border-2 border-black justify-center items-center text-[10px] bg-[#DEE1E5] text-[#686B6E] rounded-[12px] dark:bg-[#1A1D21] w-[32px]"
                       >
                         <div>+</div>
                         <div>{memcount - members.length}</div>
@@ -1544,14 +1557,21 @@ function Newforyou({ id }) {
                 </div>
               </div>
 
-              <div className="w-full z-10 h-[100%] justify-center items-center backdrop-blur-sm flex absolute bottom-0 ">
-                <div className="flex bg-[#F1F1F1] max-w-[90%] shadow-custom-lg dark:bg-[#1A1D21] justify-center items-center px-4 gap-4 py-4 rounded-2xl flex-col">
-                  <div className=" mt-3 w-[60px] h-[60px] rounded-[18px]">
+              <div className="w-full z-10 h-[100%] justify-center px-3 backdrop-blur-sm items-center flex absolute bottom-0 ">
+                <div className="flex bg-[#F1F1F1] sm:min-w-[350px] shadow-custom-lg sm:max-w-[400px] dark:bg-[#1A1D21] justify-center items-center px-4 gap-4 py-4 rounded-2xl flex-col">
+                  {/* <div className=" mt-3 w-[60px] h-[60px] rounded-[18px]">
                     <img
                       src={dp}
                       className="h-full w-full rounded-[19px] bg-slate-300 "
                     />
-                  </div>
+                  </div> */}
+
+                  <ImageComponent
+                    src={dp}
+                    width="w-[60px]"
+                    height="h-[60px]"
+                    borderRadius="rounded-[20px]"
+                  />
 
                   <div className="sm:text-[18px] text-center font-semibold">
                     {title}
@@ -1638,4 +1658,4 @@ function Newforyou({ id }) {
   );
 }
 
-export default Newforyou;
+export default Components;

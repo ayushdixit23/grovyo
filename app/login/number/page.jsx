@@ -1,7 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { auth, database } from "../../../firebase.config";
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { database } from "../../../firebase.config";
 import { Toaster, toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { ref, set, onValue, remove } from "firebase/database";
@@ -11,7 +10,7 @@ import { CgSpinner } from "react-icons/cg";
 import Cookies from "js-cookie";
 import { useAuthContext } from "../../utils/AuthWrapper";
 import { QRCodeSVG } from "qrcode.react";
-import { RiLoader4Line, RiLockPasswordLine } from "react-icons/ri";
+import { RiLoader4Line } from "react-icons/ri";
 import { decryptaes, reportErrorToServer } from "@/app/utils/useful";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail, MdOutlineMailOutline } from "react-icons/md";
@@ -234,7 +233,6 @@ function page() {
   }, []);
 
   const cookiesSetter = async (res) => {
-    console.log(res.data, "da");
     try {
       const expirationDate = new Date();
       expirationDate.setDate(expirationDate.getDate() + 30);
@@ -249,6 +247,7 @@ function page() {
       });
 
       setData(res.data?.data);
+      setAuth(true);
       toast.success("Login Successfull!");
       router.push("/main/feed/newForYou");
     } catch (error) {
@@ -293,11 +292,9 @@ function page() {
 
   const handleCreate = async () => {
     setLoad(true);
-
     try {
-      const res = await axios.post(`${API}/login/webcheckemail`, {
+      const res = await axios.post(`${API}/login/loginOnlyWithEmail`, {
         email,
-        password: pass,
       });
       if (res.data.success) {
         if (res.data.userexists) {
@@ -627,7 +624,8 @@ function page() {
                       <div className="py-2 ">
                         <div
                           //onClick={onSignup}
-                          onClick={sendOtpEmail}
+                          // onClick={sendOtpEmail}
+                          onClick={handleCreate}
                           className="h-[50px] w-full select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
                         >
                           {loading && (

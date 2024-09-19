@@ -159,38 +159,23 @@ export default function CommunityLayout({ children }) {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
-      if (id) {
-        router.push(`/main/feed/community?id=${id}`)
-      } else {
-        router.push(`/main/feed/community`)
-      }
-    } else {
-      if (id) {
-        router.push(`/main/feed/community/${id}`)
-      } else {
-        router.push(`/main/feed/community`)
-      }
-    }
-  }, [isMobile])
-
-  useEffect(() => {
     if (data.id) {
       comfetchfeed();
     }
   }, [data]);
 
   useEffect(() => {
-    if (id) {
-      dispatch(setHide(true));
-    }
-  }, [searchParams, id]);
-
-  useEffect(() => {
-    if (!searchParams.get("id")) {
+    if (!searchParams.get("id") || !isMobile) {
       dispatch(setHide(false));
     }
-  }, [searchParams, id]);
+  }, [searchParams, id, isMobile]);
+
+
+  useEffect(() => {
+    if (id && isMobile) {
+      dispatch(setHide(true));
+    }
+  }, [searchParams, id, isMobile]);
 
   return (
     <>
@@ -310,151 +295,148 @@ export default function CommunityLayout({ children }) {
           </div>
         </div>
       )}
+
       {/*if no data*/}
-      {!id && (
-        <div className="w-[100%] h-screen bg-white dark:bg-graydark flex pn:max-md:justify-center ">
-          <div className=" select-none lg:w-[27%] md:w-[32%] sm:w-[37%] flex flex-col items-center md:border-r-2 border-[#f7f7f7] dark:border-[#131619] self-end ">
-            {/* <div className="h-[100vh] pn:max-sm:h-[16vh]"></div> */}
-            <div className="h-[10vh] pn:max-sm:h-[16vh]"></div>
+      <div className="w-[100%] h-screen bg-white dark:bg-graydark flex flex-col sm:flex-row pn:max-md:justify-center ">
+        <div className={`${id && isMobile ? "hidden" : "select-none lg:w-[27%] md:w-[32%] sm:w-[37%] flex flex-col items-center md:border-r-2 border-[#f7f7f7] dark:border-[#131619] self-end"} `}>
+          {/* <div className="h-[100vh] pn:max-sm:h-[16vh]"></div> */}
+          <div className="h-[10vh] pn:max-sm:h-[16vh]"></div>
 
-            <div
-              className={`h-[92vh] pn:max-sm:h-[87vh] w-full ${styles.customScrollbar} overflow-auto `}
-            >
+          <div
+            className={`h-[92vh] pn:max-sm:h-[87vh] w-full ${styles.customScrollbar} overflow-auto `}
+          >
 
 
-              {/* mt-[125px] */}
+            {/* mt-[125px] */}
 
-              {/* post 1*/}
-              <div className=" w-full mt-[25px] rounded-xl mb-[4px] px-2">
-                <div className="bg-[#151315] bg-com-image bg-cover bg-center w-full rounded-2xl p-2 text-white text-center h-[160px] flex flex-col justify-evenly items-center">
-                  <div className="font-semibold">Don't have a community ?</div>
-                  <div className="text-[12px] w-[85%]">
-                    Create your own community and invite your friends and people
-                  </div>
-                  <a
-                    target="_blank"
-                    href={`https://workspace.grovyo.com/aybdhw?zyxxpht=${data?.id}&path=/main/community/createCommunity`}
-                    className="bg-white text-[12px] text-black mt-2 p-2 rounded-xl"
-                  >
-                    Create now
-                  </a>
+            {/* post 1*/}
+            <div className=" w-full mt-[25px] rounded-xl mb-[4px] px-2">
+              <div className="bg-[#151315] bg-com-image bg-cover bg-center w-full rounded-2xl p-2 text-white text-center h-[160px] flex flex-col justify-evenly items-center">
+                <div className="font-semibold">Don't have a community ?</div>
+                <div className="text-[12px] w-[85%]">
+                  Create your own community and invite your friends and people
                 </div>
+                <a
+                  target="_blank"
+                  href={`https://workspace.grovyo.com/aybdhw?zyxxpht=${data?.id}&path=/main/community/createCommunity`}
+                  className="bg-white text-[12px] text-black mt-2 p-2 rounded-xl"
+                >
+                  Create now
+                </a>
               </div>
-              <>
+            </div>
+            <>
 
-                {loading ? <>
+              {loading ? <>
 
-                  <div className="bg-slate-50 dark:bg-graydark  pn:max-sm:p-3 w-[100%]  p-4 pn:max-md:rounded-2xl">
-                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                          <div className="h-[45px] w-[45px] rounded-2xl bg-slate-200 dark:bg-slate-400  animate-pulse "></div>
-                        </div>
-
-                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                          <div className="flex flex-col space-y-1 items-center">
-                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          </div>
-                        </div>
-
-                        <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
+                <div className="bg-slate-50 dark:bg-graydark  pn:max-sm:p-3 w-[100%]  p-4 pn:max-md:rounded-2xl">
+                  <div className="w-[100%] rounded-2xl flex flex-col items-center ">
+                    <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
+                      <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
+                        <div className="h-[45px] w-[45px] rounded-2xl bg-slate-200 dark:bg-slate-400  animate-pulse "></div>
                       </div>
-                    </div>
 
-                    <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                      <div className="flex flex-row justify-start w-[100%]">
-                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
+                      <div className="flex flex-col w-[100%] justify-center px-2 items-start">
+                        <div className="flex flex-col space-y-1 items-center">
+                          <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                          <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                        </div>
                       </div>
+
+                      <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
                     </div>
                   </div>
-                  <div className="w-full border-b-[0.5px] "></div>
-                  <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
-                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                          <div className="h-[35px] w-[35px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
-                        </div>
 
-                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                          <div className="flex flex-col space-y-1 items-center">
-                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          </div>
-                        </div>
-
-                        <div className="cursor-pointer bg-slate-200 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
-                      </div>
-                    </div>
-
-                    <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                      <div className="flex flex-row justify-start w-[100%]">
-                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
-                      </div>
+                  <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
+                  <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
+                    <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
+                    <div className="flex flex-row justify-start w-[100%]">
+                      <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
                     </div>
                   </div>
-                  <div className="w-full border-b-[0.5px] "></div>
-                  <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
-                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                          <div className="h-[25px] w-[25px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
-                        </div>
-
-                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                          <div className="flex flex-col space-y-1 items-center">
-                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          </div>
-                        </div>
-
-                        <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
+                </div>
+                <div className="w-full border-b-[0.5px] "></div>
+                <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
+                  <div className="w-[100%] rounded-2xl flex flex-col items-center ">
+                    <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
+                      <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
+                        <div className="h-[35px] w-[35px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
                       </div>
-                    </div>
 
-                    <div className="h-[300px]  sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                      <div className="flex flex-row justify-start w-[100%]">
-                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
+                      <div className="flex flex-col w-[100%] justify-center px-2 items-start">
+                        <div className="flex flex-col space-y-1 items-center">
+                          <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                          <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                        </div>
                       </div>
+
+                      <div className="cursor-pointer bg-slate-200 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
                     </div>
                   </div>
-                  <div className="w-full border-b-[0.5px] "></div>
-                </>
-                  :
 
-                  <>
-                    {feed.map((d, i) => (
-                      <div key={i} className={`pn:max-md:rounded-2xl w-full px-2`}>
-                        <Link
-                          onClick={() => {
-                            if (isMobile) {
-                              dispatch(setHide(true));
-                            }
-                          }}
-                          href={
-                            isMobile
-                              ? `/main/feed/community?id=${d?.community?._id}`
-                              : `/main/feed/community/${d?.community?._id}`
+                  <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
+                  <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
+                    <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
+                    <div className="flex flex-row justify-start w-[100%]">
+                      <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full border-b-[0.5px] "></div>
+                <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
+                  <div className="w-[100%] rounded-2xl flex flex-col items-center ">
+                    <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
+                      <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
+                        <div className="h-[25px] w-[25px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
+                      </div>
+
+                      <div className="flex flex-col w-[100%] justify-center px-2 items-start">
+                        <div className="flex flex-col space-y-1 items-center">
+                          <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                          <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                        </div>
+                      </div>
+
+                      <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
+                    </div>
+                  </div>
+
+                  <div className="h-[300px]  sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
+                  <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
+                    <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
+                    <div className="flex flex-row justify-start w-[100%]">
+                      <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
+                      <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="w-full border-b-[0.5px] "></div>
+              </>
+                :
+
+                <>
+                  {feed.map((d, i) => (
+                    <div key={i} className={`pn:max-md:rounded-2xl w-full px-2`}>
+                      <Link
+                        onClick={() => {
+                          if (isMobile) {
+                            dispatch(setHide(true));
                           }
-                          className="w-[100%] bg-white dark:bg-graydark flex px-1 justify-between items-center "
-                        >
-                          <div className="h-[55px] pn:max-sm:h-[50px] flex flex-row items-center ">
-                            {/* <div className=" flex object-scale-down items-center ">
+                        }}
+                        href={
+                          `/main/feed/community?id=${d?.community?._id}`}
+                        className="w-[100%] bg-white dark:bg-graydark flex px-1 justify-between items-center "
+                      >
+                        <div className="h-[55px] pn:max-sm:h-[50px] flex flex-row items-center ">
+                          {/* <div className=" flex object-scale-down items-center ">
                               <img
                                 src={d?.dps}
                                 className="h-[35px] w-[35px] dark:ring-[#273142] pn:max-sm:w-[30px] pn:max-sm:h-[30px] 
@@ -462,27 +444,27 @@ export default function CommunityLayout({ children }) {
                               />
                             </div> */}
 
-                            <ImageComponent src={d?.dps} width="w-[35px] pn:max-sm:w-[30px]" borderRadius="pn:max-sm:rounded-[13px] rounded-[15px]" height="h-[35px] pn:max-sm:h-[30px] " />
+                          <ImageComponent src={d?.dps} width="w-[35px] pn:max-sm:w-[30px]" borderRadius="pn:max-sm:rounded-[13px] rounded-[15px]" height="h-[35px] pn:max-sm:h-[30px] " />
 
-                            {/* Community name */}
-                            <div className="flex flex-col justify-center px-2 items-start ">
-                              <div className="flex flex-col space-y-[0.5px] justify-start items-start">
-                                <div className="text-[14px] dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
-                                  {d?.community?.title}
+                          {/* Community name */}
+                          <div className="flex flex-col justify-center px-2 items-start ">
+                            <div className="flex flex-col space-y-[0.5px] justify-start items-start">
+                              <div className="text-[14px] dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
+                                {d?.community?.title}
+                              </div>
+                              <div className="flex">
+                                <div className="text-[10px] dark:text-[#f5f5f5] pn:max-sm:text-[10px] font-medium text-[#5C5C5C]">
+                                  By {d?.community?.creator?.fullname}
                                 </div>
-                                <div className="flex">
-                                  <div className="text-[10px] dark:text-[#f5f5f5] pn:max-sm:text-[10px] font-medium text-[#5C5C5C]">
-                                    By {d?.community?.creator?.fullname}
-                                  </div>
-                                  <div className="dark:text-[#f5f5f5] text-[10px] font-medium text-[#5C5C5C]">
-                                    {/* . {formatDate(d?.posts?.createdAt)} */}
-                                  </div>
+                                <div className="dark:text-[#f5f5f5] text-[10px] font-medium text-[#5C5C5C]">
+                                  {/* . {formatDate(d?.posts?.createdAt)} */}
                                 </div>
                               </div>
                             </div>
                           </div>
-                          {/* Animation of join nd bell */}
-                          {/* {d?.subs === "unsubscribed" ? (
+                        </div>
+                        {/* Animation of join nd bell */}
+                        {/* {d?.subs === "unsubscribed" ? (
                      
                       ) : (
                         <div
@@ -490,92 +472,88 @@ export default function CommunityLayout({ children }) {
                           className="  rounded-xl text-[14px] text-[#5c5c5c]"
                         ></div>
                       )} */}
-                          {/* <div className="bg-[#f5f5f5] p-2 px-4 rounded-xl pn:max-sm:text-[12px] font-medium text-[14px] text-[#5c5c5c]">
+                        {/* <div className="bg-[#f5f5f5] p-2 px-4 rounded-xl pn:max-sm:text-[12px] font-medium text-[14px] text-[#5c5c5c]">
                   Join
                 </div> */}
-                        </Link>
+                      </Link>
 
-                        {/* POst */}
-                        <Link
-                          onClick={() => {
-                            if (isMobile) {
-                              dispatch(setHide(true));
-                            }
-                          }}
-                          href={
-                            isMobile
-                              ? `/main/feed/community?id=${d?.community?._id}`
-                              : `/main/feed/community/${d?.community?._id}`
+                      {/* POst */}
+                      <Link
+                        onClick={() => {
+                          if (isMobile) {
+                            dispatch(setHide(true));
                           }
+                        }}
+                        href={`/main/feed/community?id=${d?.community?._id}`}
 
+                      >
+                        <div
+                          className={`bg-[#f4f4f4]  dark:bg-graydark rounded-xl ${d?.urls.length > 1
+                            ? "overflow-x-scroll no-scrollbar"
+                            : null
+                            } flex flex-col justify-center items-center `}
                         >
-                          <div
-                            className={`bg-[#f4f4f4]  dark:bg-graydark rounded-xl ${d?.urls.length > 1
-                              ? "overflow-x-scroll no-scrollbar"
-                              : null
-                              } flex flex-col justify-center items-center `}
-                          >
-                            <div className="flex w-full">
-                              {d?.urls.length > 1 ? (
-                                <>
-                                  {d?.urls.map((f, i) => (
-                                    <div className="sm:h-[260px] flex min-w-full lg:min-w-[360px] h-[300px] w-full rounded-xl ">
-                                      {f?.type.startsWith("image") ? (
-                                        <div className="h-full w-full relative p-1">
-                                          <img
+                          <div className="flex w-full">
+                            {d?.urls.length > 1 ? (
+                              <>
+                                {d?.urls.map((f, i) => (
+                                  <div className="sm:h-[260px] flex min-w-full lg:min-w-[360px] h-[300px] w-full rounded-xl ">
+                                    {f?.type.startsWith("image") ? (
+                                      <div className="h-full w-full relative p-1">
+                                        <img
+                                          src={f?.content}
+                                          className="h-full object-contain bg-black rounded-2xl w-full"
+                                        />
+                                        <div className="absolute top-3 right-2">
+                                          <div className="w-9  h-9 flex justify-center items-center text-sm font-medium dark:bg-graydark bg-white text-black rounded-full">
+                                            {i + 1}/{d?.urls.length}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <div className="p-1 h-full">
+                                        <div className=" rounded-2xl relative h-full overflow-hidden">
+                                          <div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
+
+                                          <VideoPlayer
+                                            key={i}
                                             src={f?.content}
-                                            className="h-full object-contain bg-black rounded-2xl w-full"
+                                            poster={f?.thumbnail}
+                                            width={"100%"}
+                                            height={"h-full"}
                                           />
+
+                                          {/* <video controls src={f?.content}></video> */}
                                           <div className="absolute top-3 right-2">
-                                            <div className="w-9  h-9 flex justify-center items-center text-sm font-medium dark:bg-graydark bg-white text-black rounded-full">
+                                            <div
+                                              className="w-9 flex justify-center items-center text-sm font-medium h-9 
+                                                 text-black rounded-full"
+                                            >
                                               {i + 1}/{d?.urls.length}
                                             </div>
                                           </div>
                                         </div>
-                                      ) : (
-                                        <div className="p-1 h-full">
-                                          <div className=" rounded-2xl relative h-full overflow-hidden">
-                                            <div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
-
-                                            <VideoPlayer
-                                              key={i}
-                                              src={f?.content}
-                                              poster={f?.thumbnail}
-                                              width={"100%"}
-                                              height={"h-full"}
-                                            />
-
-                                            {/* <video controls src={f?.content}></video> */}
-                                            <div className="absolute top-3 right-2">
-                                              <div
-                                                className="w-9 flex justify-center items-center text-sm font-medium h-9 
-                                                 text-black rounded-full"
-                                              >
-                                                {i + 1}/{d?.urls.length}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                  ))}
-                                </>
-                              ) : (
-                                <div className="sm:h-[260px] h-[300px] w-full rounded-xl ">
-                                  {
-                                    d?.urls[0]?.type.startsWith("image") ? (
-                                      <div className="h-full w-full p-1">
-                                        <img
-                                          src={d?.urls[0]?.content}
-                                          className="h-full object-contain bg-black rounded-2xl w-full"
-                                        />
                                       </div>
-                                    ) : (
-                                      <div className="p-1 h-full">
-                                        <div className=" rounded-2xl h-full overflow-hidden relative ">
-                                          <div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
+                                    )}
+                                  </div>
+                                ))}
+                              </>
+                            ) : (
+                              <div className="sm:h-[260px] h-[300px] w-full rounded-xl ">
+                                {
+                                  d?.urls[0]?.type.startsWith("image") ? (
+                                    <div className="h-full w-full p-1">
+                                      <img
+                                        src={d?.urls[0]?.content}
+                                        className="h-full object-contain bg-black rounded-2xl w-full"
+                                      />
+                                    </div>
+                                  ) : (
+                                    <div className="p-1 h-full">
+                                      <div className=" rounded-2xl h-full overflow-hidden relative ">
+                                        <div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
 
-                                          {/* <MediaPlayer
+                                        {/* <MediaPlayer
                                             src={d?.urls[0]?.content}
                                             onQualitiesChange={480}
                                             className=" z-0 h-[300px] sm:h-[260px]"
@@ -586,123 +564,123 @@ export default function CommunityLayout({ children }) {
                                               icons={defaultLayoutIcons}
                                             />
                                           </MediaPlayer> */}
-                                          <VideoPlayer
-                                            key={i}
-                                            src={d?.urls[0]?.content}
-                                            poster={d?.urls[0]?.thumbnail}
-                                            width={"100%"}
-                                            height={"h-full"}
-                                          />
+                                        <VideoPlayer
+                                          key={i}
+                                          src={d?.urls[0]?.content}
+                                          poster={d?.urls[0]?.thumbnail}
+                                          width={"100%"}
+                                          height={"h-full"}
+                                        />
 
-                                          {/* <video controls src={d?.urls[0]?.content}></video> */}
-                                        </div>
+                                        {/* <video controls src={d?.urls[0]?.content}></video> */}
                                       </div>
-                                    )
-                                    // <video src={f?.content} controls className="max-h-full" />
-                                  }
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="py-1 px-2 w-[100%] flex flex-col">
-                              <div className="text-[14px] pn:max-sm:text-[12px] dark:text-[#f5f5f5] text-black w-[100%] font-medium text-ellipsis overflow-hidden px-1">
-                                {d?.posts[0]?.title.length > 50 ? `${d?.posts[0]?.title.slice(0, 50)}...` : d?.posts[0]?.title}
-                              </div>
-                            </div>
-                          </div>
-                        </Link>
-
-                        <div className="px-2 w-full h-[40px] flex justify-between items-center">
-                          <div className="flex flex-row gap-2 items-center  w-[100%]">
-                            <div className="flex flex-row justify-start mt-1 ">
-                              <div className="h-[20px] w-[20px] rounded-lg ">
-                                <img
-                                  src={d?.memdps[0]}
-                                  className="object-cover rounded-2xl w-full h-full "
-                                />
-                              </div>
-                              <div className="h-[20px] w-[20px] rounded-lg -ml-[10px] ">
-                                {" "}
-                                <img
-                                  src={d?.memdps[1]}
-                                  className="object-cover rounded-2xl w-full h-full "
-                                />
-                              </div>
-                              <div className="h-[20px] w-[20px] rounded-lg  -ml-[10px]  ">
-                                {" "}
-                                <img
-                                  src={d?.memdps[2]}
-                                  className="object-cover rounded-2xl w-full h-full "
-                                />
-                              </div>
-                              <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] ">
-                                {" "}
-                                <img
-                                  src={d?.memdps[3]}
-                                  className="object-cover rounded-2xl w-full h-full "
-                                />
-                              </div>
-                            </div>
-                            <div className="text-[12px] self-center mt-1 font-medium">
-                              {d?.posts?.community?.memberscount}
-                              <span> Member</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2">
-
-
-                            <div
-                              onClick={() => handleLike(d?.posts?.[0]?._id, d?.liked)}
-                              className={`dark:bg-graydark flex justify-center rounded-xl ${d?.liked ? "dark:text-white " : ""
-                                } items-center border w-full dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
-                            >
-
-                              {d?.liked ? (
-                                <Image src={liked} className="w-[43px] " />
-                              ) : theme == "dark" ? (
-                                <Image src={darkunlike} className="w-[43px] " />
-                              ) : (
-                                <Image src={lightunlike} className="w-[43px] " />
-                              )}
-                              <div className="text-[12px]">{d?.posts[0]?.likes}</div>
-                            </div>
-
-
-                            <div
-                              onClick={() => {
-                                if (isMobile) {
-                                  setShareValue(
-                                    `https://grovyo.com/main/feed/newForYou?id=${d?.community?._id}#${d?.posts?.[0]?._id}`
-                                  );
-                                } else {
-                                  setShareValue(
-                                    `https://grovyo.com/main/feed/newForYou/${d?.community?._id}#${d?.posts?.[0]?._id}`
-                                  );
+                                    </div>
+                                  )
+                                  // <video src={f?.content} controls className="max-h-full" />
                                 }
+                              </div>
+                            )}
+                          </div>
 
-                                setShare(true);
-                              }}
-                              className="rounded-xl bg-[#f4f4f4] border dark:border-[#1A1D21] p-2 dark:bg-bluedark "
-                            >
-                              <VscSend />
+                          <div className="py-1 px-2 w-[100%] flex flex-col">
+                            <div className="text-[14px] pn:max-sm:text-[12px] dark:text-[#f5f5f5] text-black w-[100%] font-medium text-ellipsis overflow-hidden px-1">
+                              {d?.posts[0]?.title.length > 50 ? `${d?.posts[0]?.title.slice(0, 50)}...` : d?.posts[0]?.title}
                             </div>
                           </div>
                         </div>
-                        <div className="w-full border-b-[0.5px] mt-2"></div>
-                      </div>
-                    ))}
-                  </>
-                }
-              </>
-            </div>
+                      </Link>
 
-            {/* POst */}
+                      <div className="px-2 w-full h-[40px] flex justify-between items-center">
+                        <div className="flex flex-row gap-2 items-center  w-[100%]">
+                          <div className="flex flex-row justify-start mt-1 ">
+                            <div className="h-[20px] w-[20px] rounded-lg ">
+                              <img
+                                src={d?.memdps[0]}
+                                className="object-cover rounded-2xl w-full h-full "
+                              />
+                            </div>
+                            <div className="h-[20px] w-[20px] rounded-lg -ml-[10px] ">
+                              {" "}
+                              <img
+                                src={d?.memdps[1]}
+                                className="object-cover rounded-2xl w-full h-full "
+                              />
+                            </div>
+                            <div className="h-[20px] w-[20px] rounded-lg  -ml-[10px]  ">
+                              {" "}
+                              <img
+                                src={d?.memdps[2]}
+                                className="object-cover rounded-2xl w-full h-full "
+                              />
+                            </div>
+                            <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] ">
+                              {" "}
+                              <img
+                                src={d?.memdps[3]}
+                                className="object-cover rounded-2xl w-full h-full "
+                              />
+                            </div>
+                          </div>
+                          <div className="text-[12px] self-center mt-1 font-medium">
+                            {d?.posts?.community?.memberscount}
+                            <span> Member</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+
+
+                          <div
+                            onClick={() => handleLike(d?.posts?.[0]?._id, d?.liked)}
+                            className={`dark:bg-graydark flex justify-center rounded-xl ${d?.liked ? "dark:text-white " : ""
+                              } items-center border w-full dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
+                          >
+
+                            {d?.liked ? (
+                              <Image src={liked} className="w-[43px] " />
+                            ) : theme == "dark" ? (
+                              <Image src={darkunlike} className="w-[43px] " />
+                            ) : (
+                              <Image src={lightunlike} className="w-[43px] " />
+                            )}
+                            <div className="text-[12px]">{d?.posts[0]?.likes}</div>
+                          </div>
+
+
+                          <div
+                            onClick={() => {
+                              if (isMobile) {
+                                setShareValue(
+                                  `https://grovyo.com/main/feed/newForYou?id=${d?.community?._id}#${d?.posts?.[0]?._id}`
+                                );
+                              } else {
+                                setShareValue(
+                                  `https://grovyo.com/main/feed/newForYou/${d?.community?._id}#${d?.posts?.[0]?._id}`
+                                );
+                              }
+
+                              setShare(true);
+                            }}
+                            className="rounded-xl bg-[#f4f4f4] border dark:border-[#1A1D21] p-2 dark:bg-bluedark "
+                          >
+                            <VscSend />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="w-full border-b-[0.5px] mt-2"></div>
+                    </div>
+                  ))}
+                </>
+              }
+            </>
           </div>
 
-          <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] pn:max-sm:hidden"> {children}</div>
+          {/* POst */}
         </div>
-      )}
-      {id && <CommunityFeed id={id} />}
+        {id && <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] "><CommunityFeed id={id} /></div>}
+        {!id && <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] pn:max-sm:hidden"> {children}</div>}
+
+      </div>
+
     </>
   );
 }

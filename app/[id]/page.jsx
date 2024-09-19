@@ -4,15 +4,17 @@ import React, { useEffect, useState } from "react";
 import styles from "../CustomScrollbarComponent.module.css";
 import Link from "next/link";
 import { MdVerified } from "react-icons/md";
-import Bio from "../component/Bio";
-import Community from "../component/Community";
-import Store from "../component/Store";
+import dynamic from "next/dynamic";
+const Bio = dynamic(() => import("../component/Bio"));
+const Community = dynamic(() => import("../component/Community"));
+const Store = dynamic(() => import("../component/Store"));
 import { useAuthContext } from "../utils/AuthWrapper";
 import { IoIosChatbubbles } from "react-icons/io";
 import { API } from "@/Essentials";
 import toast from "react-hot-toast";
 import Loader from "../component/Loader";
 import { useSocketContext } from "../utils/SocketWrapper";
+import NotFound from "../component/NotFound";
 import FooterComponent from "../component/FooterComponent";
 
 const page = ({ params }) => {
@@ -52,7 +54,7 @@ const page = ({ params }) => {
 
       if (res.data.success) {
         setBio(res.data?.data?.userDetails);
-        setComs(res.data?.data?.communitywithDps);
+        setComs(res.data?.data?.communityWithDps);
         setProduct(res.data?.data?.productsWithDps);
         setIsLoading(false);
         setIsRequested(res.data?.data?.userDetails?.isRequested);
@@ -364,35 +366,7 @@ const page = ({ params }) => {
   }
 
   if (user === false) {
-    return (
-      <>
-        <section className="relative z-10 flex select-none flex-col justify-center w-full  items-center bg-black h-screen py-[120px]">
-          <div className="container w-full">
-            <div className="w-full flex">
-              <div className="w-full px-4">
-                <div className="w-full text-center">
-                  <h2 className="mb-2 text-[50px] font-bold leading-none text-white sm:text-[80px] md:text-[100px]">
-                    404
-                  </h2>
-                  <h4 className="mb-3 text-[22px] font-semibold leading-tight text-white">
-                    Oops! That page can't be found
-                  </h4>
-                  <p className="mb-8 text-lg text-white">
-                    The page you are looking for it maybe deleted
-                  </p>
-                  <a
-                    href="/"
-                    className="inline-block rounded-lg border border-white px-8 py-3 text-center text-base font-semibold text-white transition hover:bg-blue-400 hover:text-primary"
-                  >
-                    Go To Home
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
-    );
+    return <NotFound />;
   }
 
   return (
@@ -407,7 +381,7 @@ const page = ({ params }) => {
           className={`text-black dark:text-white overflow-auto no-scrollbar relative w-full h-full `}
         >
           {/* header */}
-          <div className=" w-full flex justify-between absolute h-[100px] items-center px-2 sm:px-5">
+          <div className=" w-full flex justify-between absolute h-[100px]  items-center px-2 sm:px-5">
             <div className="flex px-2  rounded-3xl relative bg-[#545454] text-white shadow-lg shadow-white-500/5 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-15 ring-1 ring-[#f4f4f452] py-2">
               <div className="h-[45px] w-[45px] ring-2 ring-[#fff] rounded-2xl">
                 <img
@@ -434,13 +408,13 @@ const page = ({ params }) => {
                   {(bio?.isCommunity || bio?.isStore) && (
                     <div
                       className={`flex ${
-                        bio?.isAbout && (product.length > 0 || coms.length > 0)
+                        bio?.isAbout && (product.length > 0 || coms?.length > 0)
                           ? "p-1 py-2 px-4"
                           : "p-0"
                       }  -ml-36 bg-[#545454] rounded-full relative pn:max-sm:hidden text-white shadow-lg shadow-white-500/5 bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ring-1 ring-[#f4f4f452] `}
                     >
                       {bio?.isAbout &&
-                        (product.length > 0 || coms.length > 0) && (
+                        (product.length > 0 || coms?.length > 0) && (
                           <Link
                             href={"#about"}
                             onClick={() => {
@@ -454,24 +428,16 @@ const page = ({ params }) => {
                               onClick={() => {
                                 setState(1);
                               }}
-                              className={`font-semibold ${
-                                state === 1
-                                  ? "text-[#ffffff] [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-white"
-                                  : "text-black dark:text-white"
-                              }`}
+                              className={`font-medium text-md relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:ease-in-out after:bottom-0 after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white`}
                             >
                               About
                             </div>
                             <div
-                              className={`font-semibold ${
-                                state === 1
-                                  ? "h-[2px] w-[20px] bg-white rounded-t-md"
-                                  : "hidden"
-                              }`}
+                              className={`font-medium hover:h-[2px] hover:w-[20px] hover:bg-white hover:rounded-t-md `}
                             ></div>
                           </Link>
                         )}
-                      {bio?.isCommunity && coms.length > 0 && (
+                      {bio?.isCommunity && coms?.length > 0 && (
                         <Link
                           href={"#community"}
                           onClick={() => {
@@ -487,10 +453,8 @@ const page = ({ params }) => {
                             onClick={() => {
                               setState(2);
                             }}
-                            className={`font-semibold  ${
-                              state === 2
-                                ? "text-[#ffffff] [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-white"
-                                : "text-black dark:text-white"
+                            className={`font-medium text-md relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:ease-in-out after:bottom-0 after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white  ${
+                              state === 2 ? "" : "text-white  dark:text-white"
                             }`}
                           >
                             Community
@@ -498,13 +462,13 @@ const page = ({ params }) => {
                           <div
                             className={`${
                               state === 2
-                                ? "h-[2px] w-[20px] bg-white rounded-t-md ml-6"
-                                : "hidden"
+                                ? "h-[2px] w-[20px] bg-white rounded-t-md ml-"
+                                : ""
                             }`}
                           ></div>
                         </Link>
                       )}
-                      {bio?.isStore && product.length > 0 && (
+                      {bio?.isStore && product?.length > 0 && (
                         <Link
                           href={"#store"}
                           onClick={() => {
@@ -515,10 +479,10 @@ const page = ({ params }) => {
                           }`}
                         >
                           <div
-                            className={`font-semibold ${
+                            className={` font-medium text-md relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:ease-in-out after:bottom-0 after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white ${
                               state === 3
                                 ? " text-[#ffffff] [text-shadow:1px_1px_2px_var(--tw-shadow-color)] shadow-white"
-                                : " text-black dark:text-white"
+                                : " text-white dark:text-white"
                             }`}
                           >
                             Store
@@ -527,7 +491,7 @@ const page = ({ params }) => {
                             className={`${
                               state === 3
                                 ? "h-[2px] w-[20px] bg-white rounded-t-md"
-                                : "hidden"
+                                : ""
                             }`}
                           ></div>
                         </Link>
@@ -633,7 +597,7 @@ const page = ({ params }) => {
           <div className="flex flex-col ">
             {/* community */}
             <div>
-              {coms.length > 0 ? (
+              {coms?.length > 0 ? (
                 <div
                   id="community"
                   className="flex flex-col w-[100%] justify-center py-4 space-y-2 items-center"
@@ -681,17 +645,6 @@ const page = ({ params }) => {
           <div className=" flex justify-center  pt-2 items-center px-4">
             <div className=" w-[100%] h-[1px] rounded-full"></div>
           </div>
-          {/* <div className="py-2 items-center  justify-between  pn:max-sm:justify-center px-2 w-[100%] mt-4 flex flex-row">
-            <div className="flex flex-row items-center pn:max-sm:hidden gap-2">
-              <Image src={Logo} className="h-[35px] w-[35px] rounded-2xl" />
-              <div className="text-black dark:text-white text-[18px] font-bold font-sans">
-                Grovyo
-              </div>
-            </div>
-            <div className="text-black dark:text-white text-[12px] text-center font-sans">
-              Copyright © 2023 Grovyo Templates | All Rights Reserved
-            </div>
-          </div> */}
 
           <FooterComponent />
         </div>
