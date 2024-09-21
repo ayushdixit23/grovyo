@@ -34,10 +34,13 @@ function Search({ setShow }) {
   const { data: user } = useAuthContext();
   const [click, setClick] = useState(1);
 
+  const abortController = new AbortController();
+
   const searchAll = async () => {
     try {
       const res = await axios.post(
-        `${API}/search/websearchforall/${user?.id}?query=${text}`
+        `${API}/search/websearchforall/${user?.id}?query=${text}`,
+        { signal: abortController.signal } // Pass the abort signal
       );
       if (res.data.success) {
         setAll({
@@ -47,14 +50,24 @@ function Search({ setShow }) {
         });
       }
     } catch (error) {
-      console.log(error);
+      if (axios.isCancel(error)) {
+        console.log("Request canceled", error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
+
+  // // Call this function when you want to abort the request
+  // const abortSearch = () => {
+  //   abortController.abort(); // Abort the API request
+  // };
 
   const searchforposts = async () => {
     try {
       const res = await axios.post(
-        `${API}/search/websearchforposts?query=${text}`
+        `${API}/search/websearchforposts?query=${text}`,
+        { signal: abortController.signal }
       );
       if (res.data.success) {
         console.log(res.data, "posts");
@@ -67,7 +80,9 @@ function Search({ setShow }) {
 
   const recentSearchs = async () => {
     try {
-      const res = await axios.get(`${API}/search/webSearch/${user?.id}`);
+      const res = await axios.get(`${API}/search/webSearch/${user?.id}`, {
+        signal: abortController.signal,
+      });
       if (res.data.success) {
         setRecentSearchCom(res.data?.recentSearchesCommunity);
         setRecentSearchPro(res.data?.recentSearchesProsites);
@@ -79,7 +94,9 @@ function Search({ setShow }) {
 
   const handleSearch = async () => {
     setActive("prosites"), setClick(1);
-    const res = await axios.post(`${API}/search/websearchpros?query=${text}`);
+    const res = await axios.post(`${API}/search/websearchpros?query=${text}`, {
+      signal: abortController.signal,
+    });
     if (res?.data?.data?.success) {
       const pros = res?.data?.data?.pros;
       const dp = res?.data?.data?.dps;
@@ -93,7 +110,8 @@ function Search({ setShow }) {
   const comm = async () => {
     setActive("communities"), setClick(2);
     const res = await axios.post(
-      `${API}/search/searchcoms/${user?.id}?query=${text}`
+      `${API}/search/searchcoms/${user?.id}?query=${text}`,
+      { signal: abortController.signal }
     );
     if (res?.data?.success) {
       const pros = res?.data?.data?.coms;
@@ -140,10 +158,11 @@ function Search({ setShow }) {
       console.log(error);
     }
   };
+
   const removeSearchCom = async (sId) => {
     try {
       const res = await axios.post(
-        `${API}/search/removeRecentSrcCommunity/${user?.id}`,
+        `${API}/search/removeRecentSearchCommunity/${user?.id}`,
         { sId }
       );
       if (res.data.success) {
@@ -157,7 +176,7 @@ function Search({ setShow }) {
   const removeSearchPro = async (sId) => {
     try {
       const res = await axios.post(
-        `${API}/search/removeRecentSrcProsite/${user?.id}`,
+        `${API}/search/removeRecentSearchProsite/${user?.id}`,
         { sId }
       );
       if (res.data.success) {

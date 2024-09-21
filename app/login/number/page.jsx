@@ -27,7 +27,7 @@ function page() {
   const [loading, setLoading] = useState(false);
   const emailOtpRef = useRef();
   const [showOTP, setShowOTP] = useState(false);
-  const { f, setData } = useAuthContext();
+  const { setAuth, setData } = useAuthContext();
   const otpInputRef = useRef(null);
   const [change, setChange] = useState(1);
   const [email, setEmail] = useState("fsayush100@gmail.com");

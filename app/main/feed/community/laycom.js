@@ -36,27 +36,16 @@ export default function CommunityLayout({ children }) {
   const id = searchParams.get("id");
   const [isMobile, setIsMobile] = useState(false);
   const [share, setShare] = useState(false);
-  const router = useRouter()
-  const [loading, setLoading] = useState(true)
-  const { theme } = useTheme()
-  const [datas, setDatas] = useState([])
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const { theme } = useTheme();
+  const [datas, setDatas] = useState([]);
 
   const calculateDif = (a, b) => {
     const dif = Number(b) - Number(a);
     const per = Math.ceil((dif / b) * 100);
     return per;
   };
-
-  useEffect(() => {
-    axios.get(`${API}/web/products`).then((res) => {
-      // axios.get(`http://192.168.1.6:7190/api/web/products`).then((res) => {
-      console.log(res.data, "data")
-      setDatas(res.data?.products)
-    }).catch((err) => {
-      console.log(err)
-    })
-  }, [])
-
 
   const dispatch = useDispatch();
   const [feed, setFeed] = useState([]);
@@ -66,16 +55,16 @@ export default function CommunityLayout({ children }) {
       const res = await axios.get(`${API}/chats/joinedcomnews3/${data?.id}`);
       console.log(res.data, "com");
       setFeed(res.data?.mergedData);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
   const handleLike = async (postId, liked) => {
-    console.log(postId, "hj")
+    console.log(postId, "hj");
     try {
       const randomNumber = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
       socketemitfunc({
@@ -89,7 +78,9 @@ export default function CommunityLayout({ children }) {
         },
         socket,
       });
-      const res = await axios.post(`${API}/post/likepost/${data?.id}/${postId}`);
+      const res = await axios.post(
+        `${API}/post/likepost/${data?.id}/${postId}`
+      );
       if (res.data.success) {
         // if (liked) {
         //   const newwfeed = feed.map((d) =>
@@ -170,7 +161,6 @@ export default function CommunityLayout({ children }) {
     }
   }, [searchParams, id, isMobile]);
 
-
   useEffect(() => {
     if (id && isMobile) {
       dispatch(setHide(true));
@@ -189,7 +179,9 @@ export default function CommunityLayout({ children }) {
           <div className="relative p-4 flex justify-center items-center w-full max-w-lg max-h-full">
             <div className="relative bg-white dark:bg-[#0d0d0d] rounded-lg shadow ">
               <div className="flex items-center justify-between p-4 md:p-5">
-                <h3 className="text-lg text-gray-500 dark:text-white ">Share Post</h3>
+                <h3 className="text-lg text-gray-500 dark:text-white ">
+                  Share Post
+                </h3>
                 <button
                   type="button"
                   onClick={() => setShare(false)}
@@ -223,8 +215,10 @@ export default function CommunityLayout({ children }) {
                 >
                   Share the Post link below with your friends:
                 </label>
-                <div className="flex justify-center dark:bg-bluelight  items-center
-								  border rounded-lg bg-transparent border-gray-300 text-gray-500 mb-4">
+                <div
+                  className="flex justify-center dark:bg-bluelight  items-center
+								  border rounded-lg bg-transparent border-gray-300 text-gray-500 mb-4"
+                >
                   <input
                     id="post-url"
                     type="text"
@@ -298,15 +292,19 @@ export default function CommunityLayout({ children }) {
 
       {/*if no data*/}
       <div className="w-[100%] h-screen bg-white dark:bg-graydark flex flex-col sm:flex-row pn:max-md:justify-center ">
-        <div className={`${id && isMobile ? "hidden" : "select-none lg:w-[27%] md:w-[32%] sm:w-[37%] flex flex-col items-center md:border-r-2 border-[#f7f7f7] dark:border-[#131619] self-end"} `}>
+        <div
+          className={`${
+            id && isMobile
+              ? "hidden"
+              : "select-none lg:w-[27%] md:w-[32%] sm:w-[37%] flex flex-col items-center md:border-r-2 border-[#f7f7f7] dark:border-[#131619] self-end"
+          } `}
+        >
           {/* <div className="h-[100vh] pn:max-sm:h-[16vh]"></div> */}
           <div className="h-[10vh] pn:max-sm:h-[16vh]"></div>
 
           <div
             className={`h-[92vh] pn:max-sm:h-[87vh] w-full ${styles.customScrollbar} overflow-auto `}
           >
-
-
             {/* mt-[125px] */}
 
             {/* post 1*/}
@@ -326,113 +324,113 @@ export default function CommunityLayout({ children }) {
               </div>
             </div>
             <>
-
-              {loading ? <>
-
-                <div className="bg-slate-50 dark:bg-graydark  pn:max-sm:p-3 w-[100%]  p-4 pn:max-md:rounded-2xl">
-                  <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                    <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                      <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                        <div className="h-[45px] w-[45px] rounded-2xl bg-slate-200 dark:bg-slate-400  animate-pulse "></div>
-                      </div>
-
-                      <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                        <div className="flex flex-col space-y-1 items-center">
-                          <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+              {loading ? (
+                <>
+                  <div className="bg-slate-50 dark:bg-graydark  pn:max-sm:p-3 w-[100%]  p-4 pn:max-md:rounded-2xl">
+                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
+                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
+                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
+                          <div className="h-[45px] w-[45px] rounded-2xl bg-slate-200 dark:bg-slate-400  animate-pulse "></div>
                         </div>
-                      </div>
 
-                      <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
-                    </div>
-                  </div>
-
-                  <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                  <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                    <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                    <div className="flex flex-row justify-start w-[100%]">
-                      <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full border-b-[0.5px] "></div>
-                <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
-                  <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                    <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                      <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                        <div className="h-[35px] w-[35px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
-                      </div>
-
-                      <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                        <div className="flex flex-col space-y-1 items-center">
-                          <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
+                          <div className="flex flex-col space-y-1 items-center">
+                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                          </div>
                         </div>
-                      </div>
 
-                      <div className="cursor-pointer bg-slate-200 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
+                        <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
+                      </div>
+                    </div>
+
+                    <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
+                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
+                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
+                      <div className="flex flex-row justify-start w-[100%]">
+                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
+                      </div>
                     </div>
                   </div>
-
-                  <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                  <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                    <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                    <div className="flex flex-row justify-start w-[100%]">
-                      <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full border-b-[0.5px] "></div>
-                <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
-                  <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                    <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                      <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                        <div className="h-[25px] w-[25px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
-                      </div>
-
-                      <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                        <div className="flex flex-col space-y-1 items-center">
-                          <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                  <div className="w-full border-b-[0.5px] "></div>
+                  <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
+                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
+                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
+                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
+                          <div className="h-[35px] w-[35px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
                         </div>
+
+                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
+                          <div className="flex flex-col space-y-1 items-center">
+                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                          </div>
+                        </div>
+
+                        <div className="cursor-pointer bg-slate-200 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
                       </div>
+                    </div>
 
-                      <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
+                    <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
+                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
+                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
+                      <div className="flex flex-row justify-start w-[100%]">
+                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
+                      </div>
                     </div>
                   </div>
+                  <div className="w-full border-b-[0.5px] "></div>
+                  <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
+                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
+                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
+                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
+                          <div className="h-[25px] w-[25px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
+                        </div>
 
-                  <div className="h-[300px]  sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                  <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                    <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                    <div className="flex flex-row justify-start w-[100%]">
-                      <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                      <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
+                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
+                          <div className="flex flex-col space-y-1 items-center">
+                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
+                          </div>
+                        </div>
+
+                        <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
+                      </div>
+                    </div>
+
+                    <div className="h-[300px]  sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
+                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
+                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
+                      <div className="flex flex-row justify-start w-[100%]">
+                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
+                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="w-full border-b-[0.5px] "></div>
-              </>
-                :
-
+                  <div className="w-full border-b-[0.5px] "></div>
+                </>
+              ) : (
                 <>
                   {feed.map((d, i) => (
-                    <div key={i} className={`pn:max-md:rounded-2xl w-full px-2`}>
+                    <div
+                      key={i}
+                      className={`pn:max-md:rounded-2xl w-full px-2`}
+                    >
                       <Link
                         onClick={() => {
                           if (isMobile) {
                             dispatch(setHide(true));
                           }
                         }}
-                        href={
-                          `/main/feed/community?id=${d?.community?._id}`}
+                        href={`/main/feed/community?id=${d?.community?._id}`}
                         className="w-[100%] bg-white dark:bg-graydark flex px-1 justify-between items-center "
                       >
                         <div className="h-[55px] pn:max-sm:h-[50px] flex flex-row items-center ">
@@ -444,7 +442,12 @@ export default function CommunityLayout({ children }) {
                               />
                             </div> */}
 
-                          <ImageComponent src={d?.dps} width="w-[35px] pn:max-sm:w-[30px]" borderRadius="pn:max-sm:rounded-[13px] rounded-[15px]" height="h-[35px] pn:max-sm:h-[30px] " />
+                          <ImageComponent
+                            src={d?.dps}
+                            width="w-[35px] pn:max-sm:w-[30px]"
+                            borderRadius="pn:max-sm:rounded-[13px] rounded-[15px]"
+                            height="h-[35px] pn:max-sm:h-[30px] "
+                          />
 
                           {/* Community name */}
                           <div className="flex flex-col justify-center px-2 items-start ">
@@ -485,13 +488,13 @@ export default function CommunityLayout({ children }) {
                           }
                         }}
                         href={`/main/feed/community?id=${d?.community?._id}`}
-
                       >
                         <div
-                          className={`bg-[#f4f4f4]  dark:bg-graydark rounded-xl ${d?.urls.length > 1
-                            ? "overflow-x-scroll no-scrollbar"
-                            : null
-                            } flex flex-col justify-center items-center `}
+                          className={`bg-[#f4f4f4]  dark:bg-graydark rounded-xl ${
+                            d?.urls.length > 1
+                              ? "overflow-x-scroll no-scrollbar"
+                              : null
+                          } flex flex-col justify-center items-center `}
                         >
                           <div className="flex w-full">
                             {d?.urls.length > 1 ? (
@@ -584,7 +587,9 @@ export default function CommunityLayout({ children }) {
 
                           <div className="py-1 px-2 w-[100%] flex flex-col">
                             <div className="text-[14px] pn:max-sm:text-[12px] dark:text-[#f5f5f5] text-black w-[100%] font-medium text-ellipsis overflow-hidden px-1">
-                              {d?.posts[0]?.title.length > 50 ? `${d?.posts[0]?.title.slice(0, 50)}...` : d?.posts[0]?.title}
+                              {d?.posts[0]?.title.length > 50
+                                ? `${d?.posts[0]?.title.slice(0, 50)}...`
+                                : d?.posts[0]?.title}
                             </div>
                           </div>
                         </div>
@@ -627,14 +632,14 @@ export default function CommunityLayout({ children }) {
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
-
-
                           <div
-                            onClick={() => handleLike(d?.posts?.[0]?._id, d?.liked)}
-                            className={`dark:bg-graydark flex justify-center rounded-xl ${d?.liked ? "dark:text-white " : ""
-                              } items-center border w-full dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
+                            onClick={() =>
+                              handleLike(d?.posts?.[0]?._id, d?.liked)
+                            }
+                            className={`dark:bg-graydark flex justify-center rounded-xl ${
+                              d?.liked ? "dark:text-white " : ""
+                            } items-center border w-full dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
                           >
-
                             {d?.liked ? (
                               <Image src={liked} className="w-[43px] " />
                             ) : theme == "dark" ? (
@@ -642,9 +647,10 @@ export default function CommunityLayout({ children }) {
                             ) : (
                               <Image src={lightunlike} className="w-[43px] " />
                             )}
-                            <div className="text-[12px]">{d?.posts[0]?.likes}</div>
+                            <div className="text-[12px]">
+                              {d?.posts[0]?.likes}
+                            </div>
                           </div>
-
 
                           <div
                             onClick={() => {
@@ -670,17 +676,24 @@ export default function CommunityLayout({ children }) {
                     </div>
                   ))}
                 </>
-              }
+              )}
             </>
           </div>
 
           {/* POst */}
         </div>
-        {id && <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] "><CommunityFeed id={id} /></div>}
-        {!id && <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] pn:max-sm:hidden"> {children}</div>}
-
+        {id && (
+          <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] ">
+            <CommunityFeed id={id} />
+          </div>
+        )}
+        {!id && (
+          <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] pn:max-sm:hidden">
+            {" "}
+            {children}
+          </div>
+        )}
       </div>
-
     </>
   );
 }
