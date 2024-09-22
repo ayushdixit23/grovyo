@@ -10,10 +10,9 @@ export default function MainLayout({ children }) {
   const hide = useSelector((state) => state.remember.hide);
   const path = usePathname()
 
-
   return (
     <div className="flex flex-row w-[100%] pn:max-sm:flex-col">
-      <div className="pn:max-sm:hidden bg-red-800 w-[60px] z-10  ">
+      <div className="pn:max-sm:hidden w-[60px] z-10  ">
         <Siderbar />
       </div>
       {hide === false && (

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 import Link from "next/link";
 
-const Members = ({ id, comId, dash }) => {
+const Members = React.memo(({ id, comId, dash }) => {
   const [members, setMembers] = useState([]);
   const [admin, setAdmin] = useState({
     dp: "",
@@ -45,7 +45,7 @@ const Members = ({ id, comId, dash }) => {
             <div>Members</div>
           </div>
           <div className="text-[#686B6E] text-3xl">
-            <Link href={`/main/feed/${dash}/${comId}`}>
+            <Link href={`/main/feed/${dash}?id=${comId}`}>
               <MdKeyboardDoubleArrowRight />
             </Link>
           </div>
@@ -91,6 +91,6 @@ const Members = ({ id, comId, dash }) => {
       </div>
     </>
   );
-};
+});
 
 export default Members;

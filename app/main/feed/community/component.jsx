@@ -1,34 +1,30 @@
 "use client";
-// import Empty from "../../../assets/Images/community.png";
 import { useAuthContext } from "../../../utils/AuthWrapper";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import { API } from "../../../../Essentials";
 import Link from "next/link";
-// import { MediaPlayer, MediaProvider } from "@vidstack/react";
-// import {
-//   DefaultVideoLayout,
-//   defaultLayoutIcons,
-// } from "@vidstack/react/player/layouts/default";
 import styles from "../../../CustomScrollbarComponent.module.css";
 import { VscSend } from "react-icons/vsc";
-import { PiHandsClapping } from "react-icons/pi";
 import { socketemitfunc, useSocketContext } from "../../../utils/SocketWrapper";
-import { formatDate } from "../../../utils/useful";
 import toast from "react-hot-toast";
 import VideoPlayer from "@/app/component/VideoPlayer";
 import { useRouter, useSearchParams } from "next/navigation";
 import CommunityFeed from "@/app/component/CommunityFeed";
 import { setHide } from "@/app/redux/slice/remember";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ImageComponent from "@/app/component/ImageComponent";
 import Image from "next/image";
 import liked from "../../../assets/liked.png";
 import lightunlike from "../../../assets/lightunlike.png";
 import darkunlike from "../../../assets/darkunlike.png";
 import { useTheme } from "next-themes";
+import PostLoading from "@/app/component/PostLoading";
+import { setFeed } from "@/app/redux/slice/comFeed";
+import Loader from "@/app/component/Loader";
+import EmptyCommunity from "@/app/component/EmptyCommunity";
 
-export default function CommunityLayout({ children }) {
+function page() {
   const { data } = useAuthContext();
   const { socket } = useSocketContext();
   const [shareValue, setShareValue] = useState("");
@@ -36,25 +32,17 @@ export default function CommunityLayout({ children }) {
   const id = searchParams.get("id");
   const [isMobile, setIsMobile] = useState(false);
   const [share, setShare] = useState(false);
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
-  const [datas, setDatas] = useState([]);
 
-  const calculateDif = (a, b) => {
-    const dif = Number(b) - Number(a);
-    const per = Math.ceil((dif / b) * 100);
-    return per;
-  };
-
+  const feed = useSelector((state) => state.comFeed.feed);
   const dispatch = useDispatch();
-  const [feed, setFeed] = useState([]);
 
   const comfetchfeed = async () => {
     try {
       const res = await axios.get(`${API}/chats/joinedcomnews3/${data?.id}`);
-      console.log(res.data, "com");
-      setFeed(res.data?.mergedData);
+
+      dispatch(setFeed(res.data?.mergedData));
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -86,12 +74,12 @@ export default function CommunityLayout({ children }) {
         //   const newwfeed = feed.map((d) =>
         //     d?.posts._id === postId ? { ...d, liked: false, posts: { ...d.posts, likes: Number(d?.posts?.likes) - 1 } } : d
         //   );
-        //   setFeed(newwfeed);
+        //   dispatch(setFeed(newwfeed);
         // } else {
         //   const newwfeed = feed.map((d) =>
         //     d?.posts._id === postId ? { ...d, liked: true, posts: { ...d.posts, likes: Number(d?.posts?.likes) + 1 } } : d
         //   );
-        //   setFeed(newwfeed);
+        //   dispatch(setFeed(newwfeed);
         // }
 
         const newFeed = feed.map((d) => {
@@ -112,7 +100,7 @@ export default function CommunityLayout({ children }) {
           }
           return d;
         });
-        setFeed(newFeed);
+        dispatch(setFeed(newFeed));
       }
     } catch (error) {
       console.log(error);
@@ -150,10 +138,14 @@ export default function CommunityLayout({ children }) {
   }, []);
 
   useEffect(() => {
-    if (data.id) {
+    if (data?.id && (!feed || feed.length === 0)) {
       comfetchfeed();
     }
-  }, [data]);
+
+    if (feed && feed.length > 0 && loading) {
+      setLoading(false);
+    }
+  }, [data, feed]);
 
   useEffect(() => {
     if (!searchParams.get("id") || !isMobile) {
@@ -326,96 +318,7 @@ export default function CommunityLayout({ children }) {
             <>
               {loading ? (
                 <>
-                  <div className="bg-slate-50 dark:bg-graydark  pn:max-sm:p-3 w-[100%]  p-4 pn:max-md:rounded-2xl">
-                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                          <div className="h-[45px] w-[45px] rounded-2xl bg-slate-200 dark:bg-slate-400  animate-pulse "></div>
-                        </div>
-
-                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                          <div className="flex flex-col space-y-1 items-center">
-                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          </div>
-                        </div>
-
-                        <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
-                      </div>
-                    </div>
-
-                    <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                      <div className="flex flex-row justify-start w-[100%]">
-                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full border-b-[0.5px] "></div>
-                  <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
-                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                          <div className="h-[35px] w-[35px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
-                        </div>
-
-                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                          <div className="flex flex-col space-y-1 items-center">
-                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          </div>
-                        </div>
-
-                        <div className="cursor-pointer bg-slate-200 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
-                      </div>
-                    </div>
-
-                    <div className="h-[300px] sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                      <div className="flex flex-row justify-start w-[100%]">
-                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full border-b-[0.5px] "></div>
-                  <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] p-4 pn:max-md:rounded-2xl ">
-                    <div className="w-[100%] rounded-2xl flex flex-col items-center ">
-                      <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
-                        <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
-                          <div className="h-[25px] w-[25px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse "></div>
-                        </div>
-
-                        <div className="flex flex-col w-[100%] justify-center px-2 items-start">
-                          <div className="flex flex-col space-y-1 items-center">
-                            <div className="text-black text-[13px] w-[100px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                            <div className="text-black text-[13px] w-[100px] h-[10px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse"></div>
-                          </div>
-                        </div>
-
-                        <div className="cursor-pointer bg-slate-200 dark:bg-slate-400 rounded-2xl animate-pulse flex h-[35px] w-[25%]  justify-center items-center "></div>
-                      </div>
-                    </div>
-
-                    <div className="h-[300px]  sm:h-[250px] rounded-2xl bg-slate-200 dark:bg-slate-400 animate-pulse w-full flex justify-center items-center "></div>
-                    <div className="h-[55px] px-2 py-1 w-[100%] flex flex-col">
-                      <div className="text-[14px] text-black w-[120px] h-[20px] bg-slate-200 dark:bg-slate-400 rounded-lg animate-pulse my-1"></div>
-                      <div className="flex flex-row justify-start w-[100%]">
-                        <div className="h-[20px] w-[20px] rounded-lg z-30 bg-slate-200 dark:bg-slate-500 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px] bg-slate-300 dark:bg-slate-600 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px] bg-slate-400 dark:bg-slate-700 animate-pulse"></div>
-                        <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px] bg-slate-500 dark:bg-slate-800 animate-pulse"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="w-full border-b-[0.5px] "></div>
+                  <PostLoading />
                 </>
               ) : (
                 <>
@@ -690,10 +593,12 @@ export default function CommunityLayout({ children }) {
         {!id && (
           <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] pn:max-sm:hidden">
             {" "}
-            {children}
+            <EmptyCommunity />
           </div>
         )}
       </div>
     </>
   );
 }
+
+export default page;

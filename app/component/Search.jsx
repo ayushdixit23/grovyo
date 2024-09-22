@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { useAuthContext } from "../utils/AuthWrapper";
@@ -13,15 +13,26 @@ const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 import searchlottie from "../assets/search.json";
 import searchblack from "../assets/searchblack.json";
 import { useTheme } from "next-themes";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setRecentSearchCom,
+  setRecentSearchPro,
+} from "../redux/slice/remember";
 
-function Search({ setShow }) {
+const Search = React.memo(({ setShow }) => {
   const [text, setText] = useState("");
   const [data, setData] = useState([]);
   const [dataa, setDataa] = useState([]);
-  const [recentSearchPro, setRecentSearchPro] = useState([]);
-  const [recentSearchCom, setRecentSearchCom] = useState([]);
+  const recentSearchPro = useSelector(
+    (state) => state.remember.recentSearchPro
+  );
+  const recentSearchCom = useSelector(
+    (state) => state.remember.recentSearchCom
+  );
   const [load, setLoad] = useState(false);
+  const dispatch = useDispatch();
   const [posts, setPosts] = useState([]);
+  const debounceTimer = useRef(null);
   const { theme } = useTheme();
   const [all, setAll] = useState({
     prosites: [],
@@ -35,65 +46,52 @@ function Search({ setShow }) {
   const [click, setClick] = useState(1);
 
   const abortController = new AbortController();
-
-  const searchAll = async () => {
-    try {
-      const res = await axios.post(
-        `${API}/search/websearchforall/${user?.id}?query=${text}`,
-        { signal: abortController.signal } // Pass the abort signal
-      );
-      if (res.data.success) {
-        setAll({
-          prosites: res.data?.mergedpros,
-          community: res.data?.mergedcoms,
-          posts: res.data?.mergedposts,
-        });
-      }
-    } catch (error) {
-      if (axios.isCancel(error)) {
-        console.log("Request canceled", error.message);
-      } else {
-        console.log(error);
-      }
-    }
-  };
-
   // // Call this function when you want to abort the request
   // const abortSearch = () => {
   //   abortController.abort(); // Abort the API request
   // };
 
-  const searchforposts = async () => {
+  const searchAll = useCallback(async () => {
+    try {
+      const res = await axios.post(
+        `${API}/search/websearchforall/${user?.id}?query=${text}`,
+        {
+          signal: abortController.signal,
+        }
+      );
+      if (res.data.success) {
+        setAll({
+          prosites: res.data.mergedpros,
+          community: res.data.mergedcoms,
+          posts: res.data.mergedposts,
+        });
+      }
+    } catch (error) {
+      if (!axios.isCancel(error)) {
+        console.log(error);
+      }
+    }
+  }, [text, user?.id]);
+
+  const searchforposts = useCallback(async () => {
     try {
       const res = await axios.post(
         `${API}/search/websearchforposts?query=${text}`,
-        { signal: abortController.signal }
+        {
+          signal: abortController.signal,
+        }
       );
       if (res.data.success) {
-        console.log(res.data, "posts");
         setPosts(res.data.posts);
       }
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [text]);
 
-  const recentSearchs = async () => {
-    try {
-      const res = await axios.get(`${API}/search/webSearch/${user?.id}`, {
-        signal: abortController.signal,
-      });
-      if (res.data.success) {
-        setRecentSearchCom(res.data?.recentSearchesCommunity);
-        setRecentSearchPro(res.data?.recentSearchesProsites);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleSearch = async () => {
-    setActive("prosites"), setClick(1);
+  const handleSearch = useCallback(async () => {
+    setActive("prosites");
+    setClick(1);
     const res = await axios.post(`${API}/search/websearchpros?query=${text}`, {
       signal: abortController.signal,
     });
@@ -103,15 +101,17 @@ function Search({ setShow }) {
       const merge = pros?.map((p, i) => ({ p, dps: dp[i] }));
       setData(merge);
       setLoad(true);
-      console.log(merge);
     }
-  };
+  }, [text]);
 
-  const comm = async () => {
-    setActive("communities"), setClick(2);
+  const comm = useCallback(async () => {
+    setActive("communities");
+    setClick(2);
     const res = await axios.post(
       `${API}/search/searchcoms/${user?.id}?query=${text}`,
-      { signal: abortController.signal }
+      {
+        signal: abortController.signal,
+      }
     );
     if (res?.data?.success) {
       const pros = res?.data?.data?.coms;
@@ -125,7 +125,7 @@ function Search({ setShow }) {
       setDataa(merge);
       setLoad(true);
     }
-  };
+  }, [text, user?.id]);
 
   const addSearchCom = async (sId) => {
     try {
@@ -188,26 +188,58 @@ function Search({ setShow }) {
   };
 
   useEffect(() => {
-    if (text && active === "prosites") {
-      handleSearch();
-    }
+    clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(() => {
+      if (text) {
+        switch (active) {
+          case "prosites":
+            handleSearch();
+            break;
+          case "communities":
+            comm();
+            break;
+          case "all":
+            searchAll();
+            break;
+          case "posts":
+            searchforposts();
+            break;
+          default:
+            break;
+        }
+      }
+    }, 300); // 300ms debounce delay
 
-    if (text && active === "communities") {
-      comm();
-    }
+    return () => {
+      clearTimeout(debounceTimer.current);
+    };
+  }, [text, active]);
 
-    if (text && active === "all") {
-      searchAll();
+  const recentSearchs = async () => {
+    try {
+      const res = await axios.get(`${API}/search/webSearch/${user?.id}`, {
+        signal: abortController.signal,
+      });
+      if (res.data.success) {
+        dispatch(setRecentSearchCom(res.data?.recentSearchesCommunity));
+        dispatch(setRecentSearchPro(res.data?.recentSearchesProsites));
+      }
+    } catch (error) {
+      console.log(error);
     }
-
-    if (text && active === "posts") {
-      searchforposts();
-    }
-  }, [text]);
+  };
 
   useEffect(() => {
     if (user.id) {
-      recentSearchs();
+      const shouldFetchRecentSearches =
+        !recentSearchPro ||
+        (Array.isArray(recentSearchPro) && recentSearchPro.length === 0) ||
+        !recentSearchCom ||
+        (Array.isArray(recentSearchCom) && recentSearchCom.length === 0);
+
+      if (shouldFetchRecentSearches) {
+        recentSearchs();
+      }
     }
   }, [user.id]);
 
@@ -746,154 +778,8 @@ function Search({ setShow }) {
           )}
         </>
       )}
-
-      {/* 
-      <div className=" w-[100%] px-2 flex flex-row py-2 select-none ">
-        <div
-
-          onClick={() => setActive("prosites")}
-          className={`${active === "prosites"
-            ? " text-[12px] text-white  font-medium bg-blue-500 rounded-lg mx-1 px-2 py-1 flex justify-center items-center"
-            : "text-[12px] text-[#717171] font-medium dark:bg-[#171717] dark:text-white bg-[#f7f7f7] rounded-lg mx-1 px-2 py-1 flex justify-center items-center"
-            }`}
-        >
-          Prosite
-        </div>
-        <div
-          onClick={() => setActive("communities")}
-          className={`${active === "communities"
-            ? "text-[12px] text-white  font-medium bg-blue-500 rounded-lg mx-1 px-2 py-1 flex justify-center items-center"
-            : "text-[12px] text-[#717171] font-medium dark:bg-[#171717] dark:text-white bg-[#f7f7f7] rounded-lg mx-1 px-2 py-1 flex justify-center items-center"
-            }`}
-        >
-          Communities
-        </div>
-      </div> */}
-
-      {/* <div className=" w-[100%] px-10">
-        <div className="w-[100%] bg-[#f6f6f6] dark:bg-bluelight :bg-[#171717] h-[1px]"></div>
-      </div> */}
-
-      {/* <div className={`overflow-auto ${styles.customScrollbar
-        }`}>
-        {active === "prosites" ? (
-          <>
-            {data?.length > 0 ? (
-              <div className="">
-                {data.map((d, i) => (
-                  <div
-                    className="flex flex-row items-center dark:bg-[#171717] pt-1 bg-[#f7f7f7] dark:bg-bluelight px-2 justify-between"
-                  >
-                    <a onClick={() => addSearchPro(d?.p?._id)}
-                      target="_blank"
-                      href={`https://grovyo.com/${d?.p?.username}`} className="flex items-center">
-                      <img
-                        src={d?.dps}
-                        className="h-[45px] w-[45px] bg-[#fff] rounded-[20px]"
-                      />
-                      <div className="px-2 py-2 :text-white text-black dark:text-white text-[14px] font-bold ">
-                        <div className="flex items-center gap-1">
-                          <div>{d?.p?.fullname}</div>
-                          {d?.p?.isverified && (
-                            <div>
-                              <MdVerified className="text-blue-600" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-[11px] dark:text-white">{d?.p?.username}</div>
-                      </div>
-                    </a>
-          
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div>
-                {recentSearchPro.map((d) => (
-                  <div
-                    className="flex flex-row items-center :bg-[#171717] dark:bg-bluelight bg-[#f7f7f7] px-2 justify-between"
-                  >
-                    <a target="_blank"
-                      href={`https://grovyo.com/${d?.username}`} className="flex items-center">
-                      <img
-                        src={d?.dp}
-                        className="h-[45px] w-[45px] bg-[#fff] rounded-[20px]"
-                      />
-                      <div className="px-2 py-2 :text-white text-black dark:text-white text-[14px] font-bold ">
-                        <div className="flex items-center gap-1">
-                          <div >{d?.fullname}</div>
-                          {d?.isverified && (
-                            <div>
-                              <MdVerified className="text-blue-600" />
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-[11px] dark:text-[#f8f8f8] font-normal">{d?.username}</div>
-                      </div>
-                    </a>
-                    <div>
-                      <RxCross2 onClick={() => removeSearchPro(d?.id)} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            {dataa.length > 0 ? (
-              <div className="">
-                {dataa.map((d, i) => (
-                  <Link
-                    href={`/main/feed/newForYou/${d?.p?._id}`}
-
-                    className="flex flex-row items-center dark:bg-[#171717] pt-1 bg-[#f7f7f7] dark:bg-bluelight px-2 justify-between"
-                  >
-                    <div className="flex items-center">
-                      <img
-                        src={d?.dps}
-                        className="h-[45px] w-[45px] bg-[#fff] dark:bg-bluelight   rounded-[20px]"
-                      />
-                      <div className="px-2 :text-white py-2  dark:text-white text-black ">
-                        <div className="text-[14px] font-bold ">
-                          {d?.p?.title}
-                        </div>
-                        <div className="text-[11px] dark:text-white">{d?.p?.memberscount}{d?.p?.memberscount > 1 ? " members" : " member"}</div>
-                      </div>
-                    </div>
-
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="">
-                {recentSearchCom.map((d, i) => (
-                  <Link
-                    href={`/main/feed/community/${d?.id}`}
-                    className="flex flex-row items-center :bg-[#171717] pt-1 dark:bg-bluelight  bg-[#f7f7f7] px-2 justify-between"
-                  >
-                    <div className="flex items-center">
-                      <img
-                        src={d?.dp}
-                        className="h-[45px] w-[45px] dark:bg-bluelight  bg-[#fff] rounded-[20px]"
-                      />
-                      <div className="px-2 :text-white py-2 dark:text-white text-black  ">
-                        <div className="text-[14px] font-bold ">{d?.title}</div>
-                        <div className="text-[11px]">{d?.member}{d?.member > 1 ? " members" : " member"}</div>
-                      </div>
-                    </div>
-                    <div>
-                      <RxCross2 onClick={() => removeSearchCom(d?.p?._id)} />
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-      </div> */}
     </div>
   );
-}
+});
 
 export default Search;

@@ -1,6 +1,6 @@
 "use client"
 import Cookies from 'js-cookie'
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { checkToken } from './useful'
 
 export const AuthContext = createContext()
@@ -28,9 +28,17 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
+  const contextValue = useMemo(() => ({
+    data,
+    auth,
+    setAuth,
+    setData,
+    f,
+  }), [data, auth, f]);
+
   useEffect(() => {
     const token = Cookies.get("access_token") || null
     f(token)
   }, [setAuth, auth])
-  return <AuthContext.Provider value={{ data, auth, setAuth, setData, f }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
 }

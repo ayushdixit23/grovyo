@@ -1,6 +1,6 @@
 import React from "react";
 
-const ShimmerChat = () => {
+const ShimmerChat = React.memo(() => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col gap-2">
@@ -131,6 +131,6 @@ const ShimmerChat = () => {
       </div>
     </div>
   );
-};
+});
 
 export default ShimmerChat;

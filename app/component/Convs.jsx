@@ -1,8 +1,8 @@
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, memo, useRef, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 
-const Convs = ({ d, handleMuting, removingchat, href, handleVisible }) => {
+const Convs = memo(({ d, handleMuting, removingchat, href, handleVisible }) => {
   const [show, setShow] = useState(false);
   const [popupPosition, setPopupPosition] = useState("bottom");
 
@@ -119,40 +119,6 @@ const Convs = ({ d, handleMuting, removingchat, href, handleVisible }) => {
       <div className="w-[100%] border-b-[0.5px] dark:border-[#1B1B1B]"></div>
     </>
   );
-};
+});
 
 export default Convs;
-
-{
-  /* <div
-            ref={iconRef}
-            onClick={() => {
-              setShow(true);
-            }}
-            className={`relative group-hover:absolute hidden bg-transparent rounded-2xl group-hover:block group-hover:shadow-2xl shadow-black top-2 right-0`}
-          >
-            <CiMenuKebab onClick={() => setShow(true)} />
-          </div>
-          <div
-            className={`${
-              popupPosition === "top" ? "bottom-0" : "top-4" // Dynamically set position based on popupPosition state
-            } absolute z-40  shadow-2xl  text-black  duration-100
-                      ${
-                        show
-                          ? "rounded-[15px] bg-white shadow-2xl  py-2 w-[80px] h-[110px]"
-                          : "rounded-[0px] bg-white shadow-0 py-0 w-[0px] h-[0px]"
-                      } `}
-          >
-            {d?.ismuted ? (
-              <div onClick={() => handleMuting(d?.convid)}>UnMute</div>
-            ) : (
-              <div onClick={() => handleMuting(d?.convid)}>Mute</div>
-            )}
-            <div
-              className="hover:bg-[#555]   px-3"
-              onClick={() => removingchat(d?.convid)}
-            >
-              Delete
-            </div>
-          </div> */
-}

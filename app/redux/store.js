@@ -4,6 +4,8 @@ import comChatSlice from "./slice/comChatSlice";
 import anotherSlice from "./slice/anotherSlice";
 import lastMessage from "./slice/lastMessage";
 import rememberSlice from "./slice/remember";
+import feedData from "./slice/feedData";
+import comFeed from "./slice/comFeed";
 
 
 export const store = configureStore({
@@ -12,6 +14,8 @@ export const store = configureStore({
     comChat: comChatSlice,
     another: anotherSlice,
     remember: rememberSlice,
-    lastmessage: lastMessage
+    lastmessage: lastMessage,
+    feedData: feedData,
+    comFeed: comFeed,
   },
 });

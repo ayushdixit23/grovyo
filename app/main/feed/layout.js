@@ -1,21 +1,22 @@
 "use client";
 import { useSelector } from "react-redux";
 import Switcher from "./Component/Switcher";
+import React from "react";
 
-export default function PostLayout({ children }) {
+const PostLayout = React.memo(({ children }) => {
   const hide = useSelector((state) => state.remember.hide);
   return (
-    <div className=" w-[100%] ">
-      {hide === false && (
-        <div className=" z-40 pn:max-md:w-[100%] bg-white">
+    <div className="w-full">
+      {!hide && (
+        <div className="z-40 w-full bg-white pn:max-md:w-full">
           <Switcher />
         </div>
       )}
 
-      {/* Header */}
-      <div className="w-[100%] h-[100vh]  z-0 flex">{children}</div>
+      <div className="w-full h-screen flex z-0">{children}</div>
 
-      {/*Posts*/}
     </div>
   );
-}
+});
+
+export default PostLayout;

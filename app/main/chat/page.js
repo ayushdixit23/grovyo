@@ -1,17 +1,43 @@
-import Image from "next/image";
-import React from "react";
-// import Empty from "../../assets/Images/chatk.png";
 
-function page() {
+
+"use client"
+import React, { Suspense } from 'react'
+import dynamic from 'next/dynamic'
+import { Toaster } from 'react-hot-toast'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import ShimmerChat from '@/app/component/ShimmerChat'
+import EmptyInbox from '@/app/component/EmptyInbox'
+const Component = dynamic(() => import('./component'))
+
+const page = () => {
   return (
-    <div className="w-[100%] pn:max-md:hidden flex p-2 h-screen dark:bg-bluedark bg-white text-[#3e3e3e] flex-col justify-center items-center">
-      <div className="flex bg-[#f9f9f9] dark:bg-bluelight p-4 py-6 rounded-2xl justify-center flex-col items-center">
-        {/* <Image src={Empty} alt="empty" /> */}
-        <div className="text-[18px] font-semibold dark:text-slate-200">Check your inbox</div>
-        <div className="font-normal text-[14px] mt-2 dark:text-slate-400">Your personal messages are end-to-end encrypted</div>
-      </div>
-    </div>
-  );
+    <>
+  
+      <Suspense fallback={
+        <div
+          className={`h-[100vh] w-full bg-white dark:bg-bluedark pn:max-sm:pb-20 flex flex-col sm:flex-row`}
+        >
+          <div className="h-full select-none bg-white dark:bg-[#0D0D0D] relative sm:min-w-[390px] flex flex-col">
+            <div className="w-full h-[10%] border-b dark:border-[#131619] flex justify-between items-center p-2">
+
+            </div>
+            <div className="w-full h-full overflow-auto px-2">
+
+              <ShimmerChat />
+            </div>
+
+          </div>
+
+          <div className="w-full h-full">
+            <EmptyInbox />
+          </div>
+        </div>
+
+      }>
+        <Component />
+      </Suspense>
+    </>
+  )
 }
 
-export default page;
+export default page

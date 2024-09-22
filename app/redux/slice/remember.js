@@ -6,7 +6,9 @@ export const remberSlice = createSlice({
     convId: "",
     preview: false,
     hide: false,
-    compath: ""
+    compath: "",
+    recentSearchPro: [],
+    recentSearchCom: []
   },
   reducers: {
     setConvId: (state, action) => {
@@ -20,9 +22,15 @@ export const remberSlice = createSlice({
     },
     setPathForSharing: (state, action) => {
       state.compath = action.payload
-    }
+    },
+    setRecentSearchPro: (state, action) => {
+      state.recentSearchPro = action.payload
+    },
+    setRecentSearchCom: (state, action) => {
+      state.recentSearchCom = action.payload
+    },
   },
 });
 
-export const { setConvId, setPreview, setHide, setPathForSharing } = remberSlice.actions;
+export const { setConvId, setPreview, setHide, setRecentSearchPro, setRecentSearchCom, setPathForSharing } = remberSlice.actions;
 export default remberSlice.reducer;

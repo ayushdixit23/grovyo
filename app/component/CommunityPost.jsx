@@ -1,8 +1,9 @@
 import React, { forwardRef, useState } from "react";
-import VideoPlayer from "./VideoPlayer";
+import dynamic from "next/dynamic";
+const VideoPlayer = dynamic(() => import("./VideoPlayer"), { suspense: true });
+const Comments = dynamic(() => import("./Comments"), { suspense: true });
 import { PiHandsClapping } from "react-icons/pi";
 import { VscSend } from "react-icons/vsc";
-import Comments from "./Comments";
 import { GoArrowRight } from "react-icons/go";
 import liked from "../assets/liked.png";
 import lightunlike from "../assets/lightunlike.png";
