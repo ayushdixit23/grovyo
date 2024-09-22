@@ -106,3 +106,13 @@
     }
   }
 }
+
+/* Hide scrollbar for Webkit browsers */
+.virtualized-list::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+/* Hide scrollbar for Firefox */
+.virtualized-list {
+  scrollbar-width: none; /* Hide scrollbar */
+}

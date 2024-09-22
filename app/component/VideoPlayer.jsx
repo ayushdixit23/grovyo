@@ -257,14 +257,6 @@ const VideoPlayer = ({
     };
   }, []);
 
-  // useEffect(() => {
-  // 	window.addEventListener('keydown', handleKeyDown);
-
-  // 	return () => {
-  // 		window.removeEventListener('keydown', handleKeyDown);
-  // 	};
-  // }, [durationSec, isplaying, isFullscreen, isMuted]);
-
   return (
     <>
       <div

@@ -23,6 +23,8 @@ import PostLoading from "@/app/component/PostLoading";
 import { setFeed } from "@/app/redux/slice/comFeed";
 import Loader from "@/app/component/Loader";
 import EmptyCommunity from "@/app/component/EmptyCommunity";
+import VirtualizedFeed from "@/app/component/VirtualizedFeed";
+import VirtualizedCommunity from "@/app/component/VirtualizedCommunity";
 
 function page() {
   const { data } = useAuthContext();
@@ -295,7 +297,7 @@ function page() {
           <div className="h-[10vh] pn:max-sm:h-[16vh]"></div>
 
           <div
-            className={`h-[92vh] pn:max-sm:h-[87vh] w-full ${styles.customScrollbar} overflow-auto `}
+            className={`h-[92vh] pn:max-sm:h-[87vh] w-full no-scrollbar overflow-auto `}
           >
             {/* mt-[125px] */}
 
@@ -315,7 +317,7 @@ function page() {
                 </a>
               </div>
             </div>
-            <>
+            {/* <>
               {loading ? (
                 <>
                   <PostLoading />
@@ -337,14 +339,6 @@ function page() {
                         className="w-[100%] bg-white dark:bg-graydark flex px-1 justify-between items-center "
                       >
                         <div className="h-[55px] pn:max-sm:h-[50px] flex flex-row items-center ">
-                          {/* <div className=" flex object-scale-down items-center ">
-                              <img
-                                src={d?.dps}
-                                className="h-[35px] w-[35px] dark:ring-[#273142] pn:max-sm:w-[30px] pn:max-sm:h-[30px] 
-													pn:max-sm:rounded-[13px] rounded-[15px] ring-1 ring-white bg-white dark:bg-graydark "
-                              />
-                            </div> */}
-
                           <ImageComponent
                             src={d?.dps}
                             width="w-[35px] pn:max-sm:w-[30px]"
@@ -352,7 +346,6 @@ function page() {
                             height="h-[35px] pn:max-sm:h-[30px] "
                           />
 
-                          {/* Community name */}
                           <div className="flex flex-col justify-center px-2 items-start ">
                             <div className="flex flex-col space-y-[0.5px] justify-start items-start">
                               <div className="text-[14px] dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
@@ -362,28 +355,13 @@ function page() {
                                 <div className="text-[10px] dark:text-[#f5f5f5] pn:max-sm:text-[10px] font-medium text-[#5C5C5C]">
                                   By {d?.community?.creator?.fullname}
                                 </div>
-                                <div className="dark:text-[#f5f5f5] text-[10px] font-medium text-[#5C5C5C]">
-                                  {/* . {formatDate(d?.posts?.createdAt)} */}
-                                </div>
+                                <div className="dark:text-[#f5f5f5] text-[10px] font-medium text-[#5C5C5C]"></div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        {/* Animation of join nd bell */}
-                        {/* {d?.subs === "unsubscribed" ? (
-                     
-                      ) : (
-                        <div
-                          onClick={() => unjoinmembers(d?.posts?.community._id)}
-                          className="  rounded-xl text-[14px] text-[#5c5c5c]"
-                        ></div>
-                      )} */}
-                        {/* <div className="bg-[#f5f5f5] p-2 px-4 rounded-xl pn:max-sm:text-[12px] font-medium text-[14px] text-[#5c5c5c]">
-                  Join
-                </div> */}
                       </Link>
 
-                      {/* POst */}
                       <Link
                         onClick={() => {
                           if (isMobile) {
@@ -429,7 +407,6 @@ function page() {
                                             height={"h-full"}
                                           />
 
-                                          {/* <video controls src={f?.content}></video> */}
                                           <div className="absolute top-3 right-2">
                                             <div
                                               className="w-9 flex justify-center items-center text-sm font-medium h-9 
@@ -446,44 +423,28 @@ function page() {
                               </>
                             ) : (
                               <div className="sm:h-[260px] h-[300px] w-full rounded-xl ">
-                                {
-                                  d?.urls[0]?.type.startsWith("image") ? (
-                                    <div className="h-full w-full p-1">
-                                      <img
+                                {d?.urls[0]?.type.startsWith("image") ? (
+                                  <div className="h-full w-full p-1">
+                                    <img
+                                      src={d?.urls[0]?.content}
+                                      className="h-full object-contain bg-black rounded-2xl w-full"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="p-1 h-full">
+                                    <div className=" rounded-2xl h-full overflow-hidden relative ">
+                                      <div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
+
+                                      <VideoPlayer
+                                        key={i}
                                         src={d?.urls[0]?.content}
-                                        className="h-full object-contain bg-black rounded-2xl w-full"
+                                        poster={d?.urls[0]?.thumbnail}
+                                        width={"100%"}
+                                        height={"h-full"}
                                       />
                                     </div>
-                                  ) : (
-                                    <div className="p-1 h-full">
-                                      <div className=" rounded-2xl h-full overflow-hidden relative ">
-                                        <div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
-
-                                        {/* <MediaPlayer
-                                            src={d?.urls[0]?.content}
-                                            onQualitiesChange={480}
-                                            className=" z-0 h-[300px] sm:h-[260px]"
-                                          >
-                                            <MediaProvider />
-                                            <DefaultVideoLayout
-                                              thumbnails={d?.urls[0]?.content}
-                                              icons={defaultLayoutIcons}
-                                            />
-                                          </MediaPlayer> */}
-                                        <VideoPlayer
-                                          key={i}
-                                          src={d?.urls[0]?.content}
-                                          poster={d?.urls[0]?.thumbnail}
-                                          width={"100%"}
-                                          height={"h-full"}
-                                        />
-
-                                        {/* <video controls src={d?.urls[0]?.content}></video> */}
-                                      </div>
-                                    </div>
-                                  )
-                                  // <video src={f?.content} controls className="max-h-full" />
-                                }
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
@@ -580,7 +541,16 @@ function page() {
                   ))}
                 </>
               )}
-            </>
+            </> */}
+
+            <VirtualizedCommunity
+              feed={feed}
+              loading={loading}
+              handleLike={handleLike}
+              setHide={setHide}
+              dispatch={dispatch}
+              theme={theme}
+            />
           </div>
 
           {/* POst */}

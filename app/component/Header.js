@@ -24,14 +24,19 @@ function Header() {
       </div>
       <div className="w-full h-[8vh] flex flex-row justify-between px-1 bg-white dark:bg-bluedark items-center py-1  ">
         <div className="w-[15%] h-[100%] flex justify-center items-center">
-          <div className=" h-[40px] w-[40px]  rounded-xl shadow-sm">
-            {/* <div className="h-[40px] w-[40px] rounded-2xl bg-[#f5f5f5] ring-1 ring-white shadow-sm animate-pulse "></div> */}
-            <img
-              src={data?.dp}
-              className="object-cover w-full h-full shadow-sm rounded-2xl  "
-              alt={data?.fullname}
-            />
-          </div>
+          {data?.dp ? (
+            <div className="h-[40px] w-[40px] ">
+              <Link href={`/${data?.username}`} className="w-full h-full">
+                <img
+                  className="w-full h-full object-cover rounded-[15px] ring-1 ring-white dark:ring-[#273142] bg-white dark:bg-bluedark"
+                  src={data?.dp}
+
+                />
+              </Link>
+            </div>
+          ) : (
+            <div className="h-[40px] w-[40px] rounded-[18px] bg-[#f5f5f5] ring-1 ring-white shadow-sm animate-pulse "></div>
+          )}
         </div>
         {/* <ModeToggle /> */}
 

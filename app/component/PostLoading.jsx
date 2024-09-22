@@ -2,7 +2,7 @@ import React from "react";
 
 const PostLoading = React.memo(() => {
   return (
-    <div className="px-2 pn:max-sm:mt-3">
+    <div className="sm:px-2 pn:max-sm:mt-8 pn:max-sm:pb-16">
       <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-md:rounded-2xl">
         <div className="w-[100%] rounded-2xl flex flex-col items-center ">
           <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
@@ -33,7 +33,7 @@ const PostLoading = React.memo(() => {
         </div>
       </div>
       <div className="w-full border-b-[0.5px] "></div>
-      <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] pn:max-md:rounded-2xl ">
+      <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-md:rounded-2xl ">
         <div className="w-[100%] rounded-2xl flex flex-col items-center ">
           <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
             <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
@@ -63,7 +63,7 @@ const PostLoading = React.memo(() => {
         </div>
       </div>
       <div className="w-full border-b-[0.5px] "></div>
-      <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-sm:w-[100vw] pn:max-md:rounded-2xl ">
+      <div className="bg-slate-50 dark:bg-graydark pn:max-sm:p-3 w-[100%] pn:max-md:rounded-2xl ">
         <div className="w-[100%] rounded-2xl flex flex-col items-center ">
           <div className="h-[55px] px-2 w-[100%] flex flex-row items-center ">
             <div className="w-[15%] flex object-scale-down items-center h-[100%] ">
