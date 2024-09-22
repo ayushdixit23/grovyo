@@ -38,6 +38,8 @@ const page = () => {
           >
             <div className="w-[15%] h-[100%]  items-center justify-center flex px-2">
               <img
+              alt="dp"
+              loading="lazy"
                 src={d?.status?.dp}
                 className="h-[100%] w-[100%] rounded-lg resize"
               />

@@ -1,11 +1,10 @@
 "use client"
 import React, { Suspense } from 'react'
-import dynamic from 'next/dynamic'
 import { Toaster } from 'react-hot-toast'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
-const Component = dynamic(() => import('./component'), { ssr: false })
+import Component from "./component"
 
-const page = ({ children }) => {
+const page = () => {
   return (
     <>
       <Toaster />

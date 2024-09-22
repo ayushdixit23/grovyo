@@ -9,7 +9,7 @@ import { RxCross2 } from "react-icons/rx";
 function page() {
   const { data: user } = useAuthContext();
   const [orders, setOrders] = useState([]);
-  const [order, setOrder] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   const fetchOrders = async () => {
     try {
@@ -22,17 +22,79 @@ function page() {
   };
 
   useEffect(() => {
-    if (user.id) {
+    if (user?.id) {
       fetchOrders();
     }
-  }, [user.id]);
+  }, [user?.id]);
+  const renderProduct = (product, qty) => (
+    <div className="flex items-center w-full gap-2" key={product.id}>
+      <div className="min-w-[45px] max-w-[50px] max-h-[50px] min-h-[45px]">
+        <img
+          loading="lazy"
+          className="w-full h-full  object-cover rounded-xl"
+          src={`${process.env.NEXT_PUBLIC_PRODUCT_URL}${product?.images[0]?.content}`}
+          alt="pic"
+        />
+      </div>
+      <div className="flex flex-col  w-full gap-1">
+        <div className="text-[14px] truncate  font-medium">
+          {product?.name.length > 40
+            ? `${product?.name.slice(0, 40)}...`
+            : product?.name}
+        </div>
+        <div className="flex justify-between items-center w-full text-black dark:text-white text-[12px]">
+          <div>Qty: {qty}</div>
+          <div>₹{Number(product?.price) * qty}</div>
+        </div>
+      </div>
+    </div>
+  );
+  const renderOrderDetails = (order) => (
+    <div
+      className="flex flex-col gap-4 dark:bg-[#0D0F10] bg-[#fafafa] border-2 border-[#222] p-4 rounded-xl mt-2"
+      key={order.id}
+    >
+      <div className="flex justify-between border-b pb-3 items-center w-full">
+        <div className="text-sm font-medium">{order?.orders?.timing}</div>
+        <div
+          className={`py-1 rounded-xl px-2 text-black text-[12px] ${
+            order?.orders?.currentStatus === "cancelled"
+              ? "bg-red-500"
+              : "bg-green-400"
+          }`}
+        >
+          Status: {order?.orders?.currentStatus}
+        </div>
+      </div>
+      <div className="flex flex-col border-b  pb-3 gap-5 w-full">
+        {order?.orders?.productId?.map((productId, index) =>
+          renderProduct(productId, order?.orders?.data?.[index]?.qty)
+        )}
+      </div>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="border-r text-sm font-medium pr-2">
+            {order?.orders?.quantity} Items
+          </div>
+          <div className="text-sm font-medium">₹{order?.orders?.total}</div>
+        </div>
+        <div
+          onClick={() => setSelectedOrder(order)}
+          className="text-xs bg-[#1A1D21] cursor-pointer text-[#9B9C9E] p-2 px-4 rounded-xl font-medium"
+        >
+          View
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="md:flex h-[85.5vh]">
       <div
-        className={`md:min-w-[390px] md:max-w-[390px] ${styles.customScrollbar} px-2 overflow-y-auto dark:bg-bluedark border-r-2 border-[#1d1d1d] flex items-center pt-6 pn:max-sm:pt-40 flex-col`}
+        className={`md:min-w-[390px] md:max-w-[390px] ${styles.customScrollbar} px-2 overflow-y-auto dark:bg-bluedark border-r-2
+         border-[#1d1d1d] flex items-center pt-6 pn:max-sm:pt-40 flex-col`}
       >
-        <div className="flex flex-col gap-5 w-full">
+        {/* <div className="flex flex-col gap-5 w-full">
           {orders.map((d, i) => (
             <>
               <div
@@ -105,100 +167,71 @@ function page() {
               </div>
             </>
           ))}
+        </div> */}
+        <div className="flex flex-col gap-2 bg-[#111]   w-full">
+          {orders.map(renderOrderDetails)}
         </div>
       </div>
       {/* Right side */}
-      {order && (
-        <div className=" bg-green pn:max-sm:hidden w-[100%] h-[100%] flex flex-col items-center">
+      {selectedOrder && (
+        <div className="bg-green pn:max-sm:hidden w-full h-full flex flex-col items-center">
           <div className="min-w-[75%] mt-0 flex flex-col gap-4">
-            <div className="flex flex-col  rounded-xl dark:bg-[#121212]">
-              <div className="flex justify-between p-2 items-center w-full ">
+            <div className="flex flex-col rounded-xl dark:bg-[#121212]">
+              <div className="flex justify-between p-2 items-center w-full">
                 <div>Items in order</div>
-                <div>{order.orders?.quantity} Item</div>
+                <div>{selectedOrder.orders?.quantity} Item</div>
               </div>
               <div className="flex flex-col pb-3 px-3 gap-5 w-full">
-                {order?.orders?.productId?.map((f, k) => (
-                  <div key={k} className="flex items-center w-full gap-2">
-                    <div className="min-w-[45px] min-h-[45px] max-w-[45px] max-h-[45px]">
-                      <img
-                        className="w-full h-full object-cover rounded-xl"
-                        src={
-                          process.env.NEXT_PUBLIC_PRODUCT_URL +
-                          f?.images[0]?.content
-                        }
-                        alt=""
-                      />
-                      {console.log(f)}
-                    </div>
-                    <div className="flex flex-col w-full gap-1">
-                      <div className="text-[12px] truncate font-medium">
-                        {f?.name.length > 40
-                          ? `${f?.name.slice(0, 40)}...`
-                          : f?.name}
-                      </div>
-                      <div className="flex justify-between items-center w-full">
-                        <div className=" text-black w-full  dark:text-white text-[12px]">
-                          Qty: {order?.orders?.data?.[k]?.qty}
-                        </div>
-                        <div className=" text-black dark:text-white text-[12px]">
-                          ₹
-                          {Number(order?.orders?.data?.[k]?.price) *
-                            Number(order?.orders?.data?.[k]?.qty)}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {selectedOrder?.orders?.productId?.map((productId, index) =>
+                  renderProduct(
+                    productId,
+                    selectedOrder?.orders?.data?.[index]?.qty
+                  )
+                )}
               </div>
             </div>
-            <div className="flex flex-col  rounded-xl dark:bg-[#121212]">
-              <div className="flex justify-between p-2 border-b px-3 items-center w-full ">
+
+            {/* Order Summary */}
+            <div className="flex flex-col rounded-xl dark:bg-[#121212]">
+              <div className="flex justify-between p-2 border-b px-3 items-center w-full">
                 <div>Items in order</div>
-                <div>{order?.orders?.quantity} Item</div>
+                <div>{selectedOrder?.orders?.quantity} Item</div>
               </div>
               <div className="flex flex-col text-sm pb-3 mt-3 gap-5 w-full">
-                <div className="flex justify-between  px-3 items-center gap-2">
+                <div className="flex justify-between px-3 items-center gap-2">
                   <div>Item total</div>
-                  <div>₹ {order?.orders?.total}</div>
+                  <div>₹ {selectedOrder?.orders?.total}</div>
                 </div>
-                <div className="flex justify-between  px-3 items-center gap-2">
+                <div className="flex justify-between px-3 items-center gap-2">
                   <div>Handling Charges</div>
-                  {/* <div>₹ 50</div> */}
                   <div>Free</div>
                 </div>
-                <div className="flex justify-between  px-3 items-center gap-2">
+                <div className="flex justify-between px-3 items-center gap-2">
                   <div>Delivery Charges</div>
                   <div>Free</div>
                 </div>
-                <div className="flex justify-between  px-3 items-center gap-2">
+                <div className="flex justify-between px-3 items-center gap-2">
                   <div>Bill total</div>
-                  <div>₹ {order?.orders?.quantity}</div>
+                  <div>₹ {selectedOrder?.orders?.total}</div>
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-col  rounded-xl dark:bg-[#121212]">
-              <div className="flex justify-between p-2 border-b px-3 items-center w-full ">
+            {/* Order Details */}
+            <div className="flex flex-col rounded-xl dark:bg-[#121212]">
+              <div className="flex justify-between p-2 border-b px-3 items-center w-full">
                 <div>Order details</div>
-                <div>{order?.orders?.quantity} Item</div>
+                <div>{selectedOrder?.orders?.quantity} Item</div>
               </div>
               <div className="flex flex-col text-sm pb-3 mt-3 gap-5 w-full">
-                <div className="flex justify-between  px-3 items-center gap-2">
+                <div className="flex justify-between px-3 items-center gap-2">
                   <div>Order ID</div>
-                  <div>{order?.orders?.orderId}</div>
+                  <div>{selectedOrder?.orders?.orderId}</div>
                 </div>
-                {/* <div className="flex justify-between  px-3 items-center gap-2">
-                  <div>Order Placed</div>
-                  <div>₹ 50</div>
-                </div> */}
-                <div className="flex justify-between  px-3 items-center gap-2">
+                <div className="flex justify-between px-3 items-center gap-2">
                   <div>Payment</div>
-                  <div>{order?.orders?.paymentMode}</div>
+                  <div>{selectedOrder?.orders?.paymentMode}</div>
                 </div>
-                {/* <div className="flex justify-between  px-3 items-center gap-2">
-                  <div>Deliver to </div>
-                  <div>₹ 50</div>
-                </div> */}
               </div>
             </div>
           </div>
@@ -206,103 +239,70 @@ function page() {
       )}
 
       <div className="sm:hidden">
-        {order && (
+        {selectedOrder && (
           <div className="fixed inset-0 w-screen z-40 flex justify-center items-center">
-            <div className="  w-[100%] h-[100%] pn:max-sm:pt-48 flex flex-col items-center">
+            <div className="w-full h-full pn:max-sm:pt-48 flex flex-col items-center">
               <div className="min-w-[75%] mt-0 bg-white dark:bg-[#0D0F10] p-4 rounded-xl flex flex-col gap-4">
                 <div className="flex justify-end items-center w-full">
-                  <div onClick={() => setOrder(null)}>
+                  <div onClick={() => setSelectedOrder(null)}>
                     <RxCross2 />
                   </div>
                 </div>
-                <div className="flex flex-col  rounded-xl dark:bg-[#121212]">
-                  <div className="flex justify-between p-2 items-center w-full ">
+                <div className="flex flex-col rounded-xl dark:bg-[#121212]">
+                  <div className="flex justify-between p-2 items-center w-full">
                     <div>Items in order</div>
-                    <div>{order.orders?.quantity} Item</div>
+                    <div>{selectedOrder.orders?.quantity} Item</div>
                   </div>
                   <div className="flex flex-col pb-3 px-3 gap-5 w-full">
-                    {order?.orders?.productId?.map((f, k) => (
-                      <div key={k} className="flex items-center w-full gap-2">
-                        <div className="min-w-[45px] min-h-[45px] max-w-[45px] max-h-[45px]">
-                          <img
-                            className="w-full h-full object-cover rounded-xl"
-                            src={
-                              process.env.NEXT_PUBLIC_PRODUCT_URL +
-                              f?.images[0]?.content
-                            }
-                            alt=""
-                          />
-                          {console.log(f)}
-                        </div>
-                        <div className="flex flex-col w-full gap-1">
-                          <div className="text-[12px] truncate font-medium">
-                            {f?.name.length > 40
-                              ? `${f?.name.slice(0, 40)}...`
-                              : f?.name}
-                          </div>
-                          <div className="flex justify-between items-center w-full">
-                            <div className=" text-black w-full  dark:text-white text-[12px]">
-                              Qty: {order?.orders?.data?.[k]?.qty}
-                            </div>
-                            <div className=" text-black dark:text-white text-[12px]">
-                              ₹
-                              {Number(order?.orders?.data?.[k].price) *
-                                Number(order?.orders?.data?.[k]?.qty)}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                    {selectedOrder?.orders?.productId?.map((productId, index) =>
+                      renderProduct(
+                        productId,
+                        selectedOrder?.orders?.data?.[index]?.qty
+                      )
+                    )}
                   </div>
                 </div>
-                <div className="flex flex-col  rounded-xl dark:bg-[#121212]">
-                  <div className="flex justify-between p-2 border-b px-3 items-center w-full ">
+                {/* Order Summary */}
+                <div className="flex flex-col rounded-xl dark:bg-[#121212]">
+                  <div className="flex justify-between p-2 border-b px-3 items-center w-full">
                     <div>Items in order</div>
-                    <div>{order?.orders?.quantity} Item</div>
+                    <div>{selectedOrder?.orders?.quantity} Item</div>
                   </div>
                   <div className="flex flex-col text-sm pb-3 mt-3 gap-5 w-full">
-                    <div className="flex justify-between  px-3 items-center gap-2">
+                    <div className="flex justify-between px-3 items-center gap-2">
                       <div>Item total</div>
-                      <div>₹ {order?.orders?.total}</div>
+                      <div>₹ {selectedOrder?.orders?.total}</div>
                     </div>
-                    <div className="flex justify-between  px-3 items-center gap-2">
+                    <div className="flex justify-between px-3 items-center gap-2">
                       <div>Handling Charges</div>
-                      {/* <div>₹ 50</div> */}
                       <div>Free</div>
                     </div>
-                    <div className="flex justify-between  px-3 items-center gap-2">
+                    <div className="flex justify-between px-3 items-center gap-2">
                       <div>Delivery Charges</div>
                       <div>Free</div>
                     </div>
-                    <div className="flex justify-between  px-3 items-center gap-2">
+                    <div className="flex justify-between px-3 items-center gap-2">
                       <div>Bill total</div>
-                      <div>₹ {order?.orders?.quantity}</div>
+                      <div>₹ {selectedOrder?.orders?.total}</div>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex flex-col  rounded-xl dark:bg-[#121212]">
-                  <div className="flex justify-between p-2 border-b px-3 items-center w-full ">
+                {/* Order Details */}
+                <div className="flex flex-col rounded-xl dark:bg-[#121212]">
+                  <div className="flex justify-between p-2 border-b px-3 items-center w-full">
                     <div>Order details</div>
-                    <div>{order?.orders?.quantity} Item</div>
+                    <div>{selectedOrder?.orders?.quantity} Item</div>
                   </div>
                   <div className="flex flex-col text-sm pb-3 mt-3 gap-5 w-full">
-                    <div className="flex justify-between  px-3 items-center gap-2">
+                    <div className="flex justify-between px-3 items-center gap-2">
                       <div>Order ID</div>
-                      <div>{order?.orders?.orderId}</div>
+                      <div>{selectedOrder?.orders?.orderId}</div>
                     </div>
-                    {/* <div className="flex justify-between  px-3 items-center gap-2">
-                <div>Order Placed</div>
-                <div>₹ 50</div>
-              </div> */}
-                    <div className="flex justify-between  px-3 items-center gap-2">
+                    <div className="flex justify-between px-3 items-center gap-2">
                       <div>Payment</div>
-                      <div>{order?.orders?.paymentMode}</div>
+                      <div>{selectedOrder?.orders?.paymentMode}</div>
                     </div>
-                    {/* <div className="flex justify-between  px-3 items-center gap-2">
-                <div>Deliver to </div>
-                <div>₹ 50</div>
-              </div> */}
                   </div>
                 </div>
               </div>

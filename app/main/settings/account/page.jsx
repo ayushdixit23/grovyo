@@ -10,14 +10,12 @@ import { API } from "@/Essentials";
 import toast from "react-hot-toast";
 import { LiaToggleOffSolid, LiaToggleOnSolid } from "react-icons/lia";
 
-const Account = () => {
+const Account = React.memo(() => {
   const { data: user } = useAuthContext();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({});
   const [loading2, setLoading2] = useState(false);
   const router = useRouter();
-  const [open, setOpen] = useState(false);
   const [links, setLinks] = useState({
     insta: "",
     snap: "",
@@ -49,65 +47,62 @@ const Account = () => {
   const formatDatetimereverse = (datetimeString) => {
     const date = datetimeString?.split("/");
     const revrsedDate = date?.reverse();
-    const year = revrsedDate?.[0];
-    const month = revrsedDate?.[1];
-    const day = revrsedDate?.[2];
-    return `${year}-${month}-${day}`;
+    return `${revrsedDate?.[0]}-${revrsedDate?.[1]}-${revrsedDate?.[2]}`;
   };
 
-  const sendDetails = async (e) => {
-    e.preventDefault();
-    const stringDate = formatDatetime(profile.date);
-    try {
-      setLoading2(true);
-      const data = new FormData();
-      data.append("name", profile.fullname);
-      data.append("phone", profile.phone);
-      data.append("email", profile.email);
-      data.append("username", profile.username);
-      data.append("date", stringDate);
-      data.append("image", profile.image);
-      data.append("bio", profile.bio);
+  // const sendDetails = async (e) => {
+  //   e.preventDefault();
+  //   const stringDate = formatDatetime(profile.date);
+  //   try {
+  //     setLoading2(true);
+  //     const data = new FormData();
+  //     data.append("name", profile.fullname);
+  //     data.append("phone", profile.phone);
+  //     data.append("email", profile.email);
+  //     data.append("username", profile.username);
+  //     data.append("date", stringDate);
+  //     data.append("image", profile.image);
+  //     data.append("bio", profile.bio);
 
-      const response = await axios.post(
-        `${API}/login/profileinfo/${user?.id}`,
-        data
-      );
+  //     const response = await axios.post(
+  //       `${API}/login/profileinfo/${user?.id}`,
+  //       data
+  //     );
 
-      if (response.data?.success) {
-        await resetCookies(response.data);
-        router.refresh();
-        setLoading2(false);
-        toast.success("Changes Saved!");
-      } else {
-        toast.error(response.error.message);
-      }
-    } catch (e) {
-      setLoading2(false);
-      console.log(e);
-    } finally {
-      setLoading2(false);
-    }
-  };
+  //     if (response.data?.success) {
+  //       await resetCookies(response.data);
+  //       router.refresh();
+  //       setLoading2(false);
+  //       toast.success("Changes Saved!");
+  //     } else {
+  //       toast.error(response.error.message);
+  //     }
+  //   } catch (e) {
+  //     setLoading2(false);
+  //     console.log(e);
+  //   } finally {
+  //     setLoading2(false);
+  //   }
+  // };
 
-  const resetCookies = async (data) => {
-    try {
-      Cookies.remove("access_token");
-      Cookies.remove("refresh_token");
+  // const resetCookies = async (data) => {
+  //   try {
+  //     Cookies.remove("access_token");
+  //     Cookies.remove("refresh_token");
 
-      const expirationDate = new Date();
-      expirationDate.setDate(expirationDate.getDate() + 7);
+  //     const expirationDate = new Date();
+  //     expirationDate.setDate(expirationDate.getDate() + 7);
 
-      Cookies.set("access_token", data.access_token, {
-        expires: expirationDate,
-      });
-      Cookies.set("refresh_token", data.refresh_token, {
-        expires: expirationDate,
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  //     Cookies.set("access_token", data.access_token, {
+  //       expires: expirationDate,
+  //     });
+  //     Cookies.set("refresh_token", data.refresh_token, {
+  //       expires: expirationDate,
+  //     });
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   useEffect(() => {
     if (user?.id) {
@@ -139,24 +134,7 @@ const Account = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    setProfile({
-      ...profile,
-      image: file,
-    });
-  };
-
-  const logout = () => {
-    try {
-      Cookies.remove(excktn);
-      Cookies.remove(frhktn);
-      setOpen(false);
-      router.push("/login");
-      setTimeout(() => {
-        dispatch(sendData(""));
-      }, 2500);
-    } catch (error) {
-      console.log(error);
-    }
+    setProfile((prev) => ({ ...prev, image: file }));
   };
 
   const isProfileChanged = () => {
@@ -171,7 +149,6 @@ const Account = () => {
     );
   };
 
-  const isProfileChangedAnswer = isProfileChanged();
   return (
     <>
       <div className="p-3 sm:p-4 sm:px-7 flex flex-col pn:max-sm:mt-[70px] dark:bg-[#0D0D0D] sm:h-screen gap-5">
@@ -197,7 +174,7 @@ const Account = () => {
                                 ? URL.createObjectURL(profile.image)
                                 : ""
                             }
-                            alt=""
+                            alt="pic"
                           />
                           <div className="absolute -bottom-1 right-1">
                             <div
@@ -234,7 +211,7 @@ const Account = () => {
                                 <img
                                   className="w-full h-full object-cover bg-cover rounded-[32px] max-h-[100px] max-w-[100px]"
                                   src={URL.createObjectURL(profile.image)}
-                                  alt=""
+                                  alt="profile"
                                 />
                                 <div className="absolute bottom-0 -right-7">
                                   <div
@@ -468,6 +445,6 @@ const Account = () => {
       </div>
     </>
   );
-};
+});
 
 export default Account;
