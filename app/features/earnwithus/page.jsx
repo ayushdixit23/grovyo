@@ -16,7 +16,7 @@ const page = () => {
 							<div className='sm:text-lg text-[#5C5F6] leading-6 sm:max-w-[85%] md:max-w-[70%]'>Showcase and sell your own products directly within your community. Whether it's handmade crafts, digital downloads, or exclusive merchandise, the possibilities are endless!</div>
 						</div>
 						<div className='flex justify-center items-center'>
-							<Image src={earn1} className='md:max-w-[450px] sm:max-w-[350px]' />
+							<Image alt='Sell products' src={earn1} className='md:max-w-[450px] sm:max-w-[350px]' />
 						</div>
 					</div>
 					<div className='flex sm:flex-row-reverse flex-col justify-center p-4 rounded-2xl  text-black  bg-[#ECECFE] items-center'>
@@ -25,7 +25,7 @@ const page = () => {
 							<div className='sm:text-lg text-[#5C5F6] leading-6 sm:max-w-[85%] md:max-w-[70%]'>Once your community reaches 500 members and a 10% popularity score, unlock the power of community ads.  Display targeted ads relevant to your audience and earn revenue with every impression or click. </div>
 						</div>
 						<div className='flex justify-center min-w-[50%] items-center'>
-							<Image src={earn2} className='md:max-w-[450px] sm:max-w-[350px]' />
+							<Image alt='Unlock the power of community ads' src={earn2} className='md:max-w-[450px] sm:max-w-[350px]' />
 						</div>
 					</div>
 					<div className='flex sm:flex-row min-w-[50%]  flex-col justify-center p-4 rounded-2xl  text-black bg-[#FBE9E7] items-center'>
@@ -34,7 +34,7 @@ const page = () => {
 							<div className='sm:text-lg text-[#5C5F6] leading-6 sm:max-w-[85%] md:max-w-[70%]'>After unlocking topic creation (details within the grovyo communtiy & Workspace), create exclusive, in-depth content (guides, tutorials) and charge a fee for access. This allows you to directly monetize your expertise</div>
 						</div>
 						<div className='flex justify-center min-w-[50%]  items-center'>
-							<Image src={earn3} className='md:max-w-[450px] sm:max-w-[350px]' />
+							<Image alt='Create' src={earn3} className='md:max-w-[450px] sm:max-w-[350px]' />
 						</div>
 					</div>
 				</div>

@@ -15,25 +15,51 @@ const Page = () => {
   const [scrolled, setScrolled] = useState(false);
   const { auth } = useAuthContext();
 
+  const MemoizedFeature = React.memo(Feature);
+  const MemoizedBusinesses = React.memo(Businesses);
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(null, args);
+      }, delay);
+    };
+  };
   const handleScroll = () => {
-    if (window.scrollY > 10) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
-    }
+    setScrolled(window.scrollY > 10);
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScrollDebounced = debounce(handleScroll, 100);
+    window.addEventListener("scroll", handleScrollDebounced);
+    return () => window.removeEventListener("scroll", handleScrollDebounced);
   }, []);
+
+  const renderContent = () => {
+    switch (state) {
+      case "main":
+        return <MainContent />;
+      case "feature":
+        return <MemoizedFeature />;
+      case "business":
+        return <MemoizedBusinesses />;
+      case "search":
+        return <Search />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
       <div className="fixed bottom-0 select-none z-40 sm:hidden block left-0 w-full">
-        <div className="py-4 bg-black text-white  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-25 px-5 rounded-full w-full gap-4 flex justify-center items-center">
+        <div className="py-4 bg-black text-white   bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-25 px-5 rounded-full w-full gap-4 flex justify-center items-center">
           <div
-            className="text-sm relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:ease-in-out after:bottom-0 after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white"
+            className="text-sm relative cursor-pointer  after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%]
+             after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform
+              after:duration-200 after:ease-in-out after:bottom-0  after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)]
+               shadow-white"
             onClick={() => setState("main")}
           >
             Communities

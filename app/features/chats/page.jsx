@@ -35,9 +35,14 @@ const page = () => {
       <div className="bg-[#1A1A1A] p-5 pb-8 h-auto">
         <div className="flex flex-col justify-center items-center w-full">
           <div className="grid pp:grid-cols-2 sm:grid-cols-3 gap-7 md:w-[90%] lg:w-[75%]">
-            <div className="bg-[#303030] text-white p-3 rounded-2xl flex flex-col justify-center items-center gap-2">
+            <div className="bg-[#303030]  text-white p-3 rounded-2xl flex flex-col justify-center items-center gap-2">
               <div>
-                <Image src={chat1} className="pp:max-w-[300px]" />
+                <Image
+                  alt="Hide Chats"
+                  loading="lazy"
+                  src={chat1}
+                  className="pp:max-w-[300px]"
+                />
               </div>
               <div className="sm:text-xl text-lg text-center font-semibold">
                 Hide Chats
@@ -50,7 +55,12 @@ const page = () => {
 
             <div className="bg-[#303030] text-white p-3 rounded-2xl flex flex-col justify-center items-center gap-2">
               <div>
-                <Image src={chat2} className="pp:max-w-[300px]" />
+                <Image
+                  alt="Share"
+                  loading="lazy"
+                  src={chat2}
+                  className="pp:max-w-[300px]"
+                />
               </div>
               <div className="sm:text-xl text-lg text-center font-semibold">
                 Share Seamlessly
@@ -63,7 +73,12 @@ const page = () => {
 
             <div className="bg-[#303030] text-white p-3 rounded-2xl flex flex-col justify-center items-center gap-2">
               <div>
-                <Image src={chat3} className="pp:max-w-[300px]" />
+                <Image
+                  alt="Direct Message"
+                  loading="lazy"
+                  src={chat3}
+                  className="pp:max-w-[300px]"
+                />
               </div>
               <div className="sm:text-xl text-lg text-center font-semibold">
                 Direct Message
@@ -76,7 +91,12 @@ const page = () => {
 
             <div className="bg-[#303030] text-white p-3 rounded-2xl flex flex-col justify-center items-center gap-2">
               <div>
-                <Image src={chat5} className="pp:max-w-[300px]" />
+                <Image
+                  alt="Web to Mobile"
+                  loading="lazy"
+                  src={chat5}
+                  className="pp:max-w-[300px]"
+                />
               </div>
               <div className="sm:text-xl text-lg text-center font-semibold">
                 Web to Mobile
@@ -90,7 +110,12 @@ const page = () => {
 
             <div className="bg-[#303030] text-white p-3 rounded-2xl flex flex-col justify-center items-center gap-2">
               <div>
-                <Image src={chat6} className="pp:max-w-[300px]" />
+                <Image
+                  alt="Video Calls"
+                  loading="lazy"
+                  src={chat6}
+                  className="pp:max-w-[300px]"
+                />
               </div>
               <div className="sm:text-xl text-lg text-center font-semibold">
                 Video Calls
@@ -103,7 +128,12 @@ const page = () => {
 
             <div className="bg-[#303030] text-white p-3 rounded-2xl flex flex-col justify-center items-center gap-2">
               <div>
-                <Image src={chat4} className="pp:max-w-[300px]" />
+                <Image
+                  alt="Notifications"
+                  loading="lazy"
+                  src={chat4}
+                  className="pp:max-w-[300px]"
+                />
               </div>
               <div className="sm:text-xl text-lg text-center font-semibold">
                 Order Notifications in Chat:

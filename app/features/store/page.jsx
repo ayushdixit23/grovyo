@@ -30,6 +30,7 @@ const page = () => {
               <div className="flex justify-center text-sm  items-center flex-col">
                 <a
                   target="_blank"
+                  rel="noopener noreferrer" 
                   href="https://workspace.grovyo.com"
                   className="bg-[#0A7CFF] p-2 px-4 rounded-lg"
                 >
@@ -39,20 +40,20 @@ const page = () => {
             </div>
           </div>
           <div>
-            <div className="flex justify-center mt-[30px] items-center">
-              <div className="flex justify-center items-center w-full">
-                <Image
-                  src={store1}
-                  className="pn:max-md:w-full md:max-w-[70%]"
-                />
-              </div>
-            </div>
+          <div className="flex justify-center mt-[30px] items-center">
+          <Image
+            src={store1}
+            alt="Store Overview" // Added alt attribute for accessibility
+            className="pn:max-md:w-full md:max-w-[70%]"
+            loading="lazy" // Improved performance with lazy loading
+          />
+        </div>
           </div>
         </div>
         {/* main */}
 
         {/* desc */}
-        <div className="flex flex-col justify-center  gap-[95px] items-center my-[20px] sm:my-[50px] w-full h-full">
+        {/* <div className="flex flex-col justify-center  gap-[95px] items-center my-[20px] sm:my-[50px] w-full h-full">
           <div className="grid sm:grid-cols-2  gap-8 w-[90%] md:w-[80%]">
             <div className="flex ">
               <div className="flex pn:max-sm:flex-col gap-3 min-w-[50%]">
@@ -255,10 +256,73 @@ const page = () => {
               />
             </div>
           </div>
-        </div>
+        </div> */}
+        <div className="flex flex-col justify-center gap-[95px] items-center my-[20px] sm:my-[50px] w-full h-full">
+        {[
+          {
+            title: "Effortless Product Management",
+            content: [
+              "No coding required! Set up your store in minutes with a user-friendly interface.",
+              "Showcase your unique offerings with detailed descriptions, high-quality images, and variants (sizes, colors).",
+            ],
+            image: store2,
+          },
+          {
+            title: "Seamless Selling",
+            content: [
+              "Track your orders, fulfill them with ease, and keep customers informed every step of the way. (Delivery handled by Grovyo's partners)",
+              "Your store is accessible not only on the Grovyo app but also through a dedicated web page.",
+            ],
+            image: store3,
+          },
+          {
+            title: "Powerful Analytics",
+            content: [
+              "Track sales performance, analyze customer behavior, and make data-driven decisions to optimize your offerings.",
+              "View recent orders and manage them efficiently with a clear, organized dashboard.",
+            ],
+            image: store4,
+          },
+          {
+            title: "Say Goodbye to Delivery Hassles",
+            content: [
+              "Forget about packing, shipping, and tracking! Grovyo partners with reliable carriers to ensure your products reach customers safely and efficiently.",
+              "Free up your time and energy to focus on creating, marketing, and growing your business.",
+            ],
+            image: store5,
+          },
+        ].map((item, index) => (
+          <div key={index} className="grid sm:grid-cols-2 gap-8 w-[90%] md:w-[80%]">
+            <div className="flex">
+              <div className="flex pn:max-sm:flex-col gap-3 min-w-[50%]">
+                <div className="flex pn:max-sm:items-center gap-3">
+                  <div className="min-w-[60px] min-h-[60px] max-w-[60px] max-h-[60px] rounded-full text-xl font-semibold text-black flex justify-center items-center bg-white">
+                    {index + 1}.
+                  </div>
+                  <h3 className="text-2xl text-white font-semibold sm:hidden">{item.title}:</h3>
+                </div>
+                <div className="text-white flex flex-col font-medium gap-2 leading-7 justify-center items-center max-w-[400px]">
+                  <h3 className="text-2xl text-white font-semibold pn:max-sm:hidden">{item.title}:</h3>
+                  {item.content.map((text, textIndex) => (
+                    <div key={textIndex}>{text}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="min-w-[50%] flex justify-center items-center">
+              <Image
+                src={item.image}
+                alt={item.title}
+                className="sm:max-w-[70%] sm:min-w-[400px] max-h-full"
+                loading="lazy" // Improved performance with lazy loading
+              />
+            </div>
+          </div>
+        ))}
+      </div>
         {/* desc */}
 
-        <div className="flex  justify-center mt-[50px] items-center">
+        {/* <div className="flex  justify-center mt-[50px] items-center">
           <div className="flex flex-col pp:flex-row justify-between py-8 px-6 rounded-xl text-white bg-[#202020] md:w-[80%]">
             <div className="flex flex-col justify-center gap-6 lg:w-[40%]">
               <div className="text-2xl sm:text-3xl font-semibold">
@@ -289,7 +353,39 @@ const page = () => {
               />
             </div>
           </div>
+        </div> */}
+         <div className="flex justify-center mt-[50px] items-center">
+        <div className="flex flex-col pp:flex-row justify-between py-8 px-6 rounded-xl text-white bg-[#202020] md:w-[80%]">
+          <div className="flex flex-col justify-center gap-6 lg:w-[40%]">
+            <h2 className="text-2xl sm:text-3xl font-semibold">
+              Ready to turn your dreams into reality?
+            </h2>
+            <p>
+              Sign up for Grovyo today and unlock the power of your own online store!
+            </p>
+            <div className="flex sm:mt-0 mt-4 items-center">
+              <a
+                className="bg-[#0A7CFF] flex justify-center gap-2 items-center text-white p-2 px-5 font-semibold rounded-lg"
+                target="_blank"
+                rel="noopener noreferrer" // Added for security
+                href="https://workspace.grovyo.com/"
+              >
+                <div>Get Started</div>
+                <GoArrowRight />
+              </a>
+            </div>
+          </div>
+          <div className="flex justify-center items-center">
+            <Image
+              src={store6}
+              alt="Store Setup"
+              className="md:min-w-[350px] pn:max-sm:w-full md:max-w-[550px]"
+              loading="lazy" // Improved performance with lazy loading
+            />
+          </div>
         </div>
+      </div>
+    
       </div>
     </>
   );

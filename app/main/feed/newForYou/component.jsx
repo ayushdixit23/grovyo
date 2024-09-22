@@ -29,7 +29,7 @@ import { setFeed } from "@/app/redux/slice/feedData";
 import EmptyCommunity from "@/app/component/EmptyCommunity";
 //import { PauseIcon, PlayIcon } from '@vidstack/react/icons';
 
-export default function NewforyouLayout({ children }) {
+export default function NewforyouLayout() {
   const { data } = useAuthContext();
   const { socket } = useSocketContext();
   const searchParams = useSearchParams();
@@ -40,12 +40,6 @@ export default function NewforyouLayout({ children }) {
   const feed = useSelector((state) => state.feedData.feed);
   const [isMobile, setIsMobile] = useState(false);
   const { theme } = useTheme();
-
-  const calculateDif = (a, b) => {
-    const dif = Number(b) - Number(a);
-    const per = Math.ceil((dif / b) * 100);
-    return per;
-  };
 
   useEffect(() => {
     const initialWidth = window.innerWidth;
