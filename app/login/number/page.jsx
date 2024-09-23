@@ -23,14 +23,14 @@ const DynamicOtpInput = dynamic(() => import("otp-input-react"), {
 function page() {
   const [otp, setOtp] = useState("");
   const router = useRouter();
-  const [number, setNumber] = useState("7521847004");
+  const [number, setNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const emailOtpRef = useRef();
   const [showOTP, setShowOTP] = useState(false);
   const { setAuth, setData } = useAuthContext();
   const otpInputRef = useRef(null);
   const [change, setChange] = useState(1);
-  const [email, setEmail] = useState("fsayush100@gmail.com");
+  const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   // const [email, setEmail] = useState("ayush23@gmail.com");
   // const [pass, setPass] = useState("12345678");
@@ -551,8 +551,8 @@ function page() {
                       className={`w-full ${change === 1 ? "py-3" : "hidden"} `}
                     >
                       <div
-                        // onClick={phoneAuth}
-                        onClick={fetchid}
+                        onClick={phoneAuth}
+                        // onClick={fetchid}
                         className="h-[50px] w-full select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
                       >
                         {loading && (
@@ -624,8 +624,8 @@ function page() {
                       <div className="py-2 ">
                         <div
                           //onClick={onSignup}
-                          // onClick={sendOtpEmail}
-                          onClick={handleCreate}
+                          onClick={sendOtpEmail}
+                          // onClick={handleCreate}
                           className="h-[50px] w-full select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
                         >
                           {loading && (
