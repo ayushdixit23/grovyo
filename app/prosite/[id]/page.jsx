@@ -13,31 +13,31 @@ function Page({ params }) {
     return decodeURIComponent(encodedString);
   }, []);
 
-  // const fetchData = useCallback(async () => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const res = await axios.post(`${API}/product/getprositefull`, {
-  //       username: decodeUsernameAndNumber(params.id),
-  //     });
-  //     // const res = await axios.post(`${API}/product/getprositefull`, {
-  //     //   username: decodeUsernameAndNumber(params.id),
-  //     // });
-  //     setData(res.data?.prosite);
-  //   } catch (error) {
-  //     setError("Failed to fetch data. Please try again later.");
-  //     console.error(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [params.id, decodeUsernameAndNumber]);
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.post(`${API}/product/getprositefull`, {
+        username: decodeUsernameAndNumber(params.id),
+      });
+      // const res = await axios.post(`${API}/product/getprositefull`, {
+      //   username: decodeUsernameAndNumber(params.id),
+      // });
+      setData(res.data?.prosite);
+    } catch (error) {
+      setError("Failed to fetch data. Please try again later.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [params.id, decodeUsernameAndNumber]);
 
-  // useEffect(() => {
-  //   if (params.id) {
-  //     fetchData();
-  //   }
-  //   // No cleanup needed for setting loading state
-  // }, [params.id, fetchData]);
+  useEffect(() => {
+    if (params.id) {
+      fetchData();
+    }
+    // No cleanup needed for setting loading state
+  }, [params.id, fetchData]);
 
   if (loading) {
     return (
