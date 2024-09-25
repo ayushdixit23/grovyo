@@ -146,7 +146,7 @@ const CommunityItem = React.memo(({ item }) => {
         <div>{item?.desc.length > 90 ? `${item?.desc.slice(0, 90)}...` : item?.desc}</div>
         <div className="flex justify-end items-end h-full">
           <a
-            href={`https://grovyo.com/main/feed/newForYou/${item?._id}`}
+            href={`https://grovyo.com/main/feed/newForYou?id=${item?._id}`}
             target="_blank"
             className="text-white rounded-2xl hover:bg-black hover:scale-105 duration-100 flex items-center justify-center bg-[#1a1a1a] w-[100%] p-[10px]"
           >
@@ -163,7 +163,7 @@ const CommunityItem = React.memo(({ item }) => {
             <div className="h-[250px] relative rounded-xl">
               {f?.type?.startsWith("image") ? (
                 <a
-                  href={`https://grovyo.com/main/feed/newForYou/${item?._id}#${f?.id}`}
+                  href={`https://grovyo.com/main/feed/newForYou?id=${item?._id}#${f?.id}`}
                   className="w-full absolute top-0 left-0 z-50 h-full"
                   target="_blank"
                 >
@@ -171,7 +171,7 @@ const CommunityItem = React.memo(({ item }) => {
                 </a>
               ) : (
                 <a
-                  href={`https://grovyo.com/main/feed/newForYou/${item?._id}#${f?.id}`}
+                  href={`https://grovyo.com/main/feed/newForYou?id=${item?._id}#${f?.id}`}
                   className="w-full absolute top-0 left-0 z-50 h-full"
                   target="_blank"
                 >

@@ -547,6 +547,7 @@ function page() {
               feed={feed}
               loading={loading}
               handleLike={handleLike}
+              isMobile={isMobile}
               setHide={setHide}
               dispatch={dispatch}
               theme={theme}

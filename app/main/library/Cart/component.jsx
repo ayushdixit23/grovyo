@@ -212,13 +212,36 @@ function page() {
     }
   };
 
+  // const placeOrderWithOnline = async () => {
+  //   try {
+  //     const productId = data.map((d) => {
+  //       return d?.c?.product?._id;
+  //     });
+  //     const res = await axios.post(
+  //       `${API}/payments/createrzporder/${user?.id}`,
+  //       {
+  //         deliverycharges: 28,
+  //         productId,
+  //         total: actualPrice * 100,
+  //         path: "main/library/Cart",
+  //       }
+  //     );
+
+  //     if (res.data.success) {
+  //       router.push(res.data?.url);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const placeOrderWithOnline = async () => {
     try {
       const productId = data.map((d) => {
         return d?.c?.product?._id;
       });
       const res = await axios.post(
-        `${API}/payments/createrzporder/${user?.id}`,
+        `http://localhost:7190/api/v1/createrzporder/${user?.id}`,
         {
           deliverycharges: 28,
           productId,

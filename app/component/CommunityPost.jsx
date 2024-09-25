@@ -263,7 +263,7 @@ const CommunityPost = forwardRef(
                   <div
                     onClick={() => {
                       setShareValue(
-                        `https://grovyo.com/main/feed/newForYou/${comId}#${d?.posts?._id}`
+                        `https://grovyo.com/main/feed/newForYou?id=${comId}#${d?.posts?._id}`
                       );
                       setShare(true);
                     }}

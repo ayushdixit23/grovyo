@@ -234,6 +234,7 @@ const MyFeedComponent = ({
   feed,
   loading,
   handleLike,
+  isMobile,
   setHide,
   dispatch,
   theme,
@@ -290,7 +291,7 @@ const MyFeedComponent = ({
             href={`/main/feed/community?id=${d?.community?._id}`}
           >
             <div
-              className={`bg-[#f4f4f4]  dark:bg-graydark rounded-xl ${
+              className={`bg-[#f4f4f4] dark:bg-graydark rounded-xl ${
                 d?.urls.length > 1 ? "overflow-x-scroll no-scrollbar" : null
               } flex flex-col justify-center items-center `}
             >
@@ -463,7 +464,7 @@ const MyFeedComponent = ({
               className="virtualized-list"
               height={height}
               width={width}
-              rowHeight={400}
+              rowHeight={isMobile ? 430 : 400}
               rowCount={rowCount}
               rowRenderer={rowRenderer}
             />

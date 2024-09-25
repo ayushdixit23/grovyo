@@ -406,7 +406,7 @@ const Search = React.memo(({ setShow }) => {
                 <div className="flex flex-col gap-2 px-2 mt-3">
                   {all.community?.map((d, i) => (
                     <a
-                      href={`https://grovyo.com/main/feed/newForYou/${d?._id}`}
+                      href={`https://grovyo.com/main/feed/newForYou?id=${d?._id}`}
                       target="_blank"
                       key={i}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
@@ -450,7 +450,7 @@ const Search = React.memo(({ setShow }) => {
                 <div className="flex flex-col gap-2 px-2 mt-3">
                   {all.posts?.map((d, i) => (
                     <a
-                      href={`https://grovyo.com/main/feed/newForYou/${d?.community?._id}#${d?._id}`}
+                      href={`https://grovyo.com/main/feed/newForYou?id=${d?.community?._id}#${d?._id}`}
                       target="_blank"
                       key={i}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
@@ -516,7 +516,7 @@ const Search = React.memo(({ setShow }) => {
                 <div className="flex flex-col gap-2 px-2 mt-3">
                   {posts?.map((d, i) => (
                     <a
-                      href={`https://grovyo.com/main/feed/newForYou/${d?.community?._id}#${d?._id}`}
+                      href={`https://grovyo.com/main/feed/newForYou?id=${d?.community?._id}#${d?._id}`}
                       target="_blank"
                       key={i}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
@@ -694,7 +694,7 @@ const Search = React.memo(({ setShow }) => {
                 <div className="flex flex-col gap-2 px-2 mt-3">
                   {dataa?.map((d, i) => (
                     <a
-                      href={`https://grovyo.com/main/feed/newForYou/${d?.p?._id}`}
+                      href={`https://grovyo.com/main/feed/newForYou?id=${d?.p?._id}`}
                       target="_blank"
                       key={i}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
@@ -747,7 +747,7 @@ const Search = React.memo(({ setShow }) => {
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
                     >
                       <a
-                        href={`https://grovyo.com/main/feed/newForYou/${d?._id}`}
+                        href={`https://grovyo.com/main/feed/newForYou?id=${d?._id}`}
                         target="_blank"
                         className="flex justify-center items-center"
                       >
