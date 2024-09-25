@@ -2,7 +2,7 @@ import React from "react";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import ic1 from "../assets/div.animate-block.png";
 import ic2 from "../assets/div.animate.png";
-import ic3 from "../assets/chat.png";
+import ic3 from "../assets/Chat.png";
 import ic4 from "../assets/monetize.png";
 import ic5 from "../assets/buy.png";
 import ic6 from "../assets/topics.png";
