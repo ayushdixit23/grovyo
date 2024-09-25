@@ -197,7 +197,7 @@ function page() {
       //   productId,
       // });
       const res = await axios.post(
-        `${API}/api/createnewproductorder/${user?.id}`,
+        `${API}/payments/createnewproductorder/${user?.id}`,
         {
           deliverycharges: 28,
           productId,
@@ -206,6 +206,29 @@ function page() {
 
       if (res.data.success) {
         toast.success("Order Placed!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const placeOrderWithOnline = async () => {
+    try {
+      const productId = data.map((d) => {
+        return d?.c?.product?._id;
+      });
+      const res = await axios.post(
+        `${API}/payments/createrzporder/${user?.id}`,
+        {
+          deliverycharges: 28,
+          productId,
+          total: actualPrice * 100,
+          path: "main/library/Cart",
+        }
+      );
+
+      if (res.data.success) {
+        router.push(res.data?.url);
       }
     } catch (error) {
       console.log(error);
@@ -234,29 +257,6 @@ function page() {
   //     console.log(error);
   //   }
   // };
-
-  const placeOrderWithOnline = async () => {
-    try {
-      const productId = data.map((d) => {
-        return d?.c?.product?._id;
-      });
-      const res = await axios.post(
-        `https://work.grovyo.xyz/api/v1/createrzporder/${user?.id}`,
-        {
-          deliverycharges: 28,
-          productId,
-          total: actualPrice * 100,
-          path: "main/library/Cart",
-        }
-      );
-
-      if (res.data.success) {
-        router.push(res.data?.url);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>

@@ -54,7 +54,7 @@ const Products = ({ params }) => {
     try {
       if (auth) {
         const res = await axios.post(
-          `${API}/webaddtocart/${user?.id}/${params?.id}`,
+          `${API}/payments/webaddtocart/${user?.id}/${params?.id}`,
           {
             quantity: 1,
           }
