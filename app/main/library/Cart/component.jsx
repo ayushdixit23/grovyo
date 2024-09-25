@@ -241,7 +241,7 @@ function page() {
         return d?.c?.product?._id;
       });
       const res = await axios.post(
-        `http://localhost:7190/api/v1/createrzporder/${user?.id}`,
+        `https://work.grovyo.xyz/api/v1/createrzporder/${user?.id}`,
         {
           deliverycharges: 28,
           productId,
