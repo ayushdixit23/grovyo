@@ -227,9 +227,9 @@ function page() {
         }
       );
 
-      if (res.data.success) {
-        router.push(res.data?.url);
-      }
+      // if (res.data.success) {
+      //   router.push(res.data?.url);
+      // }
     } catch (error) {
       console.log(error);
     }
