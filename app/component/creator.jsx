@@ -1,5 +1,7 @@
 "use client";
+import { SAPI } from "@/Essentials";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -9,6 +11,7 @@ const Creator = () => {
     email: "fsayush100@gmail.com",
   });
 
+  const router = useRouter()
   const sendCreatorDetails = async () => {
     try {
       const data = {
@@ -16,13 +19,15 @@ const Creator = () => {
         email: creator.email,
       };
       const res = await axios.post(
-        `http://localhost:7191/api/sendcreatordetails`,
+        `${SAPI}/sendcreatordetails`,
         data
       );
-      console.log(res.data);
+   
+      toast.success("Invite Send!");
       if (res.data.success) {
-        toast.success("Invite Send!");
         setCreator({ name: "", email: "" });
+        router.push(`https://workspace.grovyo.com/aybdhw?zyxxpht=${res.data?.userId}&path=/membership`)
+        // router.push(`https://workspace.grovyo.com/aybdhw?id=${res.data?.userId}&path=/membership`)
       } else {
         toast.error("Some Error Occured!");
       }
