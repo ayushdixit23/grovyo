@@ -6,60 +6,35 @@ import icon2 from "../app/assets/icon2.png";
 import Image from "next/image";
 import Feature from "./component/Feature";
 import Businesses from "./component/Businesses";
+import Creator from "./component/creator";
 import Search from "./component/SearchPage";
-import Link from "next/link";
-import { useAuthContext } from "./utils/AuthWrapper";
 
 const Page = () => {
   const [state, setState] = useState("main");
   const [scrolled, setScrolled] = useState(false);
-  const { auth } = useAuthContext();
 
-  const MemoizedFeature = React.memo(Feature);
-  const MemoizedBusinesses = React.memo(Businesses);
-  const debounce = (func, delay) => {
-    let timeoutId;
-    return (...args) => {
-      if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func.apply(null, args);
-      }, delay);
-    };
-  };
+
   const handleScroll = () => {
-    setScrolled(window.scrollY > 10);
-  };
-
-  useEffect(() => {
-    const handleScrollDebounced = debounce(handleScroll, 100);
-    window.addEventListener("scroll", handleScrollDebounced);
-    return () => window.removeEventListener("scroll", handleScrollDebounced);
-  }, []);
-
-  const renderContent = () => {
-    switch (state) {
-      case "main":
-        return <MainContent />;
-      case "feature":
-        return <MemoizedFeature />;
-      case "business":
-        return <MemoizedBusinesses />;
-      case "search":
-        return <Search />;
-      default:
-        return null;
+    if (window.scrollY > 10) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
     }
   };
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
+    <div className={`${state === "creators"?"":""}`}
+    >
       <div className="fixed bottom-0 select-none z-40 sm:hidden block left-0 w-full">
-        <div className="py-4 bg-black text-white   bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-25 px-5 rounded-full w-full gap-4 flex justify-center items-center">
+        <div className="py-4 bg-black text-white  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-25 px-5 rounded-full w-full gap-4 flex justify-center items-center">
           <div
-            className="text-sm relative cursor-pointer  after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%]
-             after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform
-              after:duration-200 after:ease-in-out after:bottom-0  after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)]
-               shadow-white"
+            className="text-sm relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:ease-in-out after:bottom-0 after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white"
             onClick={() => setState("main")}
           >
             Communities
@@ -76,15 +51,20 @@ const Page = () => {
           >
             For Businesses
           </div>
+          <div
+            className="text-sm relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:ease-in-out after:bottom-0 after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white"
+            onClick={() => setState("creators")}
+          >
+            For Creators
+          </div>
         </div>
+      </div>
       </div>
       <div
         style={{ userSelect: "none" }}
-        className={`text-white ${state == "main" && "h-screen"}  ${
-          state == "business" && "h-full sm:h-screen"
-        }  ${
-          state == "feature" && "h-full md:h-screen"
-        } w-screen bg-gradient-to-r from-black via-[#111827] to-black`}
+        className={`text-white  ${state === "creators" ? "h-full ss:h-screen bg-creator bg-center bg-cover" : "bg-gradient-to-r from-black via-[#111827] to-black"} ${state == "main" && "h-screen"}  ${state == "business" && "h-full sm:h-screen"
+          }  ${state == "feature" && "h-full md:h-screen"
+          } w-screen `}
       >
         {/* Top section with header */}
         {/* <div className={`sm:px-10 sticky ${
@@ -123,9 +103,8 @@ const Page = () => {
         </div>
       </div> */}
         <div
-          className={`sm:px-10 sticky top-0 left-0 px-3 w-full flex items-center justify-between text-white py-3.5 mb-4 rounded-xl z-40 transition-colors duration-300 ease-in-out ${
-            scrolled ? "bg-black bg-opacity-50" : "bg-transparent"
-          } bg-clip-padding backdrop-filter backdrop-blur-sm`}
+          className={`sm:px-10 sticky top-0 left-0 px-3 w-full flex items-center justify-between text-white py-3.5 mb-4 rounded-xl z-40 transition-colors duration-300 ease-in-out ${scrolled ? "bg-black bg-opacity-50" : "bg-transparent"
+            } bg-clip-padding backdrop-filter backdrop-blur-sm`}
         >
           <div className="w-[20%] ">
             <div>
@@ -141,6 +120,11 @@ const Page = () => {
               <span
                 onClick={() => setState("main")}
                 className="relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:ease-in-out after:bottom-0 after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white"
+              //                 className={`relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:bottom-0 after:mt-1 after:transition-transform after:duration-200 after:ease-in-out ${
+              //   state === "main"
+              //     ? "after:scale-x-100 [text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white"
+              //     : "after:scale-x-0 hover:after:scale-x-100 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)]"
+              // }`}
               >
                 Communities
               </span>
@@ -156,6 +140,12 @@ const Page = () => {
               >
                 For Businesses
               </span>
+              <span
+                onClick={() => setState("creators")}
+                className="relative cursor-pointer after:content-[''] after:absolute after:left-1/2 after:transform after:-translate-x-1/2 after:w-[50%] after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-200 after:ease-in-out after:bottom-0 after:mt-1 hover:[text-shadow:1px_1px_5px_var(--tw-shadow-color)] shadow-white"
+              >
+                For Creators
+              </span>
             </div>
           </div>
           <div className="flex justify-row gap-5 w-[20%] justify-end">
@@ -165,22 +155,9 @@ const Page = () => {
             >
               <FiSearch size={20} />
             </div>
-
-            {auth ? (
-              <Link
-                href={"/main/feed/newForYou"}
-                className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]"
-              >
-                Login
-              </Link>
-            ) : (
-              <Link
-                href={"/login"}
-                className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]"
-              >
-                Login
-              </Link>
-            )}
+            <div className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]">
+              Login
+            </div>
           </div>
         </div>
 
@@ -251,6 +228,11 @@ const Page = () => {
           {state === "search" && (
             <>
               <Search />
+            </>
+          )}
+          {state === "creators" && (
+            <>
+              <Creator />
             </>
           )}
         </div>

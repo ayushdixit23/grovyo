@@ -33,7 +33,7 @@ module.exports = {
         lightpiclogin: "url('./assets/lightpiclogin.png')",
         defaultprositelight: "url('./assets/defaultprositelight.png')",
         defaultprositedark: "url('./assets/defaultprositedark.png')",
-        'creator': "url('./assets/background.png')",
+        'creator': "url('./assets/backgrounds.png')",
       },
       boxShadow: {
         'custom-lg': '0 10px 15px -3px rgba(255, 255, 255, 0.07), 0 4px 6px -2px rgba(255, 255, 255, 0.07)',

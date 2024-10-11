@@ -562,107 +562,107 @@ import React from "react";
 const page = () => {
 	return (
 		<>
-			<div className="flex justify-center items-center w-full select-none text-[#e7e5e4]">
+			<div className="flex justify-center items-center w-full select-none text-gray-300 bg-gradient-to-r from-black via-[#111827] to-black ">
 				<div className="grid grid-cols-1 my-2 sm:my-6 w-[90%]">
 					<div>
-						<h1 className="sm:text-4xl text-3xl font-bold my-5 text-white">
+						<h1 className="sm:text-3xl text-2xl font-bold my-5 text-gray-300 flex justify-center underline" >
 							Privacy Policy
 						</h1>
-						<div className="text-xl font-bold mb-5 text-white">
+						<div className="font-semibold text-lg mb-5 text-gray-300">
 							This website operates under Grovyo Platforms Pvt Ltd
 						</div>
-						<p>
+						<p className="font-thin text-[13px]">
 							This Privacy Policy describes Our policies and procedures on the
 							collection, use and disclosure of Your information when You use
 							the Service and tells You about Your privacy rights and how the
 							law protects You.
 						</p>
 
-						<h1 className="text-3xl font-bold py-5 text-white">
+						<h1 className="text-xl font-bold py-5 text-gray-300 underline">
 							Interpretation and Definitions
 						</h1>
-						<h2 className="text-2xl font-semibold pb-3 text-white">
+						<h2 className="text-lg font-medium pb-3 text-gray-300">
 							Interpretation
 						</h2>
-						<p>
+						<p className="font-thin text-sm">
 							The words of which the initial letter is capitalized have meanings
 							defined under the following conditions. The following definitions
 							shall have the same meaning regardless of whether they appear in
 							singular or in plural.
 						</p>
-						<h2 className="text-2xl font-semibold py-3 text-white">
+						<h2 className="text-lg font-medium py-3 text-gray-300">
 							Definitions
 						</h2>
-
-						<ul className=" flex flex-col gap-4 ">
+                          
+						<ul className=" flex flex-col gap-4 text-sm font-medium list-disc ">
 							<p>For the purposes of this Privacy Policy:</p>
-							<li>
-								<strong className="text-white">Account</strong> means a unique
+							<li className="font-thin text-sm">
+								<strong className="text-gray-300 ">Account</strong> means a unique
 								account created for You to access our Service or parts of our
 								Service.
 							</li>
-							<li>
-								<strong className="text-white">Affiliate</strong> means an
+							<li className="font-thin text-sm">
+								<strong className="text-gray-300">Affiliate</strong> means an
 								entity that controls, is controlled by or is under common
 								control with a party, where &quot;control&quot; means ownership
 								of 50% or more of the shares, equity interest or other
 								securities entitled to vote for election of directors or other
 								managing authority.
 							</li>
-							<li>
-								<strong className="text-white">Application</strong> refers to
+							<li className="font-thin text-sm">
+								<strong className="text-gray-300">Application</strong> refers to
 								Grovyo, the software program provided by the Company.
 							</li>
-							<li>
-								<strong className="text-white">Company</strong> (referred to as
+							<li className="font-thin text-sm">
+								<strong className="text-gray-300">Company</strong> (referred to as
 								either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot;
 								or &quot;Our&quot; in this Agreement) refers to Grovyo Platforms
 								Pvt. Ltd.
 							</li>
-							<li>
+							<li className="font-thin text-sm">
 								<p>
-									<strong className="text-white">Cookies</strong> are small
+									<strong className="text-gray-300">Cookies</strong> are small
 									files that are placed on Your computer, mobile device or any
 									other device by a website, containing the details of Your
 									browsing history on that website among its many uses.
 								</p>
 							</li>
-							<li>
-								<strong className="text-white">Country</strong> refers to: Uttar
+							<li className="font-thin text-sm">
+								<strong className="text-gray-300">Country</strong> refers to: Uttar
 								Pradesh, India
 							</li>
-							<li>
-								<strong className="text-white">Device</strong> means any device
+							<li className="font-thin text-sm">
+								<strong className="text-gray-300">Device</strong> means any device
 								that can access the Service such as a computer, a cellphone or a
 								digital tablet.
 							</li>
-							<li>
-								<strong className="text-white">Personal Data</strong> is any
+							<li className="font-thin text-sm">
+								<strong className="text-gray-300">Personal Data</strong> is any
 								information that relates to an identified or identifiable
 								individual.
 							</li>
-							<li>
-								<strong className="text-white">Service</strong> refers to the
+							<li className="font-thin text-sm">
+								<strong className="text-gray-300">Service</strong> refers to the
 								Application or the Website or both.
 							</li>
-							<li>
+							<li className="font-thin text-sm">
 								No. Of days taken to process the refund to customer account is
 								5-7 working days.
 							</li>
 
-							<li>
-								<strong className="text-white">Usage Data</strong> refers to
+							<li className="font-thin text-sm">
+								Usage Data : refers to
 								data collected automatically, either generated by the use of the
 								Service or from the Service infrastructure itself (for example,
 								the duration of a page visit).
 							</li>
 
-							<li>
+							<li className="font-thin text-sm">
 								<p>
-									<strong className="text-white">Website</strong> refers to
+								Website : refers to
 									Grovyo, accessible from{" "}
 									<a
-										href="grovyo.com"
+										href="https://grovyo.com/"
 										rel="external nofollow noopener"
 										target="_blank"
 									>
@@ -670,22 +670,22 @@ const page = () => {
 									</a>
 								</p>
 							</li>
-							<li>
+							<li className="font-thin text-sm">
 								<strong>You</strong> means the individual accessing or using the
 								Service, or the company, or other legal entity on behalf of
 								which such individual is accessing or using the Service, as
 								applicable.
 							</li>
 						</ul>
-						<h1 className="text-3xl font-bold py-4 text-white">
+						<h1 className="text-xl font-bold py-4 text-gray-300 underline">
 							Collecting and Using Your Personal Data
 						</h1>
-						<h2 className="text-2xl font-semibold pb-3 text-white">
+						<h2 className="text-lg font-semibold pb-3 text-gray-300">
 							Types of Data Collected
 						</h2>
-						<h3 className="text-xl font-bold py-2 text-white">Personal Data</h3>
+						<h3 className="text-sm font-bold py-2 text-gray-300">Personal Data</h3>
 
-						<ul className="flex flex-col gap-4">
+						<ul className="flex flex-col gap-4 text-sm font-thin">
 							<p>
 								While using Our Service, We may ask You to provide Us with
 								certain personally identifiable information that can be used to
@@ -693,20 +693,20 @@ const page = () => {
 								include, but is not limited to:
 							</p>
 							<li>
-								<p>Email address</p>
+								<p className="font-semibold">Email address</p>
 							</li>
 							<li>
-								<p>First name and last name</p>
+								<p >First name and last name</p>
 							</li>
 							<li>
-								<p>Phone number</p>
+								<p className="font-semibold">Phone number</p>
 							</li>
 							<li>
 								<p>Address, State, Province, ZIP/Postal code, City</p>
 							</li>
 						</ul>
-						<h3 className="text-xl font-bold py-2 text-white">Usage Data</h3>
-						<div className="flex flex-col gap-4">
+						<h3 className="text-xl font-bold py-2 text-gray-300 underline">Usage Data</h3>
+						<div className="flex flex-col gap-4 text-sm font-thin">
 							<p>
 								Usage Data is collected automatically when using the Service.
 							</p>
@@ -731,11 +731,11 @@ const page = () => {
 								through a mobile device.
 							</p>
 						</div>
-						<h3 className="text-xl font-bold py-2 text-white">
+						<h3 className="text-lg font-bold py-2 text-gray-300 underline">
 							Information Collected while Using the Application
 						</h3>
 
-						<ul className="flex flex-col gap-4">
+						<ul className="flex flex-col gap-4 text-sm font-thin">
 							<li>
 								<p className="py-2">
 									While using Our Application, in order to provide features of
@@ -764,11 +764,11 @@ const page = () => {
 							</li>
 						</ul>
 
-						<h3 className="text-xl font-bold my-4 text-white">
+						<h3 className="text-lg font-semibold my-4 text-gray-300 underline">
 							Tracking Technologies and Cookies
 						</h3>
 
-						<ul className="flex flex-col gap-4">
+						<ul className="flex flex-col gap-4 text-sm font-thin">
 							<li><p >
 								We use Cookies and similar tracking technologies to track the
 								activity on Our Service and store certain information. Tracking
@@ -804,11 +804,11 @@ const page = () => {
 						<ul className="flex flex-col gap-4 my-4">
 
 							<p >
-								<strong className="text-white">Necessary / Essential Cookies</strong>
+								<strong className="text-gray-300 text-lg font-bold underline">Necessary / Essential Cookies</strong>
 							</p>
-							<p >Type: Session Cookies</p>
-							<p >Administered by: Us</p>
-							<p >
+							<p className="text-base font-medium">Type: Session Cookies</p>
+							<p className="text-base font-medium">Administered by: Us</p>
+							<p className="text-sm font-thin">
 								Purpose: These Cookies are essential to provide You with
 								services available through the Website and to enable You to
 								use some of its features. They help to authenticate users and
@@ -820,24 +820,24 @@ const page = () => {
 
 
 							<p >
-								<strong className="text-white">
+								<strong className="text-gray-300 text-lg underline">
 									Cookies Policy / Notice Acceptance Cookies
 								</strong>
 							</p>
-							<p >Type: Persistent Cookies</p>
-							<p >Administered by: Us</p>
-							<p >
+							<p className="text-base font-medium">Type: Persistent Cookies</p>
+							<p className="text-base font-medium">Administered by: Us</p>
+							<p className="text-sm font-thin">
 								Purpose: These Cookies identify if users have accepted the use
 								of cookies on the Website.
 							</p>
 
 
 							<p>
-								<strong className="text-white">Functionality Cookies</strong>
+								<strong className="text-gray-300">Functionality Cookies</strong>
 							</p>
-							<p >Type: Persistent Cookies</p>
-							<p >Administered by: Us</p>
-							<p >
+							<p className="text-base font-medium">Type: Persistent Cookies</p>
+							<p className="text-base font-medium">Administered by: Us</p>
+							<p className="text-sm font-thin">
 								Purpose: These Cookies allow us to remember choices You make
 								when You use the Website, such as remembering your login
 								details or language preference. The purpose of these Cookies
@@ -847,21 +847,21 @@ const page = () => {
 							</p>
 
 						</ul>
-						<p className="py-2">
+						<p className="py-2 text-sm font-thin ">
 							For more information about the cookies we use and your choices
 							regarding cookies, please visit our Cookies Policy or the Cookies
 							section of our Privacy Policy.
 						</p>
-						<h2 className="text-2xl font-semibold py-3 text-white">
+						<h2 className="text-xl font-semibold py-3 text-gray-300 underline">
 							Use of Your Personal Data
 						</h2>
-						<p className="py-2 text-white">
+						<p className="py-2 text-sm text-gray-300">
 							The Company may use Personal Data for the following purposes:
 						</p>
-						<ul className="flex flex-col gap-4">
+						<ul className="flex flex-col gap-4 text-sm font-thin">
 							<li >
 								<p>
-									<strong className="text-white">
+									<strong className="text-gray-300">
 										To provide and maintain our Service
 									</strong>
 									, including to monitor the usage of our Service.
@@ -869,7 +869,7 @@ const page = () => {
 							</li>
 							<li >
 								<p>
-									<strong className="text-white">
+									<strong className="text-gray-300 font-bold">
 										To manage Your Account:
 									</strong>{" "}
 									to manage Your registration as a user of the Service. The
@@ -880,7 +880,7 @@ const page = () => {
 							</li>
 							<li >
 								<p>
-									<strong className="text-white">
+									<strong className="text-gray-300 font-bold">
 										For the performance of a contract:
 									</strong>{" "}
 									the development, compliance and undertaking of the purchase
@@ -891,7 +891,7 @@ const page = () => {
 							</li>
 							<li >
 								<p>
-									<strong className="text-white">To contact You:</strong> To
+									<strong className="text-gray-300 font-bold">To contact You:</strong> To
 									contact You by email, telephone calls, SMS, or other
 									equivalent forms of electronic communication, such as a mobile
 									application's push notifications regarding updates or
@@ -903,7 +903,7 @@ const page = () => {
 							</li>
 							<li >
 								<p>
-									<strong className="text-white">To provide You</strong> with
+									<strong className="text-gray-300">To provide You</strong> with
 									news, special offers and general information about other
 									goods, services and events which we offer that are similar to
 									those that you have already purchased or enquired about unless
@@ -912,7 +912,7 @@ const page = () => {
 							</li>
 							<li >
 								<p>
-									<strong className="text-white">
+									<strong className="text-gray-300 font-bold">
 										To manage Your requests:
 									</strong>{" "}
 									To attend and manage Your requests to Us.
@@ -920,7 +920,7 @@ const page = () => {
 							</li>
 							<li >
 								<p>
-									<strong className="text-white">
+									<strong className="text-gray-300 font-bold">
 										For business transfers:
 									</strong>{" "}
 									We may use Your information to evaluate or conduct a merger,
@@ -933,7 +933,7 @@ const page = () => {
 							</li>
 							<li >
 								<p>
-									<strong className="text-white">For other purposes</strong>: We
+									<strong className="text-gray-300 font-bold">For other purposes</strong>: We
 									may use Your information for other purposes, such as data
 									analysis, identifying usage trends, determining the
 									effectiveness of our promotional campaigns and to evaluate and
@@ -943,25 +943,25 @@ const page = () => {
 							</li>
 						</ul>
 
-						<ul className="flex flex-col gap-4">
+						<ul className="flex flex-col gap-4 text-sm">
 							<p>
 								We may share Your personal information in the following
 								situations:
 							</p>
 							<li >
-								<strong className="text-white">With Service Providers:</strong>{" "}
+								<strong className="text-gray-300">With Service Providers:</strong>{" "}
 								We may share Your personal information with Service Providers to
 								monitor and analyze the use of our Service, to contact You.
 							</li>
 							<li >
-								<strong className="text-white">For business transfers:</strong>{" "}
+								<strong className="text-gray-300">For business transfers:</strong>{" "}
 								We may share or transfer Your personal information in connection
 								with, or during negotiations of, any merger, sale of Company
 								assets, financing, or acquisition of all or a portion of Our
 								business to another company.
 							</li>
 							<li >
-								<strong className="text-white">With Affiliates:</strong> We may
+								<strong className="text-gray-300">With Affiliates:</strong> We may
 								share Your information with Our affiliates, in which case we
 								will require those affiliates to honor this Privacy Policy.
 								Affiliates include Our parent company and any other
@@ -969,26 +969,26 @@ const page = () => {
 								control or that are under common control with Us.
 							</li>
 							<li >
-								<strong className="text-white">With business partners:</strong>{" "}
+								<strong className="text-gray-300">With business partners:</strong>{" "}
 								We may share Your information with Our business partners to
 								offer You certain products, services or promotions.
 							</li>
 							<li >
-								<strong className="text-white">With other users:</strong> when
+								<strong className="text-gray-300">With other users:</strong> when
 								You share personal information or otherwise interact in the
 								public areas with other users, such information may be viewed by
 								all users and may be publicly distributed outside.
 							</li>
 							<li >
-								<strong className="text-white">With Your consent</strong>: We
+								<strong className="text-gray-300">With Your consent</strong>: We
 								may disclose Your personal information for any other purpose
 								with Your consent.
 							</li>
 						</ul>
-						<h2 className="text-2xl font-semibold py-3 text-white">
+						<h2 className="text-xl font-semibold py-3 text-gray-300 underline">
 							Retention of Your Personal Data
 						</h2>
-						<div className="flex flex-col gap-4"><p >
+						<div className="flex flex-col gap-4 text-sm font-thin"><p >
 							The Company will retain Your Personal Data only for as long as is
 							necessary for the purposes set out in this Privacy Policy. We will
 							retain and use Your Personal Data to the extent necessary to
@@ -1004,10 +1004,10 @@ const page = () => {
 								obligated to retain this data for longer time periods.
 							</p>
 						</div>
-						<h2 className="text-2xl font-semibold py-4 text-white">
+						<h2 className="text-xl font-semibold py-4 text-gray-300 underline">
 							Transfer of Your Personal Data
 						</h2>
-						<div className="flex flex-col gap-4"><p >
+						<div className="flex flex-col gap-4 text-sm font-thin"><p >
 							Your information, including Personal Data, is processed at the
 							Company's operating offices and in any other places where the
 							parties involved in the processing are located. It means that this
@@ -1029,10 +1029,10 @@ const page = () => {
 								personal information.
 							</p>
 						</div>
-						<h2 className="text-2xl font-semibold py-3 text-white">
+						<h2 className="text-xl font-semibold py-3 text-gray-300 underline">
 							Delete Your Personal Data
 						</h2>
-						<div className="flex flex-col gap-4"><p >
+						<div className="flex flex-col gap-4 text-sm "><p >
 							You have the right to delete or request that We assist in deleting
 							the Personal Data that We have collected about You.
 						</p>
@@ -1054,37 +1054,37 @@ const page = () => {
 								so.
 							</p>
 						</div>
-						<h2 className="text-2xl font-semibold py-3 text-white">
+						<h2 className="text-xl font-semibold py-3 text-gray-300 underline">
 							Disclosure of Your Personal Data
 						</h2>
-						<h3 className="text-xl font-medium py-4 text-white">
+						<h3 className="text-base font-medium py-4 text-gray-300">
 							Business Transactions
 						</h3>
-						<p >
+						<p className="text-sm font-thin" >
 							If the Company is involved in a merger, acquisition or asset sale,
 							Your Personal Data may be transferred. We will provide notice
 							before Your Personal Data is transferred and becomes subject to a
 							different Privacy Policy.
 						</p>
-						<h3 className="text-xl font-medium py-4 text-white">
+						<h3 className="text-base font-semibold py-4 text-gray-300">
 							Law enforcement
 						</h3>
-						<p >
+						<p className="font-thin text-sm">
 							Under certain circumstances, the Company may be required to
 							disclose Your Personal Data if required to do so by law or in
 							response to valid requests by public authorities (e.g. a court or
 							a government agency).
 						</p>
-						<h3 className="text-xl font-medium py-4 text-white">
+						<h3 className="text-base font-semibold py-4 text-gray-300">
 							Other legal requirements
 						</h3>
-						<p >
+						<p className="text-sm font-thin">
 							The Company may disclose Your Personal Data in the good faith
 							belief that such action is necessary to:
 						</p>
-						<ul>
-							<li className="py-2">Comply with a legal obligation</li>
-							<li className="py-2">
+						<ul className="font-light text-sm">
+							<li className="py-2 text-base font-semibold">Comply with a legal obligation</li>
+							<li className="py-2 ">
 								Protect and defend the rights or property of the Company
 							</li>
 							<li className="py-2">
@@ -1097,20 +1097,20 @@ const page = () => {
 							</li>
 							<li className="py-2">Protect against legal liability</li>
 						</ul>
-						<h2 className="text-2xl font-semibold py-4 text-white">
+						<h2 className="text-xl font-semibold py-4 text-gray-300 underline">
 							Security of Your Personal Data
 						</h2>
-						<p >
+						<p className="text-sm font-thin">
 							The security of Your Personal Data is important to Us, but
 							remember that no method of transmission over the Internet, or
 							method of electronic storage is 100% secure. While We strive to
 							use commercially acceptable means to protect Your Personal Data,
 							We cannot guarantee its absolute security.
 						</p>
-						<h1 className="text-3xl font-bold py-4 text-white">
+						<h1 className="text-xl font-semibold py-4 text-gray-300 underline">
 							Children's Privacy
 						</h1>
-						<div className="flex flex-col gap-4"><p >
+						<div className="flex flex-col gap-4 font-thin text-sm"><p >
 							Our Service does not address anyone under the age of 13. We do not
 							knowingly collect personally identifiable information from anyone
 							under the age of 13. If You are a parent or guardian and You are
@@ -1120,50 +1120,50 @@ const page = () => {
 							parental consent, We take steps to remove that information from
 							Our servers.
 						</p>
-							<p >
+							<p className="font-thin text-sm">
 								If We need to rely on consent as a legal basis for processing Your
 								information and Your country requires consent from a parent, We
 								may require Your parent's consent before We collect and use that
 								information.
 							</p>
 						</div>
-						<h1 className="text-3xl font-bold py-4 text-white">
+						<h1 className="text-xl font-bold py-4 text-gray-300 underline">
 							Links to Other Websites
 						</h1>
-						<div className="flex flex-col gap-4"><p >
+						<div className="flex flex-col gap-4 font-thin text-sm"><p >
 							Our Service may contain links to other websites that are not
 							operated by Us. If You click on a third party link, You will be
 							directed to that third party's site. We strongly advise You to
 							review the Privacy Policy of every site You visit.
 						</p>
-							<p >
+							<p className="font-thin text-sm">
 								We have no control over and assume no responsibility for the
 								content, privacy policies or practices of any third party sites or
 								services.
 							</p>
 
 						</div>
-						<h1 className="text-3xl font-bold py-4 text-white">
+						<h1 className="text-xl font-semibold py-4 text-gray-300 underline">
 							Changes to this Privacy Policy
 						</h1>
-						<div className="flex flex-col gap-4"> <p >
+						<div className="flex flex-col gap-4 text-sm font-thin"> <p >
 							We may update Our Privacy Policy from time to time. We will notify
 							You of any changes by posting the new Privacy Policy on this page.
 						</p>
-							<p >
+							<p className="text-sm font-thin">
 								We will let You know via email and/or a prominent notice on Our
 								Service, prior to the change becoming effective and update the
 								&quot;Last updated&quot; date at the top of this Privacy Policy.
 							</p>
-							<p >
+							<p className="text-sm font-thin">
 								You are advised to review this Privacy Policy periodically for any
 								changes. Changes to this Privacy Policy are effective when they
 								are posted on this page.
 							</p>
 						</div>
-						<h1 className="text-3xl font-bold py-4 text-white">Contact Us</h1>
+						<h1 className="text-xl font-semibold py-4 text-gray-300 underline">Contact Us</h1>
 
-						<ul className="flex flex-col gap-4">
+						<ul className="flex flex-col gap-4 text-sm font-thin">
 							<p >
 								If you have any questions about this Privacy Policy, You can
 								contact us:
@@ -1172,11 +1172,11 @@ const page = () => {
 								<p >
 									By email:{" "}
 									<a
-										href="mailto:grovyoinc@gmail.com"
+										href="mailto:contact@grovyo.com"
 										className="text-blue-600 underline"
 									>
 										{" "}
-										grovyoinc@gmail.com
+										contact@grovyo.com
 									</a>
 								</p>
 							</li>

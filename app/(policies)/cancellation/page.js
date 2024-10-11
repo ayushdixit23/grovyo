@@ -109,12 +109,12 @@ const page = () => {
 	return (
 		<>
 			{/* <SupportHeader/> */}
-			<div className="flex justify-center items-center select-none px-4 md:px-0">
-				<div className="grid grid-cols-1 w-[85%] my-2 sm:my-6 text-[#FFFFFF99]">
-					<h1 className="text-3xl font-bold py-5 -ml-[3%] text-[#FFFFFF]">
+			<div className="flex justify-center items-center select-none px-4 md:px-0 bg-gradient-to-r from-black via-[#111827] to-black">
+				<div className="grid grid-cols-1 w-[85%] my-2 sm:my-6 text-white">
+					<h1 className="text-3xl font-bold py-5 -ml-[3%] text-white flex justify-center underline">
 						Cancellation & Refund Policy
 					</h1>
-					<div className="text-[15px] pp:text-[18px] ">
+					<div className="text-sm font-thin pp:text-[18px] ">
 						At Grovyo, we understand that circumstances may arise where you need
 						to cancel an order. Our cancellation policy is designed to ensure a
 						fair and transparent process for both our customers and our
@@ -122,7 +122,7 @@ const page = () => {
 						mobile application "Mobile App", you agree to comply with the
 						following cancellation terms:
 					</div>
-					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-[#FFFFFF]">
+					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-white">
 						Order Cancellation
 					</h1>
 					<div className="text-[15px] pp:text-[18px] ">
@@ -144,7 +144,7 @@ const page = () => {
 						cannot be canceled. Please refer to our Shipping Policy for further
 						information.
 					</div>
-					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-[#FFFFFF]">
+					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-white">
 						Refund Policy
 					</h1>
 					<div className="text-[15px] pp:text-[18px] ">
@@ -153,7 +153,7 @@ const page = () => {
 						requesting a refund for orders made through our Web App or Mobile
 						App. Please read this policy carefully before making a purchase:
 					</div>
-					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-[#FFFFFF]">
+					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-white">
 						Eligibility for Refund
 					</h1>
 					<div className="text-[15px] pp:text-[18px] ">
@@ -172,7 +172,7 @@ const page = () => {
 						our team. We reserve the right to determine the eligibility of the
 						product for a refund based on the provided information and evidence.
 					</div>
-					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-[#FFFFFF]">
+					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-white">
 						Refund Process
 					</h1>
 					<div className="text-[15px] pp:text-[18px] ">
@@ -187,7 +187,7 @@ const page = () => {
 						Refund Processing Time: Refunds will be processed within 4 business
 						days after the successful return of the product.
 					</div>
-					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-[#FFFFFF]">
+					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-white">
 						Non-Refundable Items
 					</h1>
 					<div className="text-[15px] pp:text-[18px] ">
@@ -198,7 +198,7 @@ const page = () => {
 						Customized or Personalized Items: Items that have been customized or
 						personalized according to your specifications are non-refundable.
 					</div>
-					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-[#FFFFFF]">
+					<h1 className="text-2xl font-semibold py-4 sm:py-5 text-white">
 						Contact Us
 					</h1>
 					<div className="text-[15px] pp:text-[18px] ">
