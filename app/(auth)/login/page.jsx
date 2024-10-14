@@ -510,17 +510,7 @@ function page() {
                       ref={otpInputRef}
                       className=" w-full flex gap-4 justify-center mt-3 items-center"
                     >
-                      {/* <DynamicOtpInput
-                        value={otp}
-                        onChange={handleOtpChange}
-                        OTPLength={6}
-                        otpType="number"
-                        // ref={otpInputRef}
-                        disabled={false}
-                        autoFocus
-                        className="opt-container sm:mt-3"
-                      ></DynamicOtpInput> */}
-
+                      
                       <InputOTPPattern
                         size="w-12 h-12"
                         className=" border border-[#363A3D] focus:border-[#9B9C9E] bg-[#1A1D21] text-white"
@@ -638,8 +628,8 @@ function page() {
                       <div className="py-2 ">
                         <div
                           //onClick={onSignup}
-                          // onClick={sendOtpEmail}
-                          onClick={handleCreate}
+                          onClick={sendOtpEmail}
+                          // onClick={handleCreate}
                           className="h-[50px] w-full select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
                         >
                           {loading && (
