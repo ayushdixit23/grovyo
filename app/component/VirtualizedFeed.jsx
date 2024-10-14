@@ -38,6 +38,7 @@ const VirtualizedFeed = ({
                 <div className=" flex object-scale-down items-center h-[100%] ">
                   <img
                     src={d?.dps}
+                    loading="lazy"
                     className="h-[35px] w-[35px] pn:max-sm:w-[30px] pn:max-sm:h-[30px] pn:max-sm:rounded-[13px] rounded-[15px] ring-1 ring-white bg-yellow-300 "
                   />
                 </div>
@@ -86,6 +87,7 @@ const VirtualizedFeed = ({
                             <div className="h-full w-full">
                               <img
                                 src={f?.content}
+                                loading="lazy"
                                 className="h-full object-contain bg-black rounded-t-xl w-full"
                               />
                             </div>
@@ -108,6 +110,7 @@ const VirtualizedFeed = ({
                           <div className="h-full w-full ">
                             <img
                               src={d?.urls[0]?.content}
+                              loading="lazy"
                               className="h-full object-contain bg-black rounded-t-xl w-full"
                             />
                           </div>
@@ -229,6 +232,7 @@ const VirtualizedFeed = ({
                               <div className="h-full w-full relative p-1">
                                 <img
                                   src={f?.content}
+                                  loading="lazy"
                                   className="h-full object-contain bg-black rounded-2xl w-full"
                                 />
                                 <div className="absolute top-3 right-2">
@@ -267,6 +271,7 @@ const VirtualizedFeed = ({
                         {d?.urls[0]?.type.startsWith("image") ? (
                           <div className="h-full w-full p-1">
                             <img
+                              loading="lazy"
                               src={d?.urls[0]?.content}
                               className="h-full object-contain bg-black rounded-2xl w-full"
                             />

@@ -148,14 +148,14 @@ const Page = () => {
               </span>
             </div>
           </div>
-          <div className="flex justify-row gap-5 w-[20%] justify-end">
+          <div className="flex justify-row gap-5  w-[20%] justify-end">
             <div
               onClick={() => setState("search")}
               className="border-solid flex justify-center items-center space-x-4 h-[80%] bg-gray-400 rounded-full bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-25 px-2 py-2"
             >
               <FiSearch size={20} />
             </div>
-            <div className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]">
+            <div className="rounded-full cursor-pointer py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]">
               Login
             </div>
           </div>

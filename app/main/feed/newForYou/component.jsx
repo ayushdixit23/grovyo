@@ -3,28 +3,15 @@
 import { useAuthContext } from "../../../utils/AuthWrapper";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { GoArrowRight } from "react-icons/go";
 import { API } from "../../../../Essentials";
-import Link from "next/link";
 import styles from "../../../CustomScrollbarComponent.module.css";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { formatDate } from "../../../utils/useful";
-import { VscSend } from "react-icons/vsc";
 import { socketemitfunc, useSocketContext } from "../../../utils/SocketWrapper";
 import toast from "react-hot-toast";
-import VideoPlayer from "@/app/component/VideoPlayer";
 import Newforyou from "@/app/component/Newforyou";
-import { useRouter, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setHide } from "@/app/redux/slice/remember";
-import ImageComponent from "@/app/component/ImageComponent";
-import Image from "next/image";
-
-import liked from "../../../assets/liked.png";
-import lightunlike from "../../../assets/lightunlike.png";
-import darkunlike from "../../../assets/darkunlike.png";
 import { useTheme } from "next-themes";
-import PostLoading from "@/app/component/PostLoading";
 import { setFeed } from "@/app/redux/slice/feedData";
 import EmptyCommunity from "@/app/component/EmptyCommunity";
 import VirtualizedFeed from "@/app/component/VirtualizedFeed";
@@ -342,7 +329,7 @@ export default function NewforyouLayout() {
               flexDirection: "column",
               width: "100%",
             }}
-            className={`pn:max-sm:w-[calc(100%-8px)] ${styles.customScrollbar}`}
+            className={`pn:max-sm:w-[calc(100%-8px)] `}
           >
             {/*Put the scroll bar always on the bottom*/}
             <VirtualizedFeed

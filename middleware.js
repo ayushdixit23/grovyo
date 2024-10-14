@@ -1,38 +1,36 @@
 import { NextResponse } from "next/server";
-import { checkToken } from "./app/utils/useful";
 
-export async function middleware(request) {
+export function middleware(request) {
+  const authToken = request.cookies.get("access_token")?.value;
+  const isUser = !!authToken;
 
-  let path = request.nextUrl.pathname;
-  let token = request.cookies.get("access_token")?.value;
+  // Define restricted routes for logged-in users
+  const restrictedRoutes = ["/signup", "/login"];
 
-  let check = await checkToken(token || "");
+  const url = request.nextUrl.clone();
 
-  if (!token && (path !== "/login")) {
-
-    return NextResponse.redirect(new URL("/login", request.url));
+  // If the user is authenticated and trying to access restricted routes, redirect them
+  if (isUser && restrictedRoutes.includes(url.pathname)) {
+    const dashboardUrl = new URL("/main/feed/newForYou", request.url); // or any other protected page
+    return NextResponse.redirect(dashboardUrl);
   }
 
-  if (!token && (path === "/login")) {
-    return NextResponse.next();
+  // If the user is not authenticated and trying to access protected routes, redirect to login
+  if (!isUser && !restrictedRoutes.includes(url.pathname)) {
+    const loginUrl = new URL("/login", request.url);
+    return NextResponse.redirect(loginUrl);
   }
 
-  if ((token && check?.isValid) && ((path === "/login"))) {
-    return NextResponse.redirect(new URL("/main/feed/newForYou", request.url));
-  }
-
-  if (token && !check?.isValid) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
+    "/signup",
     "/login",
     "/main/:chat*",
-    "/main/feed",
-    "/main/feed/community",
-    "/main/feed/newForYou",
+    "/main/:feed*",
     "/main/:library*",
+    "/main/:settings*",
   ],
 };

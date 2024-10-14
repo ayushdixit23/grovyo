@@ -272,6 +272,7 @@ const VideoPlayer = ({
           ref={videoRef}
           muted={isMuted}
           src={isAdPlayed ? adSrc : src}
+          loading="lazy" 
           // src={isAdPlayed ? src : adSrc}
           // src={src}
           poster={poster ? poster : null}
