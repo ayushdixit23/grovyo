@@ -8,11 +8,13 @@ import Feature from "./component/Feature";
 import Businesses from "./component/Businesses";
 import Creator from "./component/creator";
 import Search from "./component/SearchPage";
+import { useAuthContext } from "./utils/AuthWrapper";
+import Link from "next/link";
 
 const Page = () => {
   const [state, setState] = useState("main");
   const [scrolled, setScrolled] = useState(false);
-
+  const { auth } = useAuthContext();
 
   const handleScroll = () => {
     if (window.scrollY > 10) {
@@ -155,9 +157,21 @@ const Page = () => {
             >
               <FiSearch size={20} />
             </div>
-            <div className="rounded-full cursor-pointer py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]">
-              Login
-            </div>
+            {auth ? (
+              <Link
+                href={"/main/feed/newForYou"}
+                className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]"
+              >
+                Login
+              </Link>
+            ) : (
+              <Link
+                href={"/login"}
+                className="rounded-full py-2 px-8 bg-blue-600 shadow-lg shadow-blue-500/50 text-[12px]"
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
 
