@@ -150,7 +150,7 @@ const PrivateChats = React.forwardRef(
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ease-out">
             <div className="bg-white dark:bg-bluedark p-6 rounded-lg shadow-lg max-w-md w-full transform transition-transform duration-300 ease-out scale-95">
               <h2 className="text-2xl font-bold mb-4">Delete Message</h2>
-              <p className="mb-6 text-gray-600">
+              <p className="mb-6 dark:text-gray-300 text-black">
                 Are you sure you want to delete this message?
               </p>
               <div className="flex flex-col justify-end items-end gap-3 ">
@@ -163,13 +163,13 @@ const PrivateChats = React.forwardRef(
                   </button>
                 )}
                 <button
-                  className="px-4 py-2 text-sm bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2"
+                  className="px-4 py-2 text-sm border border-2 text-black rounded-lg hover:bg-[#f1f1f1] focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 dark:bg-white dark:hover:bg-[#dfdede]"
                   onClick={() => handleDelete("me")}
                 >
                   Delete for Me
                 </button>
                 <button
-                  className="px-4 py-2 text-sm bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2"
+                  className="px-4 py-2 text-sm  text-black rounded-lg  focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2 dark:text-white"
                   onClick={() => {
                     setDelopen(false);
                     setMsgId("");
@@ -290,130 +290,115 @@ const PrivateChats = React.forwardRef(
                     <BsThreeDotsVertical size={16} className="" />
                   </div>
                 )}
-                <div
-                  className={`flex flex-col gap-1 absolute z-40 ${
-                    data?.id === d?.sender?._id
-                      ? "right-0"
-                      : "left-0 bg-[#f3f3f3]"
-                  }   shadow-2xl  text-black  duration-100
-                  ${
-                    popupPosition === "top" ? "bottom-0" : "top-4" // Dynamically set position based on popupPosition state
-                  }
-                    ${
-                      click === true
-                        ? "rounded-[15px] bg-white dark:text-white dark:bg-[#0D0F10] text-[#6e6e6e] shadow-md dark:shadow-custom-lg py-2 w-auto h-auto min-w-[150px]"
-                        : "rounded-[0px] bg-white dark:text-white dark:bg-[#0D0F10] text-[#6e6e6e] shadow-0 py-0 w-[0px] h-[0px]"
-                    } `}
-                >
-                  {d?.hidden?.includes(data?.id) ? (
-                    <div
-                      onClick={() => {
-                        UnhideChats(d?.mesId);
-                        setClick(false);
-                      }}
-                      className={`duration-100 flex gap-2 items-center ${
-                        click === true
-                          ? "text-[14px] my-2 px-3 cursor-pointer"
-                          : "text-[0px] my-0 px-0"
-                      }`}
-                    >
-                      <div>
-                        <Image
-                          src={hidden}
-                          className={`duration-75 ${
-                            click === true
-                              ? "w-[22px] h-[20px]"
-                              : "h-[0px] w-[0px]"
-                          }`}
-                        />
-                      </div>
-                      <div>Unhide</div>
-                    </div>
-                  ) : (
-                    <div
-                      onClick={() => {
-                        hideChats(d?.mesId);
-                        setClick(false);
-                      }}
-                      className={`duration-100 flex gap-2  items-center ${
-                        click === true
-                          ? "text-[14px] my-2 px-3  cursor-pointer"
-                          : "text-[0px] my-0 px-0"
-                      }`}
-                    >
-                      <div>
-                        <Image
-                          src={hidden}
-                          className={`duration-75 ${
-                            click === true
-                              ? "w-[22px] h-[20px]"
-                              : "h-[0px] w-[0px]"
-                          }`}
-                        />
-                      </div>
-                      <div>Hide</div>
-                    </div>
-                  )}
-
-                  {showHiddenreply && (
-                    <div
-                      onClick={() => {
-                        dispatch(setType("reply"));
-                        dispatch(
-                          setReplyFunction({
-                            reply: d?.text,
-                            replyId: d?.mesId,
-                          })
-                        );
-                        setClick(false);
-                      }}
-                      className={`duration-100 flex gap-2 items-center ${
-                        click === true
-                          ? "text-[14px] my-2 px-3 cursor-pointer"
-                          : "text-[0px] my-0 px-0"
-                      }`}
-                    >
-                      <div>
-                        <Image
-                          src={replypic}
-                          className={`duration-75 ${
-                            click === true
-                              ? "w-[19px] h-[17px]"
-                              : "h-[0px] w-[0px]"
-                          }`}
-                        />
-                      </div>
-                      <div>Reply</div>
-                    </div>
-                  )}
-
+                {click && (
                   <div
-                    onClick={() => {
-                      deletepopUp(d?.mesId);
-                      setClick(false);
-                    }}
-                    className={`duration-100 flex gap-2 items-center ${
-                      click === true
-                        ? "text-[14px] my-2 px-3 cursor-pointer"
-                        : "text-[0px] my-0 px-0"
-                    }`}
+                    className={`flex flex-col gap-1 absolute z-40 ${
+                      data?.id === d?.sender?._id
+                        ? "min-w-[180px] p-2 px-4 top-7 text-xs h-auto right-0 translate-y-0 opacity-100 rounded-lg"
+                        : "min-w-[150px] min-h-[0px] text-[0px] top-0 right-50 translate-y-4 opacity-0"
+                    } shadow-2xl bg-white dark:bg-black dark:text-white text-black duration-100
+    ${popupPosition === "top" ? "bottom-0" : "top-4"} 
+    rounded-lg ${click ? "opacity-100" : "opacity-0"} `}
                   >
-                    <div>
-                      <Image
-                        src={deletechat}
-                        className={`duration-75 ${
-                          click === true
-                            ? "w-[19px] h-[17px]"
-                            : "h-[0px] w-[0px]"
+                    {d?.hidden?.includes(data?.id) ? (
+                      <div
+                        onClick={() => {
+                          UnhideChats(d?.mesId);
+                          setClick(false);
+                        }}
+                        className={`duration-100 flex gap-2 items-center ${
+                          click
+                            ? "text-[14px] my-2 px-3 cursor-pointer"
+                            : "text-[0px] my-0 px-0"
                         }`}
-                      />
-                    </div>
-                    <div>Delete</div>
-                  </div>
+                      >
+                        <div>
+                          <Image
+                            src={hidden}
+                            className={`duration-75 ${
+                              click ? "w-[22px] h-[20px]" : "h-[0px] w-[0px]"
+                            }`}
+                          />
+                        </div>
+                        <div>Unhide</div>
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() => {
+                          hideChats(d?.mesId);
+                          setClick(false);
+                        }}
+                        className={`duration-100 flex gap-2 items-center ${
+                          click
+                            ? "text-[14px] my-2 px-3 cursor-pointer"
+                            : "text-[0px] my-0 px-0"
+                        }`}
+                      >
+                        <div>
+                          <Image
+                            src={hidden}
+                            className={`duration-75 ${
+                              click ? "w-[22px] h-[20px]" : "h-[0px] w-[0px]"
+                            }`}
+                          />
+                        </div>
+                        <div>Hide</div>
+                      </div>
+                    )}
 
-                  {/* <div></div>
-				<div></div> */}
-                </div>
+                    {showHiddenreply && (
+                      <div
+                        onClick={() => {
+                          dispatch(setType("reply"));
+                          dispatch(
+                            setReplyFunction({
+                              reply: d?.text,
+                              replyId: d?.mesId,
+                            })
+                          );
+                          setClick(false);
+                        }}
+                        className={`duration-100 flex gap-2 items-center ${
+                          click
+                            ? "text-[14px] my-2 px-3 cursor-pointer"
+                            : "text-[0px] my-0 px-0"
+                        }`}
+                      >
+                        <div>
+                          <Image
+                            src={replypic}
+                            className={`duration-75 ${
+                              click ? "w-[19px] h-[17px]" : "h-[0px] w-[0px]"
+                            }`}
+                          />
+                        </div>
+                        <div>Reply</div>
+                      </div>
+                    )}
+
+                    <div
+                      onClick={() => {
+                        deletepopUp(d?.mesId);
+                        setClick(false);
+                      }}
+                      className={`duration-100 flex gap-2 items-center ${
+                        click
+                          ? "text-[14px] my-2 px-3 cursor-pointer"
+                          : "text-[0px] my-0 px-0"
+                      }`}
+                    >
+                      <div>
+                        <Image
+                          src={deletechat}
+                          className={`duration-75 ${
+                            click ? "w-[19px] h-[17px]" : "h-[0px] w-[0px]"
+                          }`}
+                        />
+                      </div>
+                      <div>Delete</div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

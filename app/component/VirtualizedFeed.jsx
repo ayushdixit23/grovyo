@@ -176,7 +176,7 @@ const VirtualizedFeed = ({
                     width="w-[35px] pn:max-sm:w-[30px]"
                     height="h-[35px] pn:max-sm:h-[30px]"
                   />
-                  <div className="flex flex-col justify-center px-2 items-start">
+                  <div className="flex flex-col justify-center  px-2 items-start">
                     <div className="flex flex-col space-y-[0.5px] justify-start items-start">
                       <div className="text-[14px] dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
                         {d?.posts?.community?.title}
@@ -185,7 +185,7 @@ const VirtualizedFeed = ({
                         <div className="text-[10px] dark:text-[#f5f5f5] pn:max-sm:text-[10px] font-medium text-[#5C5C5C]">
                           By {d?.posts?.sender?.fullname}
                         </div>
-                        <div className="text-[10px] dark:text-[#f5f5f5] font-medium text-[#5C5C5C]">
+                        <div className="text-[10px] dark:text-[#f5f5f5]  font-medium text-[#5C5C5C]">
                           . {formatDate(d?.posts?.createdAt)}
                         </div>
                       </div>
@@ -223,7 +223,7 @@ const VirtualizedFeed = ({
                     d?.urls.length > 1 ? "overflow-x-scroll no-scrollbar" : null
                   } flex flex-col justify-center items-center `}
                 >
-                  <div className="flex w-full">
+                  <div className="flex w-full ">
                     {d?.urls.length > 1 ? (
                       <>
                         {d?.urls.map((f, i) => (
@@ -242,7 +242,7 @@ const VirtualizedFeed = ({
                                 </div>
                               </div>
                             ) : (
-                              <div className="p-1 h-full">
+                              <div className="p-1 h-full ">
                                 <div className=" rounded-2xl relative h-full overflow-hidden">
                                   <div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
 
@@ -293,9 +293,11 @@ const VirtualizedFeed = ({
                     )}
                   </div>
 
-                  <div className="h-[20px] sm:h-[25px] px-2 w-[100%] flex flex-col">
-                    <div className="text-[14px] pn:max-sm:text-[12px] dark:text-[#f5f5f5] text-black w-[100%] font-medium text-ellipsis overflow-hidden px-1">
-                      {d?.posts.title}
+                  <div className="h-[20px] sm:h-[32px] px-2 w-[100%] flex flex-col">
+                    <div className="text-[14px] pn:max-sm:text-[12px] dark:text-[#f5f5f5] text-black w-[100%] font-medium text-ellipsis overflow-hidden py-1">
+                      {d?.posts.title.length > 20
+                        ? `${d?.posts.title.slice(0, 30)}...`
+                        : d?.posts.title}
                     </div>
                   </div>
                 </div>
@@ -316,6 +318,7 @@ const VirtualizedFeed = ({
                       <img
                         src={d?.memdps[0]}
                         className="w-full h-full object-cover rounded-2xl  "
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
                     <div className="h-[20px] w-[20px] rounded-lg z-20 -ml-[10px]">
@@ -323,12 +326,14 @@ const VirtualizedFeed = ({
                       <img
                         src={d?.memdps[1]}
                         className="w-full h-full object-cover rounded-2xl  "
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
                     <div className="h-[20px] w-[20px] rounded-lg z-10 -ml-[10px]">
                       <img
                         src={d?.memdps[2]}
                         className="w-full h-full object-cover rounded-2xl  "
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
                     <div className="h-[20px] w-[20px] rounded-lg z-0 -ml-[10px]">
@@ -336,6 +341,7 @@ const VirtualizedFeed = ({
                       <img
                         src={d?.memdps[3]}
                         className="w-full h-full object-cover rounded-2xl"
+                        onContextMenu={(e) => e.preventDefault()}
                       />
                     </div>
                   </div>

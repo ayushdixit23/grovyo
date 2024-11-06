@@ -51,10 +51,10 @@ function page() {
   );
   const renderOrderDetails = (order) => (
     <div
-      className="flex flex-col gap-4 dark:bg-[#0D0F10] bg-[#fafafa] border-2 border-[#222] p-4 rounded-xl mt-2"
+      className="flex flex-col gap-4 dark:bg-[#0D0F10] bg-[#fafafa] border-2 border-[#f5f5f5] dark:border dark:border-[#131619] p-4 rounded-xl mt-2"
       key={order.id}
     >
-      <div className="flex justify-between border-b pb-3 items-center w-full">
+      <div className="flex justify-between border-b dark:border-[#131619] pb-3 items-center w-full">
         <div className="text-sm font-medium">{order?.orders?.timing}</div>
         <div
           className={`py-1 rounded-xl px-2 text-black text-[12px] ${
@@ -66,7 +66,7 @@ function page() {
           Status: {order?.orders?.currentStatus}
         </div>
       </div>
-      <div className="flex flex-col border-b  pb-3 gap-5 w-full">
+      <div className="flex flex-col border-b  dark:border-[#131619] pb-3 gap-5 w-full">
         {order?.orders?.productId?.map((productId, index) =>
           renderProduct(productId, order?.orders?.data?.[index]?.qty)
         )}
@@ -80,7 +80,7 @@ function page() {
         </div>
         <div
           onClick={() => setSelectedOrder(order)}
-          className="text-xs bg-[#1A1D21] cursor-pointer text-[#9B9C9E] p-2 px-4 rounded-xl font-medium"
+          className="text-xs bg-[#3b3b3b] cursor-pointer text-white p-2 px-4 rounded-xl font-medium"
         >
           View
         </div>
@@ -92,7 +92,7 @@ function page() {
     <div className="md:flex h-[85.5vh]">
       <div
         className={`md:min-w-[390px] md:max-w-[390px] ${styles.customScrollbar} px-2 overflow-y-auto dark:bg-bluedark border-r-2
-         border-[#1d1d1d] flex items-center pt-6 pn:max-sm:pt-40 flex-col`}
+         border-[#d6d6d6] flex items-center pt-6 pn:max-sm:pt-40 flex-col`}
       >
         {/* <div className="flex flex-col gap-5 w-full">
           {orders.map((d, i) => (
@@ -168,7 +168,7 @@ function page() {
             </>
           ))}
         </div> */}
-        <div className="flex flex-col gap-2 bg-[#111]   w-full">
+        <div className="flex flex-col gap-2  w-full">
           {orders.map(renderOrderDetails)}
         </div>
       </div>

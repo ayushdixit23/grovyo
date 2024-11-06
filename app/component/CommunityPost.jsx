@@ -10,6 +10,7 @@ import lightunlike from "../assets/lightunlike.png";
 import darkunlike from "../assets/darkunlike.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { formatNumber } from "../utils/useful";
 
 const CommunityPost = forwardRef(
   ({ d, i, title, handleLike, data, comId, setShareValue, setShare }, ref) => {
@@ -35,6 +36,7 @@ const CommunityPost = forwardRef(
                     <img
                       src={d?.dpdata}
                       className="h-[40px] w-[40px] rounded-2xl object-cover bg-white dark:bg-bluedark "
+                      onContextMenu={(e) => e.preventDefault()}
                     />
                   </div>
                   {/* Community name */}
@@ -64,7 +66,7 @@ const CommunityPost = forwardRef(
                   {d?.urls.length > 1 ? (
                     <>
                       {d?.urls.map((f) => (
-                        <div className="h-full w-full max-w-[50%] bg-red-700 min-w-[320px] ">
+                        <div className="h-full w-full max-w-[50%] min-w-[320px] ">
                           {f?.type.startsWith("image") ? (
                             <div className="h-full w-full px-1">
                               <img
@@ -159,7 +161,9 @@ const CommunityPost = forwardRef(
                     <img
                       src={d?.dpdata}
                       className="h-[40px] w-[40px] rounded-2xl object-cover bg-white dark:bg-bluedark "
+                      onContextMenu={(e) => e.preventDefault()}
                     />
+
                   </div>
                   {/* Community name */}
                   <div className="flex flex-col justify-center px-2 items-start">
@@ -230,10 +234,10 @@ const CommunityPost = forwardRef(
                 </>
               </div>
               <div className=" px-2 mt-2 sm:pl-10 py-1 w-[100%] rounded-lg gap-2  flex flex-col">
-                <div className="sm:text-base text-[14px]  truncate font-semibold dark:text-[#f8f8f8] text-black w-full ">
+                <div className="sm:text-base text-[14px]  truncate font-semibold dark:text-[#ffffff] text-black w-full ">
                   {d?.posts.title}
                 </div>
-                <div className="text-[14px] dark:text-[#f8f8f8] truncate">
+                <div className="text-[14px] dark:text-[#9b9c9e] truncate">
                   {d?.posts.desc}
                 </div>
               </div>
@@ -258,7 +262,7 @@ const CommunityPost = forwardRef(
                     ) : (
                       <Image src={lightunlike} className="w-[20px] h-[20px]" />
                     )}
-                    <div className="text-[12px]">{d?.posts?.likes}</div>
+                    <div className="text-[12px]">{formatNumber(d?.posts?.likes)}</div>
                   </div>
                   <div
                     onClick={() => {

@@ -11,7 +11,7 @@ import Link from "next/link";
 
 const Feature = () => {
   return (
-    <div className="flex pn:max-sm:mb-[70px] justify-center items-center">
+    <div className="flex pn:max-sm:mb-[70px] justify-center items-center  mt-12">
       <div className="grid pp:grid-cols-2 md:grid-cols-3 gap-10 lg:w-[80%] px-5 sm:px-8 ">
         <div className="flex flex-col gap-4">
           <div className="flex justify-center text-xl pp:text-3xl font-semibold  ">
@@ -23,11 +23,12 @@ const Feature = () => {
                 <Image
                   src={ic1}
                   alt="ic1"
+                  onContextMenu={(e) => e.preventDefault()}
                   className="h-[200px] md:w-[200px] object-contain"
                 />
               </div>
               <div className="flex flex-col justify-center items-center font-medium">
-                <div className="mb-2 mt-5 font-bold">Create Communities</div>
+                <div className="mb-2 mt-5 text-[13px] font-bold">Create Communities</div>
                 <div className="flex justify-center text-center items-center w-full">
                   Join or create hubs for your interests. Make friends & discuss what you love.
                 </div>
@@ -51,11 +52,12 @@ const Feature = () => {
                 <Image
                   src={ic3}
                   alt="ic3"
+                  onContextMenu={(e) => e.preventDefault()}
                   className="h-[200px] flex justify-center items-center relative top-3 w-[220px] object-contain"
                 />
               </div>
               <div className="flex flex-col justify-center items-center font-medium">
-                <div className="mb-2 mt-5 font-bold">Chats</div>
+                <div className="mb-2 mt-5 text-[13px] font-bold">Chats</div>
                 <div className="flex justify-center text-center items-center w-full">
                   Connect with anyone! Find friends, network with businesses, or explore new chat features.
                 </div>
@@ -79,11 +81,12 @@ const Feature = () => {
                 <Image
                   src={ic2}
                   alt="ic2"
+                  onContextMenu={(e) => e.preventDefault()}
                   className="h-[200px] md:w-[200px] object-contain"
                 />
               </div>
               <div className="flex flex-col justify-center items-center font-medium">
-                <div className="mb-2 mt-5 font-bold">Create your Prosite</div>
+                <div className="mb-2 mt-5 text-[13px] font-bold">Create your Prosite</div>
                 <div className="text-center">
                   Build a professional online presence. Craft your profile website and wow your audience.
                 </div>
@@ -106,11 +109,12 @@ const Feature = () => {
                 <Image
                   src={ic4}
                   alt="ic4"
+                  onContextMenu={(e) => e.preventDefault()}
                   className="h-[200px] md:w-[200px] object-contain"
                 />
               </div>
               <div className="flex flex-col justify-center items-center font-medium">
-                <div className="mb-2 mt-5 text-center font-bold">Monetize your community</div>
+                <div className="mb-2 mt-5 text-center text-[13px] font-bold">Monetize your community</div>
                 <div className="flex justify-center text-center items-center w-full">Turn your passions into profit! Sell products, display ads, or offer paid content in your community.</div>
 
                 <Link href={"/features/earnwithus"} className="flex items-center bg-transparent hover:bg-black text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-slate rounded-full mt-3 gap-2">
@@ -132,11 +136,12 @@ const Feature = () => {
                 <Image
                   src={ic5}
                   alt="ic5"
+                  onContextMenu={(e) => e.preventDefault()}
                   className="h-[200px] md:w-[200px] object-contain"
                 />
               </div>
               <div className="flex flex-col justify-center items-center font-medium">
-                <div className="mb-2 mt-5 font-bold">Create Your store</div>
+                <div className="mb-2 mt-5 text-[13px] font-bold">Create Your store</div>
                 <div className="text-center">
                   Become a Grovyo merchant!
                   Sell directly, build a brand
@@ -161,11 +166,12 @@ const Feature = () => {
                 <Image
                   src={ic6}
                   alt="ic6"
+                  onContextMenu={(e) => e.preventDefault()}
                   className="h-[200px] md:w-[200px] object-contain"
                 />
               </div>
               <div className="flex flex-col justify-center items-center font-medium">
-                <div className="mb-2 mt-5 font-bold">Topics</div>
+                <div className="mb-2 mt-5 text-[13px] font-bold">Topics</div>
                 <div className="flex justify-center text-center items-center w-full">
                   Share expertise, spark discussions, and potentially earn income with in-depth content.
                 </div>

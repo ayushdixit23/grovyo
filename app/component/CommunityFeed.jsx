@@ -38,6 +38,8 @@ import { setPreview } from "@/app/redux/slice/remember";
 import { IoDocument } from "react-icons/io5";
 import ImageComponent from "@/app/component/ImageComponent";
 import Reports from "./Reports";
+import { formatNumber } from "../utils/useful";
+import { VscEdit } from "react-icons/vsc";
 
 const CommunityFeed = React.memo(({ id }) => {
   const { data } = useAuthContext();
@@ -698,11 +700,11 @@ const CommunityFeed = React.memo(({ id }) => {
                 borderRadius="rounded-[17px]"
               />
             </div>
-            <div className="flex justify-between w-full items-center gap-2 px-4">
+            <div className="flex justify-between w-full items-center  gap-2 px-4">
               <div className="flex gap-1 flex-col">
                 <div className="font-bold">{title}</div>
-                <div className="text-[12px]">
-                  {memcount} {memcount > 1 ? "Members" : "Member"}
+                <div className="text-[12px] ">
+                  {formatNumber(memcount)} {memcount > 1 ? "Members" : "Member"}
                 </div>
               </div>
 
@@ -715,7 +717,7 @@ const CommunityFeed = React.memo(({ id }) => {
                         zIndex: `${y}`,
                       }}
                       key={y}
-                      className="w-[32px] h-[32px]"
+                      className="w-[32px] h-[32px] "
                     >
                       <img
                         src={m?.dp}
@@ -727,10 +729,10 @@ const CommunityFeed = React.memo(({ id }) => {
                     style={{
                       marginLeft: `-${members.length + 10}px`,
                     }}
-                    className="h-[32px] z-10 flex justify-center items-center text-[10px] text-[#686B6E] rounded-[22px] bg-[#1A1D21] w-[32px]"
+                    className="h-[32px] z-10 flex justify-center items-center text-[8px] text-white rounded-[22px] bg-[#1A1D21] w-[32px]"
                   >
                     <div>+</div>
-                    <div>{memcount - members.length}</div>
+                    <div>{formatNumber(memcount - members.length)}</div>
                   </div>
                 </div>
                 <div
@@ -751,7 +753,7 @@ const CommunityFeed = React.memo(({ id }) => {
                         className="rounded-lg flex items-center justify-start"
                         href={`/main/feed/community?id=${id}&type=members`}
                       >
-                        <div className="flex justify-center  items-center">
+                        <div className="flex justify-center items-center">
                           <Image
                             src={memberspic}
                             className={`relative top-2 max-w-[40px] max-h-[40px] flex justify-center items-center h-full ${
@@ -890,6 +892,11 @@ const CommunityFeed = React.memo(({ id }) => {
                     </div>
                   </div>
                 </div>
+                {data?.id === creatorId && (
+                  <button className="rounded-lg px-2 py-2 bg-[#DEE1E5] dark:bg-[#1A1D21] ">
+                    <VscEdit />
+                  </button>
+                )}
               </div>
             </div>
           </div>

@@ -43,6 +43,18 @@ export const decryptaes = (data) => {
 };
 
 
+export const formatNumber = (number) => {
+  if (number >= 1000000000) {
+    return  Math.round (number / 1000000000)+ "B";
+  } else if (number >= 1000000) {
+    return   Math.round (number / 1000000)+ "M";
+  } else if (number >= 1000) {
+    return  Math.round (number / 1000)+ "k";
+  } else {
+    return number.toString();
+  }
+};
+
 export const formatDateToString = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();

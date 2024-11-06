@@ -780,7 +780,8 @@ const Chats = memo(({ id, con, setVisible }) => {
                 <div className="h-[45px] w-[45px]">
                   <img
                     src={user?.profilepic}
-                    className="w-full h-full object-cover rounded-[20px] ring-1 dark:ring-[#273142] ring-white bg-white-300 "
+                    className="w-full h-full object-cover rounded-[20px]  ring-1 dark:ring-[#273142] ring-white bg-white-300 "
+                    onContextMenu={(e) => e.preventDefault()}
                   />
                 </div>
                 <div>
@@ -799,14 +800,21 @@ const Chats = memo(({ id, con, setVisible }) => {
                 className="flex justify-center relative gap-2 items-center "
               >
                 <BsThreeDotsVertical />
+                {/* <div
+  className={`absolute duration-300 ${
+    options
+      ? "w-auto min-w-[180px] p-2 px-4 top-7 text-xs h-auto right-0 overflow-hidden"  
+      : "w-0 h-0 text-[0px] top-0 px-0 p-0 right-0 overflow-hidden"  
+  } z-40 rounded-lg dark:text-white dark:bg-[#0D0F10] text-[#6e6e6e] bg-[#f5f4f4] shadow-custom-lg`}
+> */}
                 <div
-                  className={`absolute duration-100 ${
+                  className={`absolute duration-100 ease-in-out transform ${
                     options
-                      ? "w-auto min-w-[180px] p-2 px-4 top-7 text-xs h-auto -left-[160px] "
-                      : "w-0 h-0 text-[0px] top-0 px-0 p-0 -left-[160px]"
-                  } z-40 rounded-lg dark:text-white  dark:bg-[#0D0F10] text-[#6e6e6e] bg-white shadow-custom-lg `}
+                      ? "min-w-[180px] p-2 px-4 top-7 text-xs h-auto right-0 translate-y-0 opacity-100"
+                      : "min-w-[0px] min-h-[0px] text-[0px] top-0 right-0 translate-y-4 opacity-0"
+                  } z-40 rounded-lg dark:text-white dark:bg-[#0D0F10] text-[#6e6e6e] bg-[#f5f4f4] shadow-custom-lg`}
+                  style={{ transition: "all 0.2s ease-in-out" }}
                 >
-                  {" "}
                   <div className="flex flex-col font-semibold h-full">
                     <Link
                       className="rounded-lg flex items-center justify-start"
@@ -985,11 +993,15 @@ const Chats = memo(({ id, con, setVisible }) => {
 
                     padding: 10,
                   }}
-                  className={`duration-75 bg-chatslightbg dark:bg-chatsdarkbg bg-cover bg-no-repeat ${
+                  className={`duration-75  bg-chatslightbg dark:bg-chatsdarkbg bg-cover bg-no-repeat ${
                     styles.customScrollbar
-                  } relative overflow-y-scroll bg-white dark:bg-bluedark ${
-                    reply && replyId ? "h-[76%]" : "h-[80%]"
-                  }`}
+                  } relative overflow-y-scroll bg-white dark:bg-bluedark 
+                    
+                 
+
+                      ${reply && replyId ? "h-[76%] " : "h-[calc(80%-20px)] "}
+                     
+                    `}
                 >
                   <InfiniteScroll
                     dataLength={messages?.length}
@@ -1099,11 +1111,12 @@ const Chats = memo(({ id, con, setVisible }) => {
                 </div>
                 {/* footer  */}
                 <div
-                  className={`bg-[#fff] duration-75 flex border-t-2 dark:border-[#131619] dark:bg-bluelight justify-center ${
-                    reply && replyId
-                      ? "h-[12%] gap-2 space-y-2"
-                      : "h-[10%] items-center"
-                  }`}
+                  className={`bg-[#fff] duration-75 flex border-t-2 dark:border-[#131619] dark:bg-bluelight justify-center 
+                     ${
+                       reply && replyId
+                         ? "h-[12%] gap-2 space-y-2"
+                         : "h-[calc(10%+20px)]  items-center"
+                     }`}
                 >
                   {canblock === true && isBlocked === false && (
                     <div
@@ -1115,7 +1128,7 @@ const Chats = memo(({ id, con, setVisible }) => {
                         <div className="flex justify-between p-1 px-2 rounded-[10px] m-1 items-center dark:text-white text-black">
                           <div
                             className={`${
-                              reply && replyId ? "text-[14px]" : "text-[0px]"
+                              reply && replyId ? "text-[14px] " : "text-[0px] "
                             }`}
                           >
                             {limitWords(reply, 65)}

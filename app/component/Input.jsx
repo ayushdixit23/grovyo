@@ -293,7 +293,7 @@ const Component = ({
         </div>
       </div>
 
-      <div className="bg-grey-lighter  flex h-full z-20 items-center">
+      <div className="bg-grey-lighter flex h-full z-20 items-center">
         <div className=" flex justify-center gap-2 items-center">
           {showEmoji ? (
             <RxCross2
@@ -326,7 +326,7 @@ const Component = ({
             <div
               className={`duration-75  ${
                 show === true
-                  ? "flex flex-col min-w-[150px] px-3 bg-white shadow-md dark:bg-[#0D0F10] dark:shadow-custom-lg rounded-[12px] gap-1 p-1 items-center h-full"
+                  ? "flex flex-col min-w-[150px] px-3 bg-green-300 shadow-md dark:bg-[#0D0F10] dark:shadow-custom-lg rounded-[12px] gap-1 p-1 items-center h-full"
                   : "gap-0 py-0 h-0"
               }`}
             >
@@ -508,9 +508,9 @@ const Component = ({
           </div>
         </div>
 
-        <div className="flex-1 mx-2 border border-[#DEE1E5] dark:border-[#1A1D21] rounded-lg">
+        <div className="flex-1 mx-2  border h-full border-[#DEE1E5]  dark:border-[#1A1D21] rounded-lg">
           {!d ? (
-            <input
+            <textarea
               placeholder="Type your message here..."
               value={message}
               onKeyDown={handleKeyDown}
@@ -519,8 +519,16 @@ const Component = ({
                 if (!content && type !== "reply") {
                   dispatch(setType("text"));
                 }
+                // e.target.style.height = 'auto';
+                // e.target.style.height = `${Math.min(e.target.scrollHeight,10)}px`;;
               }}
-              className="w-full  dark:bg-[#0D0F10] rounded-lg placeholder:text-[#686B6E] placeholder:text-sm outline-none px-2 py-2"
+              className="w-full h-full dark:bg-[#0D0F10] rounded-lg placeholder:text-[#686B6E] placeholder:text-sm outline-none px-2 py-2 resize-none overflow-y-auto "
+              style={{
+                height: "40px",
+                fontSize: "12px",
+                lineHeight: "1.5",
+                boxSizing: "border-box",
+              }}
               type="text"
             />
           ) : (

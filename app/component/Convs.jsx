@@ -38,10 +38,11 @@ const Convs = memo(({ d, handleMuting, removingchat, href, handleVisible }) => {
           href={href}
           className=" gap-3 py-3 sm:py-2 w-full flex flex-row justify-start items-center "
         >
-          <div className="h-[40px] w-[40px]  sm:h-[45px] sm:w-[45px]">
+          <div className="h-[40px] w-[40px] sm:h-[45px] sm:w-[45px]">
             <img
               src={d?.pic}
               className="h-full w-full object-cover rounded-[17px] ring-1 dark:ring-[#273142] ring-white bg-white dark:bg-bluedark "
+              onContextMenu={(e) => e.preventDefault()}
             />
           </div>
           <div className="flex flex-col ">
@@ -81,7 +82,7 @@ const Convs = memo(({ d, handleMuting, removingchat, href, handleVisible }) => {
         </Link>
         <div className="flex relative justify-center  items-center ">
           {d?.unread != "0" && (
-            <div className="w-4 h-4 p-1 text-[8px] bg-[#3392FF] text-white flex justify-center items-center rounded-full">
+            <div className="w-5 h-5 p-1 text-[10px] bg-[#3392FF] text-white flex justify-center items-center rounded-full">
               {d?.unread}
             </div>
           )}

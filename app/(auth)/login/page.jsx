@@ -510,7 +510,6 @@ function page() {
                       ref={otpInputRef}
                       className=" w-full flex gap-4 justify-center mt-3 items-center"
                     >
-                      
                       <InputOTPPattern
                         size="w-12 h-12"
                         className=" border border-[#363A3D] focus:border-[#9B9C9E] bg-[#1A1D21] text-white"
@@ -555,6 +554,7 @@ function page() {
                         className="h-[50px] w-full text-black dark:text-[#fff] outline-none dark:bg-[#1A1D21] bg-[#DEE1E5] rounded-r-2xl px-2 p-2 "
                       />
                     </div>
+
                     <div
                       className={`w-full ${change === 1 ? "py-3" : "hidden"} `}
                     >
@@ -628,8 +628,8 @@ function page() {
                       <div className="py-2 ">
                         <div
                           //onClick={onSignup}
-                          onClick={sendOtpEmail}
-                          // onClick={handleCreate}
+                          // onClick={sendOtpEmail}
+                          onClick={handleCreate}
                           className="h-[50px] w-full select-none cursor-pointer bg-[#0066ff] flex items-center justify-center rounded-2xl text-white "
                         >
                           {loading && (

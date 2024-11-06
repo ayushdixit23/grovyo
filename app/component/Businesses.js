@@ -13,19 +13,20 @@ const Businesses = () => {
         Not an expert? No worries! We’ve got guides and articles packed with
         hiring best practices and tips
       </div>
-      <div className="grid sm:grid-cols-3 gap-4 mt-7 md:h-[40%] lg:w-[50%]">
+      <div className="grid sm:grid-cols-3 gap-4 mt-7 md:h-[40%] lg:w-[80%] ">
         {/* ads*/}
         <a href="https://ads.grovyo.com/login" target="_blank" class="bg-[#E0F7FA] hover:scale-105 sm:duration-200 p-4 text-center border rounded-xl border-[#E0F7FA]">
           <Image
             src={im1}
             alt="im1"
-            className="md:h-[200px] w-[230px] pp:w-[200px] object-contain"
+            onContextMenu={(e) => e.preventDefault()}
+            className="md:h-[200px] w-[230px] pp:w-[230px] object-contain"
           />
           <div className="text-black text-base font-bold">Grovyo Ads</div>
-          <div className="text-xs text-black text-center">
+          <div className="text-[11px] mt-2 text-black text-center">
             Helps save you from the chaos of
           </div>
-          <div className="text-xs text-black text-center">
+          <div className="text-[11px] text-black text-center">
             an unstructured ads process.
           </div>
         </a>
@@ -34,13 +35,14 @@ const Businesses = () => {
           <Image
             src={im2}
             alt="im2"
+            onContextMenu={(e) => e.preventDefault()}
             className="md:h-[200px] w-[230px] pp:w-[200px] object-contain"
           />
           <div className="text-black text-base font-bold">Careers</div>
-          <div className="text-xs text-black text-center">
+          <div className="text-[11px] mt-2 text-black text-center">
             Helps you create a remote hiring
           </div>
-          <div className="text-xs text-black text-center">
+          <div className="text-[11px] text-black text-center">
             process that works.
           </div>
         </Link>
@@ -49,12 +51,13 @@ const Businesses = () => {
           <Image
             src={im3}
             alt="im3"
+            onContextMenu={(e) => e.preventDefault()}
             className="md:h-[200px] w-[230px] pp:w-[200px] object-contain"
           />
           <div className="text-black mt-1 text-base font-bold">Contact Us</div>
-          <div className="text-xs text-black text-center">
+          <div className="text-[11px] mt-2 text-black text-center">
             Everything you need to know to</div>
-          <div className="text-xs text-black text-center">
+          <div className="text-[11px] text-black text-center">
             find and hire your next great intern.
           </div>
         </Link>

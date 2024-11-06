@@ -158,83 +158,102 @@ const Account = React.memo(() => {
               <div className="text-sm font-semibold">Basic details</div>
               <div className="sm:pl-16 mt-5">
                 <div className="flex flex-col gap-6">
-                  <div>
-                    <div className="flex items-center">
-                      {data?.data?.image ? (
-                        <label
-                          htmlFor="settings"
-                          className="relative light:border max-h-[100px] sm:z-30 rounded-[32px] max-w-[100px]"
-                        >
-                          <img
-                            className="w-full h-full object-cover min-h-[100px] min-w-[100px] bg-cover rounded-[32px] max-h-[100px] max-w-[100px]"
-                            src={
-                              typeof profile.image === "string"
-                                ? data?.data?.image
-                                : profile.image
-                                ? URL.createObjectURL(profile.image)
-                                : ""
-                            }
-                            alt="pic"
-                          />
-                          <div className="absolute -bottom-1 right-1">
-                            <div
-                              htmlFor="settings"
-                              className="w-9 h-9 cursor-pointer text-white flex justify-center items-center rounded-full bg-[#5570F1] "
-                            >
-                              <FaPen />
-                            </div>
-                          </div>
-
-                          <input
-                            id="settings"
-                            name="image"
-                            accept="image/*"
-                            type="file"
-                            className="hidden"
-                            onChange={handleImageChange}
-                          />
-                        </label>
-                      ) : (
-                        <>
-                          <label
-                            htmlFor="settings"
-                            className="w-[100px] relative mb-2 dark:bg-transparent dark:border  dark:border-dashed dark:border-[#555555] p-1 bg-[#ECECEE] items-center justify-center h-[100px] rounded-[30px] light:border-2 flex flex-col"
+                  <div className="flex">
+                    <div className="border-dashed border border-[#7b7b7b] p-1 rounded-[45px] dark:border-[#333333]">
+                      <div className="flex justify-center items-center">
+                        {data?.data?.image ? (
+                          <div
+                            // htmlFor="settings"
+                            className="relative light:border max-h-[100px] sm:z-30 rounded-[40px] max-w-[100px]"
                           >
-                            {!profile.image ? (
-                              <div className=" w-full h-full flex justify-center dark:bg-transparent bg-[#ECECEE] items-center rounded-[30px]">
-                                <div className="flex justify-center flex-col items-center">
-                                  <FaCamera className="text-2xl" />
-                                </div>
+                            <img
+                              className="w-full h-full object-cover min-h-[100px] min-w-[100px] bg-cover rounded-[40px] max-h-[100px] max-w-[100px]"
+                              src={
+                                typeof profile.image === "string"
+                                  ? data?.data?.image
+                                  : profile.image
+                                  ? URL.createObjectURL(profile.image)
+                                  : ""
+                              }
+                              alt="pic"
+                              onContextMenu={(e) => e.preventDefault()}
+                            />
+                            <div className="absolute -bottom-1 right-1">
+                              <div
+                                htmlFor="settings"
+                                className="w-9 h-9 cursor-pointer text-white flex justify-center items-center rounded-full bg-[#5570F1] "
+                              >
+                                <FaPen />
                               </div>
-                            ) : (
-                              <>
-                                <img
-                                  className="w-full h-full object-cover bg-cover rounded-[32px] max-h-[100px] max-w-[100px]"
-                                  src={URL.createObjectURL(profile.image)}
-                                  alt="profile"
-                                />
-                                <div className="absolute bottom-0 -right-7">
-                                  <div
-                                    htmlFor="settings"
-                                    className="w-6 h-6 z-30 cursor-pointer text-white flex justify-center items-center rounded-full bg-[#5570F1] "
-                                  >
-                                    <FaPen className="text-sm" />
+                            </div>
+
+                            <input
+                              id="settings"
+                              name="image"
+                              accept="image/*"
+                              type="file"
+                              className="hidden"
+                              onChange={handleImageChange}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            <div
+                              // htmlFor="settings"
+                              className="w-[100px] relative mb-2 dark:bg-transparent dark:border dark:border-dashed dark:border-[#1F2228] p-1 bg-[#ECECEE] items-center justify-center h-[100px] rounded-[30px] light:border-2 flex flex-col"
+                            >
+                              {!profile.image ? (
+                                <div className=" w-full h-full flex justify-center dark:bg-transparent bg-[#ECECEE] items-center rounded-[30px]">
+                                  <div className="flex justify-center flex-col items-center">
+                                    <FaCamera className="text-2xl" />
                                   </div>
                                 </div>
-                              </>
-                            )}
-                          </label>
-                          <input
+                              ) : (
+                                <>
+                                  <img
+                                    className="w-full h-full object-cover bg-cover rounded-[32px] max-h-[100px] max-w-[100px]"
+                                    src={URL.createObjectURL(profile.image)}
+                                    alt="profile"
+                                  />
+
+                                  <div className="absolute bottom-0 -right-7">
+                                    <div
+                                      // htmlFor="settings"
+                                      className="w-6 h-6 z-30 cursor-pointer text-white flex justify-center items-center rounded-full bg-[#5570F1] "
+                                    >
+                                      <FaPen className="text-sm" />
+                                    </div>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                            {/* <input
                             id="settings"
                             name="image"
                             accept="image/*"
                             type="file"
                             className="hidden"
                             onChange={handleImageChange}
-                          />
-                        </>
-                      )}
+                          /> */}
+                          </>
+                        )}
+                      </div>
                     </div>
+
+                    {/* <label 
+                  htmlFor="settings"
+                  className="flex items-center font-semibold ml-6 text-[#555555] dark:text-[#D8E0EE] cursor-pointer text-sm">
+                    Change
+                    </label> */}
+                    {/* <div className="flex justify-center items-center">
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('settings').click()} // Triggers file input click
+                      className=" h-[10%] cursor-pointer  ml-4 bg-white text-black font-semibold py-1 px-1 text-sm rounded-lg border border-black"
+                    >
+                      Change
+                    </button>
+                    </div> */}
                   </div>
                   <div className="sm:w-[80%] flex flex-col gap-6">
                     <div className="flex p-2 px-4 flex-col rounded-xl  border dark:border-[#1F2228]">
