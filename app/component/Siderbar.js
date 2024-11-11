@@ -97,7 +97,7 @@ const Siderbar = () => {
           </Link>
 
           {/* Search Button */}
-          <div onClick={toggleSearch} className={`flex justify-center items-center flex-col ${color === 4
+          <div onClick={toggleSearch} className={`flex justify-center cursor-pointer items-center flex-col ${color === 4
             ? "bg-slate-200 dark:bg-selectdark h-[50px] rounded-full w-[50px]"
             : "hover:dark:bg-[#323d4e] h-[50px] rounded-full w-[50px]"
             }`}>

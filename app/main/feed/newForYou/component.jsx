@@ -8,7 +8,7 @@ import styles from "../../../CustomScrollbarComponent.module.css";
 import { socketemitfunc, useSocketContext } from "../../../utils/SocketWrapper";
 import toast from "react-hot-toast";
 import Newforyou from "@/app/component/Newforyou";
-import {  useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { setHide } from "@/app/redux/slice/remember";
 import { useTheme } from "next-themes";
@@ -70,9 +70,15 @@ export default function NewforyouLayout() {
     try {
       const res = await axios.post(`${API}/chats/joincom/${data?.id}/${comId}`);
       if (res.data.success) {
-        const newwfeed = feed.map((d) =>
-          d?.posts?.community._id === comId ? { ...d, subs: "subscribed" } : d
-        );
+        const newwfeed = feed.map((d) => {
+          // Check if the community ID matches
+          if (d?.posts?.community._id === comId) {
+            console.log("first", d?.posts?.community._id === comId);
+            return { ...d, subs: "subscribed" };
+          }
+          return d;
+        });
+
         dispatch(setFeed(newwfeed));
       }
     } catch (error) {

@@ -47,21 +47,22 @@ const FooterComponent = () => {
         <div className="flex justify-center border-t border-[#262626] text-white md:border-none xl:flex-1">
           <div className="flex gap-x-4 items-start justify-between pt-9 md:pt-0 lg:gap-x-16">
             <h3 className="text-[15px] py-3">Create your Prosite for free</h3>
-            <Link
+            <a
               className="bg-[#1A85FF] text-[14px] px-5 py-3 rounded-lg flex gap-x-2"
-              href=""
+              href="https://workspace.grovyo.com/main/customization"
+              target="_blank"
             >
               Create For free <GoArrowUpRight className="text-xl" />
-            </Link>
+            </a>
           </div>
         </div>
       </div>
       <div className="flex flex-col justify-center items-center border-t text-white/60 pt-9 border-[#262626] gap-8  text-[14px] md:flex-row md:justify-between">
-        <ul className="gap-x-8 hidden md:flex ">
+        {/* <ul className="gap-x-8 hidden md:flex ">
           <li>English</li>
           <li>Privacy</li>
           <li>Legal</li>
-        </ul>
+        </ul> */}
         <ul className="flex justify-between px-2 w-full text-[18px] sm:px-24 md:hidden">
           <li>
             <Link href={"/about"}>About Us</Link>
@@ -73,7 +74,9 @@ const FooterComponent = () => {
             <Link href={"/privacy"}>Privacy Policy</Link>
           </li>
         </ul>
-        <p className="text-[14px]">© 2023 Cadet UI. All Rights Reserved.</p>
+        <p className="text-[14px]">
+          © {new Date().getFullYear()} Grovyo Platforms Pvt Ltd
+        </p>
         <div className="flex w-full text-white justify-center gap-x-8 md:hidden text-[28px]">
           <FaFacebook />
           <FaInstagram />

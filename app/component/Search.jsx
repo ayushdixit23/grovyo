@@ -421,6 +421,12 @@ const Search = React.memo(({ setShow }) => {
                         <div className="px-2 py-2 :text-white text-black dark:text-white text-[14px] font-bold ">
                           <div className="flex items-center gap-1">
                             <div>{d?.title}</div>
+
+                            {d?.isverified && (
+                              <div>
+                                <MdVerified className="text-blue-600" />
+                              </div>
+                            )}
                           </div>
                           <div className="text-[11px] dark:text-white">
                             {d?.memberscount}{" "}
@@ -450,7 +456,8 @@ const Search = React.memo(({ setShow }) => {
                 <div className="flex flex-col gap-2 px-2 mt-3">
                   {all.posts?.map((d, i) => (
                     <a
-                      href={`https://grovyo.com/main/feed/newForYou?id=${d?.community?._id}#${d?._id}`}
+                      // href={`https://grovyo.com/main/feed/newForYou?id=${d?.community?._id}#${d?._id}`}
+                      href={`http://localhost:3000/main/feed/newForYou?id=${d?.community?._id}#${d?._id}`}
                       target="_blank"
                       key={i}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
@@ -619,6 +626,7 @@ const Search = React.memo(({ setShow }) => {
             <div
               className={`p-2 mt-4 flex flex-col gap-5 overflow-y-scroll ${styles.customScrollbar}`}
             >
+              {console.log(recentSearchPro, "recentSearchPro")}
               <div>
                 <div className="dark:bg-[#171717] bg-[#f1f1f1] rounded-xl flex justify-between items-center p-2 px-4">
                   <div className="font-semibold">
@@ -709,6 +717,12 @@ const Search = React.memo(({ setShow }) => {
                         <div className="px-2 py-2 :text-white text-black dark:text-white text-[14px] font-bold ">
                           <div className="flex items-center gap-1">
                             <div>{d?.p?.title}</div>
+
+                            {d?.p?.isverified && (
+                              <div>
+                                <MdVerified className="text-blue-600" />
+                              </div>
+                            )}
                           </div>
                           <div className="text-[11px] dark:text-white">
                             {d?.p?.memberscount}{" "}
@@ -747,7 +761,7 @@ const Search = React.memo(({ setShow }) => {
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
                     >
                       <a
-                        href={`https://grovyo.com/main/feed/newForYou?id=${d?._id}`}
+                        href={`https://grovyo.com/main/feed/newForYou?id=${d?.id}`}
                         target="_blank"
                         className="flex justify-center items-center"
                       >
@@ -760,6 +774,12 @@ const Search = React.memo(({ setShow }) => {
                         <div className="px-2 py-2 :text-white text-black dark:text-white text-[14px] font-bold ">
                           <div className="flex items-center gap-1">
                             <div>{d?.title}</div>
+
+                            {d?.isverified && (
+                              <div>
+                                <MdVerified className="text-blue-600" />
+                              </div>
+                            )}
                           </div>
                           <div className="text-[11px] dark:text-white">
                             {d?.memberscount}{" "}
@@ -768,7 +788,7 @@ const Search = React.memo(({ setShow }) => {
                         </div>
                       </a>
                       <div>
-                        <RxCross2 onClick={() => removeSearchCom(d?.p?._id)} />
+                        <RxCross2 onClick={() => removeSearchCom(d?.id)} />
                       </div>
                     </div>
                   ))}

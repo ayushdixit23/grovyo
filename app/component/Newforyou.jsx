@@ -45,6 +45,7 @@ import logout from "@/app/assets/logout.png";
 import { setPreview } from "@/app/redux/slice/remember";
 import ImageComponent from "@/app/component/ImageComponent";
 import Reports from "./Reports";
+import { MdVerified } from "react-icons/md";
 
 const Newforyou = React.memo(({ id }) => {
   const { data } = useAuthContext();
@@ -67,6 +68,7 @@ const Newforyou = React.memo(({ id }) => {
   const preview = useSelector((state) => state.remember.preview);
   const [options, setOptions] = useState(false);
   const [refsSet, setRefsSet] = useState(false);
+  const [joinLoading, setJoinLoading] = useState(false);
   const searchParams = useSearchParams();
   const optionType = searchParams.get("type");
   const [creatorId, setCreatorId] = useState("");
@@ -99,11 +101,13 @@ const Newforyou = React.memo(({ id }) => {
   const content = useSelector((state) => state.comChat.content);
   const size = useSelector((state) => state.comChat.size);
   const msgs = useSelector((state) => state.comChat.message);
+  const [isverified, setIsverified] = useState(false);
 
   const fetchCommunity = async () => {
     try {
       setLoading(true);
       const res = await axios.get(`${API}/chats/compostfeed/${data?.id}/${id}`);
+   
       if (res.data.success) {
         setMembers(res.data.members);
         setMemcount(res?.data?.community?.memberscount);
@@ -116,7 +120,8 @@ const Newforyou = React.memo(({ id }) => {
         setTopics(res.data.community.topics);
         setIsjoined(res.data.subs);
         setDp(res.data?.dp);
-        setLoading(false);
+        setIsverified(res.data?.community?.isverified);
+        // setLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -215,7 +220,7 @@ const Newforyou = React.memo(({ id }) => {
   const handleLike = async (postId, liked) => {
     try {
       // setLike(true);
-      console.log("first");
+    
       const randomNumber = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
       socketemitfunc({
         event: "adviews",
@@ -296,24 +301,27 @@ const Newforyou = React.memo(({ id }) => {
 
   const joinmembers = async () => {
     try {
+      setJoinLoading(true);
       const res = await axios.post(`${API}/chats/joincom/${data?.id}/${id}`);
       if (res.data.success) {
-        await fetchCommunity();
-        await fetchallPosts();
+        await fetchEverything();
+        setJoinLoading(false);
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setJoinLoading(false);
     }
   };
 
   const fetchallPosts = async (topicid = "") => {
     try {
+      setLoading(true);
       const res = await axios.post(
         `${API}/chats/v1/fetchallposts/${data?.id}/${id}`,
         { postId: "", topicId: topicid }
       );
 
-      console.log(res.data, "res.data");
       if (res.data?.success) {
         setIsTopicJoined(res.data?.topicjoined);
         if (res.data?.topic) {
@@ -321,6 +329,18 @@ const Newforyou = React.memo(({ id }) => {
         }
         setCom(res.data?.mergedData);
       }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchEverything = async () => {
+    try {
+      setLoading(true);
+      await fetchCommunity();
+      await fetchallPosts();
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -328,9 +348,7 @@ const Newforyou = React.memo(({ id }) => {
 
   useEffect(() => {
     if (data?.id && id) {
-      fetchCommunity();
-      fetchallPosts();
-      // fetchTopics()
+      fetchEverything();
     }
   }, [id, data]);
 
@@ -694,9 +712,17 @@ const Newforyou = React.memo(({ id }) => {
                     borderRadius="rounded-[18px]"
                   />
                 </div>
+                
                 <div className="flex pl-2 justify-between w-full items-center gap-2">
                   <div className="flex gap-1 flex-col ">
-                    <div className="font-bold">{title}</div>
+                    <div className="flex gap-1 items-center">
+                      <div className="font-bold">{title}</div>
+                      {isverified && (
+                        <div>
+                          <MdVerified className="text-blue-600" />
+                        </div>
+                      )}
+                    </div>
                     <div className="text-[12px]">
                       {memcount} {memcount > 1 ? "Members" : "Member"}
                     </div>
@@ -1156,7 +1182,14 @@ const Newforyou = React.memo(({ id }) => {
                 </div>
                 <div className="flex pl-2 justify-between w-full items-center gap-2">
                   <div className="flex gap-1 flex-col">
-                    <div>{title}</div>
+                    <div className="flex gap-1 items-center">
+                      <div className="font-bold">{title}</div>
+                      {isverified && (
+                        <div>
+                          <MdVerified className="text-blue-600" />
+                        </div>
+                      )}
+                    </div>
                     <div className="text-[12px]">
                       {memcount} {memcount > 1 ? "Members" : "Member"}
                     </div>
@@ -1342,10 +1375,15 @@ const Newforyou = React.memo(({ id }) => {
                     {desc}
                   </div>
                   <div
-                    onClick={() => joinmembers()}
-                    className="flex bg-[#131619]  text-white w-full text-[15px] items-center justify-center z-10 rounded-2xl p-3 "
+                    onClick={() => {
+                      if (joinLoading) return;
+                      joinmembers();
+                    }}
+                    className={`flex bg-[#131619]  text-white ${
+                      joinLoading ? "cursor-default" : "cursor-pointer"
+                    }  w-full text-[15px] items-center justify-center z-10 rounded-2xl p-3 `}
                   >
-                    Join Community
+                    {joinLoading ? "Joining..." : "Join Community"}
                   </div>
                 </div>
               </div>

@@ -7,6 +7,7 @@ import liked from "@/app/assets/liked.png";
 import lightunlike from "@/app/assets/lightunlike.png";
 import darkunlike from "@/app/assets/darkunlike.png";
 import { VscSend } from "react-icons/vsc";
+import { MdVerified } from "react-icons/md";
 
 // Lazy load components
 const ImageComponent = lazy(() => import("./ImageComponent"));
@@ -50,9 +51,21 @@ const MyFeedComponent = ({
 
               <div className="flex flex-col justify-center px-2 items-start ">
                 <div className="flex flex-col space-y-[0.5px] justify-start items-start">
-                  <div className="text-[14px]  dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
+                  {/* <div className="text-[14px]  dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
                     {d?.community?.title}
+                  </div> */}
+
+                  <div className="flex gap-1 items-center">
+                    <div className="text-[14px] dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
+                      {d?.community?.title}
+                    </div>
+                    {d?.community?.isverified && (
+                      <div>
+                        <MdVerified className="text-blue-600" />
+                      </div>
+                    )}
                   </div>
+
                   <div className="flex">
                     <div className="text-[10px] dark:text-[#f5f5f5] pn:max-sm:text-[10px] font-medium text-[#5C5C5C]">
                       By {d?.community?.creator?.fullname}

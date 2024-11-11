@@ -78,7 +78,7 @@ export const verifyOTP = async (number, otp) => {
     });
 
     if (result) {
-      toast.success("OTP Verified Successfully");
+      console.log("OTP Verified Successfully");
       return true;
     } else {
       console.error("OTP Verification Failed");

@@ -12,6 +12,7 @@ import VideoPlayer from "./VideoPlayer";
 import Image from "next/image";
 import PostLoading from "./PostLoading";
 import Loader from "./Loader";
+import { MdVerified } from "react-icons/md";
 
 const VirtualizedFeed = ({
   feed,
@@ -172,14 +173,22 @@ const VirtualizedFeed = ({
                 <div className="h-[55px] pn:max-sm:h-[50px] flex flex-row items-center">
                   <ImageComponent
                     src={d?.dps}
+                    alt={d?.posts?.community?.title}
                     borderRadius={"pn:max-sm:rounded-[13px] rounded-[15px]"}
                     width="w-[35px] pn:max-sm:w-[30px]"
                     height="h-[35px] pn:max-sm:h-[30px]"
                   />
                   <div className="flex flex-col justify-center  px-2 items-start">
                     <div className="flex flex-col space-y-[0.5px] justify-start items-start">
-                      <div className="text-[14px] dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
-                        {d?.posts?.community?.title}
+                      <div className="flex gap-1 items-center">
+                        <div className="text-[14px] dark:text-[#f5f5f5] pn:max-sm:text-[12px] font-semibold">
+                          {d?.posts?.community?.title}
+                        </div>
+                        {d?.posts?.community?.isverified && (
+                          <div>
+                            <MdVerified className="text-blue-600" />
+                          </div>
+                        )}
                       </div>
                       <div className="flex">
                         <div className="text-[10px] dark:text-[#f5f5f5] pn:max-sm:text-[10px] font-medium text-[#5C5C5C]">

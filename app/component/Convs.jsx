@@ -4,25 +4,6 @@ import { CiMenuKebab } from "react-icons/ci";
 
 const Convs = memo(({ d, handleMuting, removingchat, href, handleVisible }) => {
   const [show, setShow] = useState(false);
-  const [popupPosition, setPopupPosition] = useState("bottom");
-
-  const iconRef = useRef(null);
-  const handleIconClick = () => {
-    const iconRect = iconRef.current.getBoundingClientRect();
-    const iconBottom = iconRect.bottom;
-    if (window.innerHeight - iconBottom < 200) {
-      setPopupPosition("top");
-    } else {
-      setPopupPosition("bottom");
-    }
-  };
-
-  useEffect(() => {
-    if (!show) {
-      setPopupPosition("bottom"); // Reset popup position when show is false
-    }
-  }, [show]);
-
   return (
     <>
       {/* {console.log(d, "ushj")} */}

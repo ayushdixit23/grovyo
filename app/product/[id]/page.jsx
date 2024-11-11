@@ -6,6 +6,7 @@ import { API } from "@/Essentials";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useAuthContext } from "@/app/utils/AuthWrapper";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Products = ({ params }) => {
   const [data, setData] = useState(null);
@@ -14,6 +15,7 @@ const Products = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState();
   const [activeSlide, setActiveSlide] = useState(0);
+  const router = useRouter();
 
   const nextSlide = () => {
     setActiveSlide((prev) => (prev + 1) % (data?.images.length || 0));
@@ -64,6 +66,7 @@ const Products = ({ params }) => {
         }
       } else {
         toast.error("You are Not Logged In");
+        router.push("/login");
       }
     } catch (error) {
       console.log(error);

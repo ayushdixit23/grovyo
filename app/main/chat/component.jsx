@@ -139,15 +139,9 @@ const Page = () => {
   useEffect(() => {
     if (user?.id) {
       fetchRequests();
-      if (!data || (Array.isArray(data) && data.length === 0)) {
-        fetchAllChats();
-      }
-
-      if (Array.isArray(data) && data.length > 0 && loading) {
-        setLoading(false);
-      }
+      fetchAllChats();
     }
-  }, [user, data, loading]);
+  }, [user.id]);
 
   useEffect(() => {
     const updateMobileView = () => setIsMobile(window.innerWidth <= 821);
@@ -235,24 +229,36 @@ const Page = () => {
               {loading ? (
                 <ShimmerChat />
               ) : (
-                data.map((chat, i) => (
-                  <Convs
-                    key={i}
-                    d={chat}
-                    handleVisible={() => {
-                      const updatedData = data.map((item) =>
-                        item.convid === chat.convid
-                          ? { ...item, unread: 0 }
-                          : item
-                      );
-                      dispatch(setData(updatedData));
-                      dispatch(setHide(false));
-                    }}
-                    href={`/main/chat?id=${chat.id}&con=${chat.convid}`}
-                    handleMuting={handleMuting}
-                    removingchat={removeChat}
-                  />
-                ))
+                <>
+                  {data.length > 0 ? (
+                    <>
+                      {data.map((chat, i) => (
+                        <Convs
+                          key={i}
+                          d={chat}
+                          handleVisible={() => {
+                            const updatedData = data.map((item) =>
+                              item.convid === chat.convid
+                                ? { ...item, unread: 0 }
+                                : item
+                            );
+                            dispatch(setData(updatedData));
+                            dispatch(setHide(false));
+                          }}
+                          href={`/main/chat?id=${chat.id}&con=${chat.convid}`}
+                          handleMuting={handleMuting}
+                          removingchat={removeChat}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex justify-center items-center h-full">
+                        No Chats!
+                      </div>
+                    </>
+                  )}
+                </>
               )}
             </div>
           )}

@@ -2,7 +2,6 @@ import React, { forwardRef, useState } from "react";
 import dynamic from "next/dynamic";
 const VideoPlayer = dynamic(() => import("./VideoPlayer"), { suspense: true });
 const Comments = dynamic(() => import("./Comments"), { suspense: true });
-import { PiHandsClapping } from "react-icons/pi";
 import { VscSend } from "react-icons/vsc";
 import { GoArrowRight } from "react-icons/go";
 import liked from "../assets/liked.png";
@@ -20,7 +19,7 @@ const CommunityPost = forwardRef(
       <>
         <div
           ref={ref}
-          className="pt-2 pn:max-sm:p-3  w-full p-4 pn:max-md:rounded-2xl"
+          className="pt-2 pn:max-sm:p-3 w-full p-4 pn:max-md:rounded-2xl"
         >
           {d?.posts?.kind == "ad" && d?.posts?.community != comId ? (
             //ads
@@ -163,7 +162,6 @@ const CommunityPost = forwardRef(
                       className="h-[40px] w-[40px] rounded-2xl object-cover bg-white dark:bg-bluedark "
                       onContextMenu={(e) => e.preventDefault()}
                     />
-
                   </div>
                   {/* Community name */}
                   <div className="flex flex-col justify-center px-2 items-start">
@@ -262,7 +260,9 @@ const CommunityPost = forwardRef(
                     ) : (
                       <Image src={lightunlike} className="w-[20px] h-[20px]" />
                     )}
-                    <div className="text-[12px]">{formatNumber(d?.posts?.likes)}</div>
+                    <div className="text-[12px]">
+                      {formatNumber(d?.posts?.likes)}
+                    </div>
                   </div>
                   <div
                     onClick={() => {

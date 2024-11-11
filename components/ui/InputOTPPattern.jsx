@@ -5,7 +5,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-export function InputOTPPattern({ value, setValue, className }) {
+export function InputOTPPattern({ value, setValue }) {
   console.log("first");
   return (
     <InputOTP

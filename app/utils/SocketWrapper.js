@@ -55,7 +55,8 @@ export const SocketContextProvider = ({ children }) => {
     let newSocket;
     if (AUTH) {
       // const url = "http://192.168.1.8:4400"
-      const url = "https://rooms.grovyo.xyz"
+      // const url = "https://rooms.grovyo.xyz"
+      const url = "http://localhost:4400";
 
       newSocket = io(url, {
         auth: { id: data?.id, type: "web" },

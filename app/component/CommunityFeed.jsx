@@ -40,6 +40,7 @@ import ImageComponent from "@/app/component/ImageComponent";
 import Reports from "./Reports";
 import { formatNumber } from "../utils/useful";
 import { VscEdit } from "react-icons/vsc";
+import { MdVerified } from "react-icons/md";
 
 const CommunityFeed = React.memo(({ id }) => {
   const { data } = useAuthContext();
@@ -80,6 +81,7 @@ const CommunityFeed = React.memo(({ id }) => {
   const [creatorId, setCreatorId] = useState("");
   const [isMuted, setIsMuted] = useState(false);
   const [isMobile, setIsMobile] = useState(null);
+  const [isverified, setIsverified] = useState(false);
 
   useEffect(() => {
     const initialWidth = window.innerWidth;
@@ -121,7 +123,8 @@ const CommunityFeed = React.memo(({ id }) => {
         setComtype(res.data?.community?.type);
         setCreatorId(res.data?.community?.creator._id);
         setTopics(res.data?.community.topics);
-        setLoad(false);
+        setIsverified(res.data?.community?.isverified);
+        // setLoad(false);
       }
     } catch (error) {
       console.log(error);
@@ -284,10 +287,20 @@ const CommunityFeed = React.memo(({ id }) => {
     }
   };
 
+  const fetchEverything = async () => {
+    try {
+      setLoad(true);
+      await fetchCommunity();
+      await fetchallPosts();
+      setLoad(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (data?.id && id) {
-      fetchCommunity();
-      fetchallPosts();
+      fetchEverything();
     }
   }, [id, data]);
 
@@ -702,7 +715,14 @@ const CommunityFeed = React.memo(({ id }) => {
             </div>
             <div className="flex justify-between w-full items-center  gap-2 px-4">
               <div className="flex gap-1 flex-col">
-                <div className="font-bold">{title}</div>
+                <div className="flex gap-1 items-center">
+                  <div className="font-bold">{title}</div>
+                  {isverified && (
+                    <div>
+                      <MdVerified className="text-blue-600" />
+                    </div>
+                  )}
+                </div>
                 <div className="text-[12px] ">
                   {formatNumber(memcount)} {memcount > 1 ? "Members" : "Member"}
                 </div>
@@ -893,9 +913,12 @@ const CommunityFeed = React.memo(({ id }) => {
                   </div>
                 </div>
                 {data?.id === creatorId && (
-                  <button className="rounded-lg px-2 py-2 bg-[#DEE1E5] dark:bg-[#1A1D21] ">
+                  <a
+                    href={`https://workspace.grovyo.com/main/community`}
+                    className="rounded-lg px-2 py-2 bg-[#DEE1E5] dark:bg-[#1A1D21] "
+                  >
                     <VscEdit />
-                  </button>
+                  </a>
                 )}
               </div>
             </div>
