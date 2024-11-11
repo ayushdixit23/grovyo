@@ -10,7 +10,7 @@ import React, {
 import { checkToken } from "./useful";
 import axios from "axios";
 import { API } from "@/Essentials";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export const AuthContext = createContext();
@@ -23,6 +23,8 @@ export const AuthContextProvider = ({ children }) => {
   const [auth, setAuth] = useState(false);
   const [data, setData] = useState("");
   const router = useRouter();
+
+  const path = usePathname();
 
   // const f = async (token) => {
   //   try {
@@ -77,7 +79,7 @@ export const AuthContextProvider = ({ children }) => {
 
       const res = await axios.get(`${API}/login/verifytoken`, {
         headers: {
-          Authorization: `Bearer ${token}`,  // Ensure this header is set
+          Authorization: `Bearer ${token}`, // Ensure this header is set
         },
       });
 
@@ -88,13 +90,14 @@ export const AuthContextProvider = ({ children }) => {
         Cookies.remove("access_token");
         router.push("/login");
       }
-    
     } catch (error) {
-      if (error.response.data.error === "Token expired") {
-        toast.error(error.response.data.message);
+      if (path != "/") {
+        if (error.response.data.error === "Token expired") {
+          toast.error(error.response.data.message);
+        }
       }
-      // Cookies.remove("access_token");
-      // router.push("/login");
+      Cookies.remove("access_token");
+      router.push("/login");
     }
   };
 
@@ -102,7 +105,7 @@ export const AuthContextProvider = ({ children }) => {
     sendTokenAndVerify();
   }, []);
 
-  // sendTokenAndVerify()
+ 
 
   const contextValue = useMemo(
     () => ({

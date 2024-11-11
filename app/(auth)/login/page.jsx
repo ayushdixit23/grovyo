@@ -161,21 +161,49 @@ function page() {
     };
   }, [emailOtp, emailOtpRef]);
 
-  function generateRandomString(length) {
-    const characters = "0123456789abcdefghijklmnopqrstuvwxyz";
-    let randomString = "";
-    for (let i = 0; i < length; i++) {
-      randomString += characters.charAt(
-        Math.floor(Math.random() * characters.length)
-      );
-    }
-    return randomString;
-  }
+  // function generateRandomString(length) {
+  //   const characters = "0123456789abcdefghijklmnopqrstuvwxyz";
+  //   let randomString = "";
+  //   for (let i = 0; i < length; i++) {
+  //     randomString += characters.charAt(
+  //       Math.floor(Math.random() * characters.length)
+  //     );
+  //   }
+  //   return randomString;
+  // }
+
+  // useEffect(() => {
+  //   const string = generateRandomString(17);
+  //   setQRCodeValue(string);
+  // }, []);
 
   useEffect(() => {
-    const string = generateRandomString(17);
-    setQRCodeValue(string);
-  }, []);
+    if (socket?.id) {
+      setQRCodeValue(socket?.id);
+    }
+  }, [socket?.id]);
+
+  useEffect(() => {
+    socket?.on("qr-rec", async (id) => {
+      setLoadingqr(true);
+      const res = await axios.post(`${API}/login/webcheckqr`, {
+        id,
+      });
+      if (res.data?.success) {
+        const check = await cookiesSetter(res);
+        if (check === true) {
+          router.push("/main/feed/newForYou");
+        }
+        setTimeout(() => {
+          setLoadingqr(false);
+        }, 6000);
+      }
+    });
+
+    return () => {
+      socket?.off("qr-rec");
+    };
+  }, [socket]);
 
   useEffect(() => {
     socket?.on(qrCodeValue, async ({ id }) => {

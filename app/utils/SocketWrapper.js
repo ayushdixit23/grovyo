@@ -53,13 +53,11 @@ export const SocketContextProvider = ({ children }) => {
 
   useEffect(() => {
     let newSocket;
+     const url = "https://rooms.grovyo.xyz"
     if (AUTH) {
-      // const url = "http://192.168.1.8:4400"
-      // const url = "https://rooms.grovyo.xyz"
-      const url = "http://localhost:4400";
-
+     
       newSocket = io(url, {
-        auth: { id: data?.id, type: "web" },
+        auth: { id: data?.id },
         reconnectionAttempts: 100,
         reconnectionDelay: 3000,
         reconnection: true,
@@ -88,10 +86,19 @@ export const SocketContextProvider = ({ children }) => {
       console.log("Reconnecting...", newSocket.connected);
 
     } else {
-      if (socket) {
-        socket.close();
-        setSocket(null);
-      }
+      newSocket = io(url, {
+        reconnectionAttempts: 100,
+        auth: {
+          skipMiddleware: true, 
+        },
+        reconnectionDelay: 2000,
+        reconnection: true,
+        autoConnect: true,
+        transports: ["websocket"],
+      });
+
+      setSocket(newSocket)
+      console.log("Reconnecting without id...", newSocket.connected);
     }
 
     return () => {
