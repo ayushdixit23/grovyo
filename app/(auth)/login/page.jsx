@@ -139,6 +139,7 @@ function page() {
     };
   }, [email]);
 
+  
   useEffect(() => {
     const verifyOtp = emailOtpRef.current;
     const handleKeyPress = (event) => {
@@ -160,22 +161,6 @@ function page() {
       }
     };
   }, [emailOtp, emailOtpRef]);
-
-  // function generateRandomString(length) {
-  //   const characters = "0123456789abcdefghijklmnopqrstuvwxyz";
-  //   let randomString = "";
-  //   for (let i = 0; i < length; i++) {
-  //     randomString += characters.charAt(
-  //       Math.floor(Math.random() * characters.length)
-  //     );
-  //   }
-  //   return randomString;
-  // }
-
-  // useEffect(() => {
-  //   const string = generateRandomString(17);
-  //   setQRCodeValue(string);
-  // }, []);
 
   useEffect(() => {
     if (socket?.id) {
