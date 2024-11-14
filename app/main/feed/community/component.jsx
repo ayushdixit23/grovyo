@@ -290,7 +290,7 @@ function page() {
           className={`${
             id && isMobile
               ? "hidden"
-              : "select-none lg:w-[27%] md:w-[32%] sm:w-[37%] flex flex-col items-center md:border-r-2 border-[#f7f7f7] dark:border-[#131619] self-end"
+              : "select-none lg:w-[27%] md:w-[32%] sm:w-[37%] flex flex-col items-center w-full md:border-r-2 border-[#f7f7f7] dark:border-[#131619] "
           } `}
         >
           {/* <div className="h-[100vh] pn:max-sm:h-[16vh]"></div> */}
@@ -317,8 +317,41 @@ function page() {
                 </a>
               </div>
             </div>
-            {/* <>
-              {loading ? (
+
+            <VirtualizedCommunity
+              feed={feed}
+              loading={loading}
+              handleLike={handleLike}
+              isMobile={isMobile}
+              setHide={setHide}
+              dispatch={dispatch}
+              theme={theme}
+            />
+          </div>
+
+          {/* POst */}
+        </div>
+        {id && (
+          <div className="lg:w-[73%] md:w-[68%] w-full sm:w-[63%] ">
+            <CommunityFeed id={id} />
+          </div>
+        )}
+        {!id && (
+          <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] pn:max-sm:hidden">
+            {" "}
+            <EmptyCommunity />
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+export default page;
+
+{
+  /* <>
+  {loading ? (
                 <>
                   <PostLoading />
                 </>
@@ -541,35 +574,5 @@ function page() {
                   ))}
                 </>
               )}
-            </> */}
-
-            <VirtualizedCommunity
-              feed={feed}
-              loading={loading}
-              handleLike={handleLike}
-              isMobile={isMobile}
-              setHide={setHide}
-              dispatch={dispatch}
-              theme={theme}
-            />
-          </div>
-
-          {/* POst */}
-        </div>
-        {id && (
-          <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] ">
-            <CommunityFeed id={id} />
-          </div>
-        )}
-        {!id && (
-          <div className="lg:w-[73%] md:w-[68%] sm:w-[63%] pn:max-sm:hidden">
-            {" "}
-            <EmptyCommunity />
-          </div>
-        )}
-      </div>
-    </>
-  );
+            </> */
 }
-
-export default page;

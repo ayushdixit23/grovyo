@@ -47,7 +47,8 @@ export const disconnectSocket = () => {
 export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const dispatch = useDispatch();
-  const messages = useSelector((state) => state.message.messages);
+  // const messages = useSelector((state) => state.message.messages);
+  const [socketId, setSocketId] = useState(null);
   const convId = useSelector((state) => state.remember.convId);
   const { data, auth: AUTH } = useAuthContext();
 
@@ -66,6 +67,13 @@ export const SocketContextProvider = ({ children }) => {
       });
 
 
+      newSocket?.on("connect", () => {
+        console.log("Socket connected without ID.");
+        setSocketId(newSocket.id); // Set socketId without auth id
+      });
+
+
+
       newSocket?.on("outer-private", (data) => {
         console.log(data?.data?.mesId, ",es", data)
         if (data.data.convId === convId) {
@@ -79,8 +87,6 @@ export const SocketContextProvider = ({ children }) => {
         //   dispatch(setincommsgs(data.data));
         // }
       });
-
-
       setSocket(newSocket);
 
       console.log("Reconnecting...", newSocket.connected);
@@ -97,6 +103,11 @@ export const SocketContextProvider = ({ children }) => {
         transports: ["websocket"],
       });
 
+
+      newSocket?.on("connect", () => {
+       
+        setSocketId(newSocket.id); // Update socketId state when connected
+      });
       setSocket(newSocket)
       console.log("Reconnecting without id...", newSocket.connected);
     }
@@ -107,7 +118,7 @@ export const SocketContextProvider = ({ children }) => {
   }, [AUTH, data.id, convId]);
 
   return (
-    <SocketContext.Provider value={{ socket }}>
+    <SocketContext.Provider value={{ socket,socketId }}>
       {children}
     </SocketContext.Provider>
   );

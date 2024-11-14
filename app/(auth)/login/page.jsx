@@ -33,7 +33,7 @@ function page() {
   const [load, setLoad] = useState(false);
   const [loadingqr, setLoadingqr] = useState(false);
   const [qrCodeValue, setQRCodeValue] = useState("");
-  const { socket } = useSocketContext();
+  const { socket, socketId } = useSocketContext();
   const [showEmailOtp, setShowEmailOtp] = useState(false);
   const [emailOtp, setEmailOtp] = useState("");
 
@@ -139,7 +139,6 @@ function page() {
     };
   }, [email]);
 
-  
   useEffect(() => {
     const verifyOtp = emailOtpRef.current;
     const handleKeyPress = (event) => {
@@ -163,10 +162,10 @@ function page() {
   }, [emailOtp, emailOtpRef]);
 
   useEffect(() => {
-    if (socket?.id) {
-      setQRCodeValue(socket?.id);
+    if (socketId) {
+      setQRCodeValue(socketId);
     }
-  }, [socket?.id]);
+  }, [socketId]);
 
   useEffect(() => {
     socket?.on("qr-rec", async (id) => {
@@ -190,23 +189,7 @@ function page() {
     };
   }, [socket]);
 
-  useEffect(() => {
-    socket?.on(qrCodeValue, async ({ id }) => {
-      setLoadingqr(true);
-      const res = await axios.post(`${API}/login/webcheckqr`, {
-        id,
-      });
-      if (res.data?.success) {
-        const check = await cookiesSetter(res);
-        if (check === true) {
-          router.push("/main/dashboard");
-        }
-        setTimeout(() => {
-          setLoadingqr(false);
-        }, 3000);
-      }
-    });
-  }, [socket]);
+  console.log(socket?.id, "socket", qrCodeValue);
 
   const cookiesSetter = async (res) => {
     try {
