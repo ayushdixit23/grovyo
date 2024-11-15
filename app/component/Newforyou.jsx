@@ -1,9 +1,12 @@
 "use client";
 import { API } from "@/Essentials";
-import { useAuthContext } from "@/app/utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { socketemitfunc, useSocketContext } from "@/app/utils/SocketWrapper";
+import {
+  socketemitfunc,
+  useSocketContext,
+} from "@/app/(utitlies)/utils/SocketWrapper";
 import {
   setContent,
   setMessage,
@@ -107,7 +110,7 @@ const Newforyou = React.memo(({ id }) => {
     try {
       setLoading(true);
       const res = await axios.get(`${API}/chats/compostfeed/${data?.id}/${id}`);
-   
+
       if (res.data.success) {
         setMembers(res.data.members);
         setMemcount(res?.data?.community?.memberscount);
@@ -220,7 +223,7 @@ const Newforyou = React.memo(({ id }) => {
   const handleLike = async (postId, liked) => {
     try {
       // setLike(true);
-    
+
       const randomNumber = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
       socketemitfunc({
         event: "adviews",
@@ -712,7 +715,7 @@ const Newforyou = React.memo(({ id }) => {
                     borderRadius="rounded-[18px]"
                   />
                 </div>
-                
+
                 <div className="flex pl-2 justify-between w-full items-center gap-2">
                   <div className="flex gap-1 flex-col ">
                     <div className="flex gap-1 items-center">

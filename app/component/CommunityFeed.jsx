@@ -1,10 +1,13 @@
 "use client";
 import { API } from "@/Essentials";
-import { useAuthContext } from "@/app/utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import Input from "@/app/component/Input";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { socketemitfunc, useSocketContext } from "@/app/utils/SocketWrapper";
+import {
+  socketemitfunc,
+  useSocketContext,
+} from "@/app/(utitlies)/utils/SocketWrapper";
 import styles from "@/app/CustomScrollbarComponent.module.css";
 import {
   setContent,
@@ -38,7 +41,7 @@ import { setPreview } from "@/app/redux/slice/remember";
 import { IoDocument } from "react-icons/io5";
 import ImageComponent from "@/app/component/ImageComponent";
 import Reports from "./Reports";
-import { formatNumber } from "../utils/useful";
+import { formatNumber } from "@/app/(utitlies)/utils/useful";
 import { VscEdit } from "react-icons/vsc";
 import { MdVerified } from "react-icons/md";
 

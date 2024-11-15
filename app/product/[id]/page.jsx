@@ -4,7 +4,7 @@ import { BsFillCartPlusFill } from "react-icons/bs";
 import axios from "axios";
 import { API } from "@/Essentials";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { useAuthContext } from "@/app/utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 

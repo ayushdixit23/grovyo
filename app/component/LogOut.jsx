@@ -3,8 +3,7 @@
 
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Cookies from "js-cookie";
-import { useAuthContext } from "../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 
 const LogoutModal = ({ isOpen, onClose, onLogout }) => {
   const [id, setId] = useState();

@@ -7,7 +7,7 @@ import Chat from "../assets/Chat";
 import Library from "../assets/Lib";
 import Sarch from "../assets/Search";
 import Setting from "../assets/Setting";
-import { useAuthContext } from "../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import { ModeToggle } from "./ModeToggle";
 import { usePathname } from "next/navigation";
 

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { useAuthContext } from "@/app/utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import Cookies from "js-cookie";
 import { FaCamera, FaLink, FaPen } from "react-icons/fa";
 import axios from "axios";

@@ -7,7 +7,7 @@ import LogoutModal from "../../component/LogOut";
 import Image from "next/image";
 // import { getData } from "../utils/useful";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useAuthContext } from "../../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import Cookies from "js-cookie";
 import { MdOutlineCampaign, MdOutlineLogout, MdVerified } from "react-icons/md";
 import { FaUser, FaUsers } from "react-icons/fa";

@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 // import notify from "../assets/Images/Notify.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useAuthContext } from "../utils/AuthWrapper";
-import { ModeToggle } from "./ModeToggle";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
+
 import { AiOutlineSearch } from "react-icons/ai";
 import Search from "./Search";
 

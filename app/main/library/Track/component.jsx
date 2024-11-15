@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { useAuthContext } from "../../../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import axios from "axios";
 import { API } from "../../../../Essentials";
 import styles from "../../../CustomScrollbarComponent.module.css";

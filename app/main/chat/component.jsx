@@ -11,7 +11,7 @@ import { setHide } from "@/app/redux/slice/remember";
 import styles from "@/app/CustomScrollbarComponent.module.css";
 import { setData } from "@/app/redux/slice/lastMessage";
 import { API } from "@/Essentials";
-import { useAuthContext } from "@/app/utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import ShimmerChat from "@/app/component/ShimmerChat";
 import EmptyInbox from "@/app/component/EmptyInbox";
 import Convs from "@/app/component/Convs";

@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API } from "../../../../Essentials";
-import { useAuthContext } from "../../../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 
 const page = () => {
   const [sub, setSub] = useState([]);
@@ -36,11 +36,13 @@ const page = () => {
             key={i}
             className="py-1 rounded-lg  bg-[#f4f4f4] mb-4 dark:bg-[#000] mt-2 flex flex-row items-center"
           >
-            <div className="w-[15%] h-[100%]  items-center
-             justify-center flex px-2">
+            <div
+              className="w-[15%] h-[100%]  items-center
+             justify-center flex px-2"
+            >
               <img
-              alt="dp"
-              loading="lazy"
+                alt="dp"
+                loading="lazy"
                 src={d?.status?.dp}
                 className="h-[100%] w-[100%] rounded-lg resize"
               />

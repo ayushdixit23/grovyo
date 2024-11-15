@@ -9,9 +9,9 @@ const plus_jakarta_sans = Plus_Jakarta_Sans({
 import "./globals.css";
 import { ThemeProvider } from '@/components/theme-provider';
 import Script from 'next/script';
-import { SocketContextProvider } from "./utils/SocketWrapper";
+import { SocketContextProvider } from "@/app/(utitlies)/utils/SocketWrapper";
 import Providers from "./redux/Providers";
-import { AuthContextProvider } from './utils/AuthWrapper';
+import { AuthContextProvider } from '@/app/(utitlies)/utils/AuthWrapper';
 import { Toaster } from 'react-hot-toast';
 
 export const metadata = {

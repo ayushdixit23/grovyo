@@ -9,7 +9,7 @@ import lightunlike from "../assets/lightunlike.png";
 import darkunlike from "../assets/darkunlike.png";
 import Image from "next/image";
 import { useTheme } from "next-themes";
-import { formatNumber } from "../utils/useful";
+import { formatNumber } from "@/app/(utitlies)/utils/useful"; 
 
 const CommunityPost = forwardRef(
   ({ d, i, title, handleLike, data, comId, setShareValue, setShare }, ref) => {

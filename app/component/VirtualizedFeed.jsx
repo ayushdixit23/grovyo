@@ -5,7 +5,7 @@ import liked from "@/app/assets/liked.png";
 import lightunlike from "@/app/assets/lightunlike.png";
 import darkunlike from "@/app/assets/darkunlike.png";
 import styles from "@/app/CustomScrollbarComponent.module.css";
-import { formatDate } from "../utils/useful";
+import { formatDate } from "@/app/(utitlies)/utils/useful";
 import { VscSend } from "react-icons/vsc";
 import "react-virtualized/styles.css"; // Import default styles for react-virtualized
 import VideoPlayer from "./VideoPlayer";
@@ -158,7 +158,7 @@ const VirtualizedFeed = ({
           <div
             key={key}
             style={style}
-            className={`px-2 sm:my-2 pn:max-sm:mt-10 pn:max-sm:pb-20 ${styles.customScrollbar} w-full bg-white dark:bg-graydark `}
+            className={`px-2 sm:my-2  pn:max-sm:pb-20 ${styles.customScrollbar} w-full bg-white dark:bg-graydark `}
           >
             <div className="bg-slate-50 dark:bg-transparent pn:max-md:rounded-2xl">
               <Link
@@ -254,7 +254,6 @@ const VirtualizedFeed = ({
                               <div className="p-1 h-full ">
                                 <div className=" rounded-2xl relative h-full overflow-hidden">
                                   <div className="absolute z-10 h-[300px] sm:h-[260px] w-full"></div>
-
                                   <VideoPlayer
                                     key={key}
                                     src={f?.content}

@@ -8,7 +8,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { SiPhonepe, SiVisa } from "react-icons/si";
 import { FaLocationDot } from "react-icons/fa6";
 import { BsBank } from "react-icons/bs";
-import { useAuthContext } from "../../../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import axios from "axios";
 import { API } from "../../../../Essentials";
 import { useRouter, useSearchParams } from "next/navigation";

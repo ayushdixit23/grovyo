@@ -1,5 +1,5 @@
 "use client";
-import { useAuthContext } from "@/app/utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import React from "react";
 
 const SettingCommunity = () => {

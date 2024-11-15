@@ -6,14 +6,18 @@ import axios from "axios";
 import { API } from "../../../Essentials";
 import { CgSpinner } from "react-icons/cg";
 import Cookies from "js-cookie";
-import { useAuthContext } from "../../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import { QRCodeSVG } from "qrcode.react";
 import { RiLoader4Line } from "react-icons/ri";
-import { reportErrorToServer } from "@/app/utils/useful";
+import { reportErrorToServer } from "@/app/(utitlies)/utils/useful";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail, MdOutlineMailOutline } from "react-icons/md";
-import { useSocketContext } from "@/app/utils/SocketWrapper";
-import { initOTPless, phoneAuth, verifyOTP } from "@/app/utils/otpUtils";
+import { useSocketContext } from "@/app/(utitlies)/utils/SocketWrapper";
+import {
+  initOTPless,
+  phoneAuth,
+  verifyOTP,
+} from "@/app/(utitlies)/utils/otpUtils";
 import { InputOTPPattern } from "@/components/ui/InputOTPPattern";
 
 function page() {

@@ -8,12 +8,12 @@ import dynamic from "next/dynamic";
 const Bio = dynamic(() => import("../component/Bio"));
 const Community = dynamic(() => import("../component/Community"));
 const Store = dynamic(() => import("../component/Store"));
-import { useAuthContext } from "../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import { IoIosChatbubbles } from "react-icons/io";
 import { API } from "@/Essentials";
 import toast from "react-hot-toast";
 import Loader from "../component/Loader";
-import { useSocketContext } from "../utils/SocketWrapper";
+import { useSocketContext } from "@/app/(utitlies)/utils/SocketWrapper";
 import NotFound from "../component/NotFound";
 import FooterComponent from "../component/FooterComponent";
 

@@ -6,10 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { InputOTPPattern } from "@/components/ui/InputOTPPattern";
 import toast from "react-hot-toast";
-import { initOTPless, phoneAuth, verifyOTP } from "../../utils/otpUtils";
+import { initOTPless, phoneAuth, verifyOTP } from "@/app/(utitlies)/utils/otpUtils";
 import axios from "axios";
 import { API } from "@/Essentials";
-import { useAuthContext } from "@/app/utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 

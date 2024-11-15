@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import axios from "axios";
-import { useAuthContext } from "../utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import { API } from "../../Essentials";
 import { MdVerified } from "react-icons/md";
 import styles from "../CustomScrollbarComponent.module.css";

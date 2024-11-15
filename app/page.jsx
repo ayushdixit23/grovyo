@@ -8,7 +8,7 @@ import Feature from "./component/Feature";
 import Businesses from "./component/Businesses";
 import Creator from "./component/creator";
 import Search from "./component/SearchPage";
-import { useAuthContext } from "./utils/AuthWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
 import Link from "next/link";
 
 const Page = () => {

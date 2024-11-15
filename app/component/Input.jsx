@@ -15,7 +15,7 @@ import {
 } from "@giphy/react-components";
 import { setPreview } from "../redux/slice/remember";
 import EmojiPicker from "emoji-picker-react";
-import { socketemitfunc } from "../utils/SocketWrapper";
+import { socketemitfunc } from "@/app/(utitlies)/utils/SocketWrapper";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 

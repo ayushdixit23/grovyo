@@ -7,7 +7,7 @@ import {
 import axios from "axios";
 import { API } from "@/Essentials";
 import VideoPlayer from "./VideoPlayer";
-import { socketemitfunc } from "../utils/SocketWrapper";
+import { socketemitfunc } from "@/app/(utitlies)/utils/SocketWrapper";
 import deletechat from "../assets/deletechat.png";
 import replypic from "../assets/replypic.png";
 import { BsThreeDotsVertical } from "react-icons/bs";

@@ -1,8 +1,8 @@
 "use client";
 import { API } from "@/Essentials";
 import Input from "/app/component/Input";
-import { useAuthContext } from "/app/utils/AuthWrapper";
-import { socketemitfunc, useSocketContext } from "/app/utils/SocketWrapper";
+import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
+import { socketemitfunc, useSocketContext } from "@/app/(utitlies)/utils/SocketWrapper";
 import axios from "axios";
 import moment from "moment";
 import { useParams, useSearchParams } from "next/navigation";
@@ -18,18 +18,16 @@ import {
   setincommsgs,
 } from "/app/redux/slice/messageSlice";
 // default
-import mutepic from "/app/assets/mute.png";
 import hidden from "/app/assets/hidden.png";
 import hiddenlight from "/app/assets/lighthidden.png";
 import blockpic from "/app/assets/block.png";
-import unmutepic from "/app/assets/unmute.png";
 import styles from "/app/CustomScrollbarComponent.module.css";
 import reportspic from "/app/assets/reports.png";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LuLoader2 } from "react-icons/lu";
 import PrivateChats from "/app/component/PrivateChats";
 import Hidden from "/app/component/Hidden";
-import { IoDocument, IoReorderThreeOutline } from "react-icons/io5";
+import { IoDocument } from "react-icons/io5";
 import Link from "next/link";
 import { setConvId, setPreview } from "@/app/redux/slice/remember";
 import { RxCross2 } from "react-icons/rx";
@@ -39,7 +37,7 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import Reports from "./Reports";
 
-const Chats = memo(({ id, con, setVisible }) => {
+const Chats = memo(({ id, con }) => {
   const { data } = useAuthContext();
   const { socket } = useSocketContext();
   const searchParams = useSearchParams();

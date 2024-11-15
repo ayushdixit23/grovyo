@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { BiSearchAlt } from "react-icons/bi";
 import axios from "axios";
-import { encryptaes } from "../utils/useful";
+import { encryptaes } from "@/app/(utitlies)/utils/useful";
 import { MdVerified } from "react-icons/md";
 import Link from 'next/link';
 import { API } from '@/Essentials';

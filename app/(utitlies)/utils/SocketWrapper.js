@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAuthContext } from "./AuthWrapper";
 import { io } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
-import { setincommsgs } from "../redux/slice/messageSlice";
+import { setincommsgs } from "@/app/redux/slice/messageSlice";
 
 export const SocketContext = createContext();
 
