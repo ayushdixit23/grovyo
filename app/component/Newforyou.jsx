@@ -32,7 +32,7 @@ import { RxCross2 } from "react-icons/rx";
 import { IoDocument, IoReorderThreeOutline } from "react-icons/io5";
 import Link from "next/link";
 import Members from "@/app/component/Members";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import CommunityPost from "@/app/component/CommunityPost";
 import Loader from "@/app/component/Loader";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -71,6 +71,7 @@ const Newforyou = React.memo(({ id }) => {
   const preview = useSelector((state) => state.remember.preview);
   const [options, setOptions] = useState(false);
   const [refsSet, setRefsSet] = useState(false);
+  const path = usePathname();
   const [joinLoading, setJoinLoading] = useState(false);
   const searchParams = useSearchParams();
   const optionType = searchParams.get("type");
