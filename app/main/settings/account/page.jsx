@@ -1,21 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
-import Cookies from "js-cookie";
 import { FaCamera, FaLink, FaPen } from "react-icons/fa";
 import axios from "axios";
 import { API } from "@/Essentials";
-import toast from "react-hot-toast";
 import { LiaToggleOffSolid, LiaToggleOnSolid } from "react-icons/lia";
 
 const Account = React.memo(() => {
   const { data: user } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState({});
-  const [loading2, setLoading2] = useState(false);
-  const router = useRouter();
   const [links, setLinks] = useState({
     insta: "",
     snap: "",
@@ -107,7 +101,7 @@ const Account = React.memo(() => {
   useEffect(() => {
     if (user?.id) {
       axios
-        .get(`${API}/login/getprofileinfo/${user?.id}`)
+        .get(`${API}/getprofileinfo/${user?.id}`)
         .then((res) => {
           setData(res.data);
         })

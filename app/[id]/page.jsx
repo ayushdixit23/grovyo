@@ -46,10 +46,10 @@ const page = ({ params }) => {
 
       if (username) {
         res = await axios.get(
-          `${API}/product/getprositedetails/${params.id}?username=${username}`
+          `${API}/getprositedetails/${params.id}?username=${username}`
         );
       } else {
-        res = await axios.get(`${API}/product/getprositedetails/${params.id}`);
+        res = await axios.get(`${API}/getprositedetails/${params.id}`);
       }
 
       if (res.data.success) {
@@ -80,7 +80,7 @@ const page = ({ params }) => {
     try {
       if (auth) {
         setLoading(true);
-        const res = await axios.post(`${API}/chats/createmessagereqs`, {
+        const res = await axios.post(`${API}/createmessagereqs`, {
           sender: data?.id,
           reciever: bio?.id,
         });

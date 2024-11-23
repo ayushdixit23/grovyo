@@ -1,7 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
-import { useSocketContext } from "@/app/(utitlies)/utils/SocketWrapper";
+import {
+  socketemitfunc,
+  useSocketContext,
+} from "@/app/(utitlies)/utils/SocketWrapper";
 import { useSearchParams } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +30,7 @@ function CommunityFetch() {
 
   const comfetchfeed = async () => {
     try {
-      const res = await axios.get(`${API}/chats/joinedcomnews3/${data?.id}`);
+      const res = await axios.get(`${API}/v1/getfollowingfeed/${data?.id}`);
 
       dispatch(setFeed(res.data?.mergedData));
       setLoading(false);
@@ -53,9 +56,7 @@ function CommunityFetch() {
         },
         socket,
       });
-      const res = await axios.post(
-        `${API}/post/likepost/${data?.id}/${postId}`
-      );
+      const res = await axios.post(`${API}/likepost/${data?.id}/${postId}`);
       if (res.data.success) {
         // if (liked) {
         //   const newwfeed = feed.map((d) =>

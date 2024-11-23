@@ -110,7 +110,7 @@ const Newforyou = React.memo(({ id }) => {
   const fetchCommunity = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API}/chats/compostfeed/${data?.id}/${id}`);
+      const res = await axios.post(`${API}/v1/compostfeed/${data?.id}/${id}`);
 
       if (res.data.success) {
         setMembers(res.data.members);
@@ -137,7 +137,7 @@ const Newforyou = React.memo(({ id }) => {
   const handleMute = async () => {
     try {
       setIsMuted(!isMuted);
-      await axios.post(`${API}/chats/v1/mutecom/${data?.id}/${id}`);
+      await axios.post(`${API}/v1/mutecom/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -146,7 +146,7 @@ const Newforyou = React.memo(({ id }) => {
   const handleReport = async () => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/chats/v1/reporting/${data?.id}`, {
+        await axios.post(`${API}/v1/reporting/${data?.id}`, {
           data: reports,
           id: id,
           type: "Community",
@@ -162,7 +162,7 @@ const Newforyou = React.memo(({ id }) => {
   const unjoinmembers = async () => {
     try {
       setIsjoined(!isjoined);
-      await axios.post(`${API}/chats/unjoin/${data?.id}/${id}`);
+      await axios.post(`${API}/unjoin/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -171,7 +171,7 @@ const Newforyou = React.memo(({ id }) => {
   const deleteCommunity = async () => {
     try {
       const res = await axios.post(
-        `${API}/post/removecomwithposts/${data?.id}/${id}`
+        `${API}/removecomwithposts/${data?.id}/${id}`
       );
       if (res.data?.success) {
         router.push("/main/feed/newForYou");
@@ -188,7 +188,7 @@ const Newforyou = React.memo(({ id }) => {
       } else {
         setComtype("public");
       }
-      await axios.post(`${API}/chats/v1/setcomtype/${data?.id}/${id}`);
+      await axios.post(`${API}/v1/setcomtype/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -199,7 +199,7 @@ const Newforyou = React.memo(({ id }) => {
       setLoading(true);
       try {
         const res = await axios.post(
-          `${API}/payments/v1/createtopicporder/${data?.id}/${topicData?.id}`,
+          `${API}/createtopicporder/${data?.id}/${topicData?.id}`,
           { path }
         );
         if (res.data.success) {
@@ -237,9 +237,7 @@ const Newforyou = React.memo(({ id }) => {
         },
         socket,
       });
-      const res = await axios.post(
-        `${API}/post/likepost/${data?.id}/${postId}`
-      );
+      const res = await axios.post(`${API}/likepost/${data?.id}/${postId}`);
       if (res.data.success) {
         if (liked) {
           const newwfeed = com.map((d) =>
@@ -273,7 +271,7 @@ const Newforyou = React.memo(({ id }) => {
   const fetchTopics = async (topicId) => {
     try {
       const res = await axios.get(
-        `${API}/chats/gettopicmessages/${data?.id}/${topicId}`
+        `${API}/v1/gettopicmessages/${data?.id}/${topicId}`
       );
 
       if (res.data.success) {
@@ -306,7 +304,7 @@ const Newforyou = React.memo(({ id }) => {
   const joinmembers = async () => {
     try {
       setJoinLoading(true);
-      const res = await axios.post(`${API}/chats/joincom/${data?.id}/${id}`);
+      const res = await axios.post(`${API}/joincom/${data?.id}/${id}`);
       if (res.data.success) {
         await fetchEverything();
         setJoinLoading(false);
@@ -322,7 +320,7 @@ const Newforyou = React.memo(({ id }) => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `${API}/chats/v1/fetchallposts/${data?.id}/${id}`,
+        `${API}/v1/fetchallposts/${data?.id}/${id}`,
         { postId: "", topicId: topicid }
       );
 

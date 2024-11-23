@@ -365,7 +365,7 @@ const VirtualizedFeed = ({
                 <div className="flex gap-2 items-center">
                   <div
                     onClick={() => handleLike(d?.posts?._id, d?.liked)}
-                    className={`dark:bg-graydark flex justify-center rounded-xl ${
+                    className={`dark:bg-graydark cursor-pointer flex justify-center rounded-xl ${
                       d?.liked ? "dark:text-white " : ""
                     } items-center border w-full dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
                   >

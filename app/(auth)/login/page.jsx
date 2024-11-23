@@ -19,6 +19,9 @@ import {
   verifyOTP,
 } from "@/app/(utitlies)/utils/otpUtils";
 import { InputOTPPattern } from "@/components/ui/InputOTPPattern";
+import logo from "../../assets/Logo.png";
+import Image from "next/image";
+import Gro from "../../assets/Gro.png";
 
 function page() {
   const [otp, setOtp] = useState("");
@@ -41,24 +44,6 @@ function page() {
   const [showEmailOtp, setShowEmailOtp] = useState(false);
   const [emailOtp, setEmailOtp] = useState("");
 
-  // const handleOtpChange = (otp) => {
-  //   try {
-  //     setOtp(otp);
-  //   } catch (error) {
-  //     toast.error("Something Went Wrong!");
-  //     console.log(error);
-  //   }
-  // };
-
-  // const handleEmailOtpChange = (otp) => {
-  //   try {
-  //     setEmailOtp(otp);
-  //   } catch (error) {
-  //     toast.error("Something Went Wrong!");
-  //     console.log(error);
-  //   }
-  // };
-
   const verifyOtpEmail = async (e) => {
     e.preventDefault();
     try {
@@ -71,7 +56,7 @@ function page() {
         email,
         otp: emailOtp,
       };
-      const res = await axios.post(`${API}/login/emailotplogin`, data);
+      const res = await axios.post(`${API}/emailotplogin`, data);
       if (!res.data.success) {
         if (res.data.userexists === false) {
           toast.error("User Not Found!");
@@ -105,7 +90,7 @@ function page() {
       const data = {
         email,
       };
-      const res = await axios.post(`${API}/login/requestOtp`, data);
+      const res = await axios.post(`${API}/requestOtp`, data);
       if (!res.data.success) {
         if (res.data.emailFound === false) {
           toast.error("Email Not Found!");
@@ -174,7 +159,7 @@ function page() {
   useEffect(() => {
     socket?.on("qr-rec", async (id) => {
       setLoadingqr(true);
-      const res = await axios.post(`${API}/login/webcheckqr`, {
+      const res = await axios.post(`${API}/loginWithQr`, {
         id,
       });
       if (res.data?.success) {
@@ -192,8 +177,6 @@ function page() {
       socket?.off("qr-rec");
     };
   }, [socket]);
-
-  console.log(socket?.id, "socket", qrCodeValue);
 
   const cookiesSetter = async (res) => {
     try {
@@ -221,32 +204,21 @@ function page() {
   const fetchid = async () => {
     try {
       await axios
-        .post(`${API}/login/webapplogin`, { phone: "91" + number })
+        .post(`${API}/loginWithMobile`, { phone: "91" + number })
         .then(async function (res) {
           if (res.data.success === true) {
             if (res.data.userexists) {
               await cookiesSetter(res);
             } else {
               toast.error("Seems like you don't have an account in the app.");
+              router.push("/signup");
             }
           } else {
             toast.error("Something went wrong...");
           }
         })
-        .catch(async function (error) {
-          const data = {
-            name: "POST",
-            message: error?.message || "Unknown error",
-            code: error.response?.status || "No status",
-            path: `${API}/login/webapplogin`,
-            syscall: error?.name || "Unknown syscall",
-            stack: error?.stack || "No stack trace",
-            userId: null,
-            timestamp: new Date().toISOString(),
-            platform: "web-app",
-          };
-          await reportErrorToServer(data);
-          toast.error("Something went wrong...");
+        .catch((error) => {
+          console.log(error);
         });
     } catch (error) {
       console.log(error);
@@ -256,7 +228,7 @@ function page() {
   const handleCreate = async () => {
     setLoad(true);
     try {
-      const res = await axios.post(`${API}/login/loginOnlyWithEmail`, {
+      const res = await axios.post(`${API}/loginOnlyWithEmail`, {
         email,
       });
       if (res.data.success) {
@@ -349,73 +321,15 @@ function page() {
     }
   };
 
-  // const phoneAuth = (e) => {
-  //   e.preventDefault();
-
-  //   if (number.length !== 10) {
-  //     return toast.error("Please Enter 10 digit number");
-  //   }
-  //   setLoading(true);
-
-  //   window?.OTPlessSignin.initiate({
-  //     channel: "PHONE",
-  //     phone: number,
-  //     countryCode: "+91",
-  //   });
-
-  //   setLoading(false);
-  //   setShowOTP(true);
-  //   toast.success("Otp Sent Successfully!");
-  // };
-
-  // const verifyOTP = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   try {
-  //     const result = await window?.OTPlessSignin.verify({
-  //       channel: "PHONE",
-  //       phone: number,
-  //       otp: otp,
-  //       countryCode: "+91",
-  //     });
-
-  //     if (result.success) {
-  //       await fetchid();
-  //     } else {
-  //       toast.error("OTP Verification Failed");
-  //       setLoading(false);
-  //     }
-  //   } catch (error) {
-  //     console.error("OTP Verification Error:", error);
-  //     toast.error("An error occurred during OTP verification");
-  //     setLoading(false);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const callback = (userinfo) => {
-  //   const mobileMap = otplessUser?.identities.find(
-  //     (item) => item.identityType === "MOBILE"
-  //   )?.identityValue;
-
-  //   const token = otplessUser?.token;
-
-  //   const mobile = mobileMap?.identityValue;
-  // };
-
-  // useEffect(() => initOTPless(callback), []);
-
   return (
     <div
       className="min-w-full flex justify-center
-	items-center sm:h-screen h-full"
+	items-center sm:h-screen h-full pn:max-sm:flex-col"
     >
       <div
         className={`${
           loadingqr
-            ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen flex justify-center items-center backdrop-blur-md"
+            ? "fixed inset-0 w-screen z-50 bg-black/60 h-screen pn:max-sm:flex-col flex justify-center items-center backdrop-blur-md"
             : "hidden -z-50"
         } `}
       >
@@ -426,28 +340,69 @@ function page() {
       <Toaster toastOptions={{ duration: 4000 }} />
 
       <div id="recaptcha-container"></div>
+      <Image
+        src={logo}
+        className="sm:hidden"
+        alt="QR code icon"
+        style={{
+          width: 200,
+        }}
+      />
+      <Image
+        src={Gro}
+        className="sm:hidden"
+        alt="QR code icon"
+        style={{
+          width: 200,
+        }}
+      />
 
-      <div className="lg:w-[55%] pn:max-sm:mt-6 max-w-[430px] md:w-[80%] sm:bg-[#E9E9E9] sm:dark:bg-[#242729f3] p-5 rounded-xl">
+      {/* <div className="sm:hidden">Grovyo</div> */}
+      <div className="lg:w-[55%]  max-w-[430px] md:w-[80%] sm:bg-[#E9E9E9] dark:bg-[#242729a2] p-5 rounded-[25px]">
         <div className="h-full flex flex-col">
           <div className="mb-5 flex gap-3  justify-center  items-center flex-col">
-            <div className="relative bg-white border-2 border-[#f3f3f3] dark:border-white p-3 rounded-lg">
-              <QRCodeSVG
-                style={{
-                  width: "200px",
-                  height: "200px",
-                }}
-                className="w-[180px] h-[180px]"
-                value={qrCodeValue}
-              />
+            <div className="sm:hidden">
+              signUp and signIn to start your journey now{" "}
             </div>
-            <div className="flex flex-col gap-3 justify-center items-center">
+            {/* QR  */}
+            <div className="text-xl pn:max-sm:hidden py-2 font-semibold">
+              Sign in with QR code
+            </div>
+            <div className="relative pn:max-sm:hidden bg-white border-2 border-[#f3f3f3] dark:border-white p-3 rounded-[30px]">
+              <div style={{ position: "relative", width: 180, height: 180 }}>
+                {/* QR Code */}
+                <QRCodeSVG
+                  value={qrCodeValue}
+                  size={180}
+                  style={{ width: "100%", height: "100%" }}
+                />
+
+                {/* Overlay Image */}
+                {logo && (
+                  <Image
+                    src={logo}
+                    alt="QR code icon"
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      width: 50,
+                      height: 50,
+                      transform: "translate(-50%, -50%)",
+                      borderRadius: "50%", // optional, for circular images
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col pn:max-sm:hidden gap-3 justify-center items-center">
               <div className="max-w-[70%] text-sm font-medium text-black dark:text-[#E4E4E4] text-center">
                 Use your phone camera to scan this code to log in instanly
               </div>
             </div>
-            <div className="text-xl font-semibold">Sign in with QR code</div>
 
-            <div className="flex  items-center justify-center w-full">
+            {/* divided section  */}
+            <div className="flex pn:max-sm:hidden items-center justify-center w-full">
               <hr className="flex-grow border-t text-[#686B6E] border-[#363A3D] " />
               <span className="px-3  text-sm font-medium text-[#686B6E] bg-transparent ">
                 or Sign in with
@@ -534,7 +489,7 @@ function page() {
                   <div
                     className={`${
                       change === 1
-                        ? "flex justify-start flex-col w-full mt-2 items-start  py-4"
+                        ? "flex justify-start flex-col w-full mt-2 items-start "
                         : "hidden"
                     }`}
                   >

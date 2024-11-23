@@ -2,7 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
-import { useSocketContext } from "@/app/(utitlies)/utils/SocketWrapper";
+import {
+  socketemitfunc,
+  useSocketContext,
+} from "@/app/(utitlies)/utils/SocketWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { useTheme } from "next-themes";
 import axios from "axios";
@@ -51,7 +54,7 @@ export default function NewforfetchComponent() {
   // optimized
   const fetchfeed = async () => {
     try {
-      const res = await axios.get(`${API}/post/v1/getfeed/${data?.id}`);
+      const res = await axios.get(`${API}/v1/getfeed/${data?.id}`);
       if (res.data.success) {
         dispatch(setFeed(res.data?.mergedData));
       }
@@ -62,7 +65,7 @@ export default function NewforfetchComponent() {
 
   const joinmembers = async (comId, i) => {
     try {
-      const res = await axios.post(`${API}/chats/joincom/${data?.id}/${comId}`);
+      const res = await axios.post(`${API}/joincom/${data?.id}/${comId}`);
       if (res.data.success) {
         const newwfeed = feed.map((d) => {
           // Check if the community ID matches
@@ -82,7 +85,7 @@ export default function NewforfetchComponent() {
 
   const unjoinmembers = async (comId) => {
     try {
-      const res = await axios.post(`${API}/chats/unjoin/${data?.id}/${comId}`);
+      const res = await axios.post(`${API}/unjoin/${data?.id}/${comId}`);
       if (res.data.success) {
         const newwfeed = feed.map((d) =>
           d?.posts?.community._id === comId ? { ...d, subs: "unsubscribed" } : d
@@ -94,12 +97,9 @@ export default function NewforfetchComponent() {
     }
   };
 
-  // optimized
   const loadmoreData = async () => {
     try {
-      const res = await axios.post(`${API}/post/fetchmore/${data?.id}`, {
-        fetchAds: { adIds: [] },
-      });
+      const res = await axios.get(`${API}/v1/fetchmore/${data?.id}`);
       if (res.data.success) {
         dispatch(setFeed([...feed, ...res.data.mergedData]));
       }
@@ -124,33 +124,30 @@ export default function NewforfetchComponent() {
         },
         socket,
       });
-      const res = await axios.post(
-        `${API}/post/likepost/${data?.id}/${postId}`
-      );
-      if (res.data.success) {
-        if (liked) {
-          const newwfeed = feed.map((d) =>
-            d?.posts._id === postId
-              ? {
-                  ...d,
-                  liked: false,
-                  posts: { ...d.posts, likes: Number(d?.posts?.likes) - 1 },
-                }
-              : d
-          );
-          dispatch(setFeed(newwfeed));
-        } else {
-          const newwfeed = feed.map((d) =>
-            d?.posts._id === postId
-              ? {
-                  ...d,
-                  liked: true,
-                  posts: { ...d.posts, likes: Number(d?.posts?.likes) + 1 },
-                }
-              : d
-          );
-          dispatch(setFeed(newwfeed));
-        }
+      await axios.post(`${API}/likepost/${data?.id}/${postId}`);
+
+      if (liked) {
+        const newwfeed = feed.map((d) =>
+          d?.posts._id === postId
+            ? {
+                ...d,
+                liked: false,
+                posts: { ...d.posts, likes: Number(d?.posts?.likes) - 1 },
+              }
+            : d
+        );
+        dispatch(setFeed(newwfeed));
+      } else {
+        const newwfeed = feed.map((d) =>
+          d?.posts._id === postId
+            ? {
+                ...d,
+                liked: true,
+                posts: { ...d.posts, likes: Number(d?.posts?.likes) + 1 },
+              }
+            : d
+        );
+        dispatch(setFeed(newwfeed));
       }
     } catch (error) {
       console.log(error);

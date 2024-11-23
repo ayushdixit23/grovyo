@@ -11,7 +11,7 @@ const Comments = ({ id, postId, setShowComments, dp, fullname }) => {
 
   useEffect(() => {
     if (id && postId) {
-      axios.get(`${API}/post/fetchallcomments/${id}/${postId}`).then((res) => {
+      axios.get(`${API}/fetchallcomments/${id}/${postId}`).then((res) => {
         console.log(res.data.merged);
         setComments(res.data.merged);
       });
@@ -20,12 +20,9 @@ const Comments = ({ id, postId, setShowComments, dp, fullname }) => {
 
   const handleCreateComments = async () => {
     try {
-      const res = await axios.post(
-        `${API}/post/createcomment/${id}/${postId}`,
-        {
-          text: comment,
-        }
-      );
+      const res = await axios.post(`${API}/createcomment/${id}/${postId}`, {
+        text: comment,
+      });
 
       const obj = {
         dp,

@@ -113,7 +113,7 @@ const CommunityFeed = React.memo(({ id }) => {
   const fetchCommunity = async () => {
     try {
       setLoad(true);
-      const res = await axios.get(`${API}/chats/compostfeed/${data?.id}/${id}`);
+      const res = await axios.post(`${API}/v1/compostfeed/${data?.id}/${id}`);
       if (res.data.success) {
         console.log(res.data, "daatttatatta");
         setTitle(res.data?.community?.title);
@@ -139,7 +139,7 @@ const CommunityFeed = React.memo(({ id }) => {
   const handleReport = async () => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/chats/v1/reporting/${data?.id}`, {
+        await axios.post(`${API}/v1/reporting/${data?.id}`, {
           data: reports,
           id: id,
           type: "Community",
@@ -155,7 +155,7 @@ const CommunityFeed = React.memo(({ id }) => {
   const unjoinmembers = async () => {
     try {
       setIsjoined(!isjoined);
-      await axios.post(`${API}/chats/unjoin/${data?.id}/${id}`);
+      await axios.post(`${API}/unjoin/${data?.id}/${id}`);
       router.push("/main/feed/community");
     } catch (error) {
       console.log(error);
@@ -164,7 +164,7 @@ const CommunityFeed = React.memo(({ id }) => {
 
   const joinmembers = async () => {
     try {
-      const res = await axios.post(`${API}/chats/joincom/${data?.id}/${id}`);
+      const res = await axios.post(`${API}/joincom/${data?.id}/${id}`);
       if (res.data.success) {
         await fetchCommunity();
         await fetchallPosts();
@@ -177,7 +177,7 @@ const CommunityFeed = React.memo(({ id }) => {
   const deleteCommunity = async () => {
     try {
       const res = await axios.post(
-        `${API}/post/removecomwithposts/${data?.id}/${id}`
+        `${API}/removecomwithposts/${data?.id}/${id}`
       );
       if (res.data?.success) {
         router.push("/main/feed/community");
@@ -191,7 +191,7 @@ const CommunityFeed = React.memo(({ id }) => {
   const handleMute = async () => {
     try {
       setIsMuted(!isMuted);
-      await axios.post(`${API}/chats/v1/mutecom/${data?.id}/${id}`);
+      await axios.post(`${API}/v1/mutecom/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -204,7 +204,7 @@ const CommunityFeed = React.memo(({ id }) => {
       } else {
         setComtype("public");
       }
-      await axios.post(`${API}/chats/v1/setcomtype/${data?.id}/${id}`);
+      await axios.post(`${API}/v1/setcomtype/${data?.id}/${id}`);
     } catch (error) {
       console.log(error);
     }
@@ -216,7 +216,7 @@ const CommunityFeed = React.memo(({ id }) => {
       try {
         const res = await axios.post(
           `
-          ${API}/payments/v1/createtopicporder/${data?.id}/${topicData?.id}`,
+          ${API}/createtopicporder/${data?.id}/${topicData?.id}`,
           { path }
         );
         if (res.data.success) {
@@ -241,7 +241,7 @@ const CommunityFeed = React.memo(({ id }) => {
   const fetchallPosts = async (topicid = "") => {
     try {
       const res = await axios.post(
-        `${API}/chats/v1/fetchallposts/${data?.id}/${id}`,
+        `${API}/v1/fetchallposts/${data?.id}/${id}`,
         { postId: "", topicId: topicid }
       );
 
@@ -260,7 +260,7 @@ const CommunityFeed = React.memo(({ id }) => {
   const fetchTopics = async (topicId) => {
     try {
       const res = await axios.get(
-        `${API}/chats/gettopicmessages/${data?.id}/${topicId}`
+        `${API}/v1/gettopicmessages/${data?.id}/${topicId}`
       );
 
       if (res.data.success) {
@@ -344,9 +344,7 @@ const CommunityFeed = React.memo(({ id }) => {
         },
         socket,
       });
-      const res = await axios.post(
-        `${API}/post/likepost/${data?.id}/${postId}`
-      );
+      await axios.post(`${API}/likepost/${data?.id}/${postId}`);
     } catch (error) {
       console.log(error);
     }
@@ -409,7 +407,7 @@ const CommunityFeed = React.memo(({ id }) => {
       form.append("data", JSON.stringify(mess));
       form.append("media", content);
 
-      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
+      const res = await axios.post(`${API}/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

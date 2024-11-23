@@ -54,7 +54,7 @@ const Search = React.memo(({ setShow }) => {
   const searchAll = useCallback(async () => {
     try {
       const res = await axios.post(
-        `${API}/search/websearchforall/${user?.id}?query=${text}`,
+        `${API}/searchall/${user?.id}?query=${text}`,
         {
           signal: abortController.signal,
         }
@@ -75,12 +75,9 @@ const Search = React.memo(({ setShow }) => {
 
   const searchforposts = useCallback(async () => {
     try {
-      const res = await axios.post(
-        `${API}/search/websearchforposts?query=${text}`,
-        {
-          signal: abortController.signal,
-        }
-      );
+      const res = await axios.post(`${API}/searchposts?query=${text}`, {
+        signal: abortController.signal,
+      });
       if (res.data.success) {
         setPosts(res.data.posts);
       }
@@ -92,10 +89,10 @@ const Search = React.memo(({ setShow }) => {
   const handleSearch = useCallback(async () => {
     setActive("prosites");
     setClick(1);
-    const res = await axios.post(`${API}/search/websearchpros?query=${text}`, {
+    const res = await axios.post(`${API}/searchpros?query=${text}`, {
       signal: abortController.signal,
     });
-    if (res?.data?.data?.success) {
+    if (res?.data?.success) {
       const pros = res?.data?.data?.pros;
       const dp = res?.data?.data?.dps;
       const merge = pros?.map((p, i) => ({ p, dps: dp[i] }));
@@ -108,7 +105,7 @@ const Search = React.memo(({ setShow }) => {
     setActive("communities");
     setClick(2);
     const res = await axios.post(
-      `${API}/search/searchcoms/${user?.id}?query=${text}`,
+      `${API}/searchcoms/${user?.id}?query=${text}`,
       {
         signal: abortController.signal,
       }
@@ -130,7 +127,7 @@ const Search = React.memo(({ setShow }) => {
   const addSearchCom = async (sId) => {
     try {
       const res = await axios.post(
-        `${API}/search/addRecentCommunity/${user?.id}`,
+        `${API}/addRecentSearchCommunity/${user?.id}`,
         {
           sId,
         }
@@ -146,7 +143,7 @@ const Search = React.memo(({ setShow }) => {
   const addSearchPro = async (sId) => {
     try {
       const res = await axios.post(
-        `${API}/search/addRecentProsite/${user?.id}`,
+        `${API}/addRecentSearchProsite/${user?.id}`,
         {
           sId,
         }
@@ -162,7 +159,7 @@ const Search = React.memo(({ setShow }) => {
   const removeSearchCom = async (sId) => {
     try {
       const res = await axios.post(
-        `${API}/search/removeRecentSearchCommunity/${user?.id}`,
+        `${API}/removeRecentSearchCommunity/${user?.id}`,
         { sId }
       );
       if (res.data.success) {
@@ -176,7 +173,7 @@ const Search = React.memo(({ setShow }) => {
   const removeSearchPro = async (sId) => {
     try {
       const res = await axios.post(
-        `${API}/search/removeRecentSearchProsite/${user?.id}`,
+        `${API}/removeRecentSearchProsite/${user?.id}`,
         { sId }
       );
       if (res.data.success) {
@@ -217,7 +214,7 @@ const Search = React.memo(({ setShow }) => {
 
   const recentSearchs = async () => {
     try {
-      const res = await axios.get(`${API}/search/webSearch/${user?.id}`, {
+      const res = await axios.get(`${API}/recentSearches/${user?.id}`, {
         signal: abortController.signal,
       });
       if (res.data.success) {
@@ -360,6 +357,7 @@ const Search = React.memo(({ setShow }) => {
                       href={`https://grovyo.com/${d?.username}`}
                       target="_blank"
                       key={i}
+                      onClick={addSearchPro}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
                     >
                       <div className="flex justify-center items-center">
@@ -409,6 +407,7 @@ const Search = React.memo(({ setShow }) => {
                       href={`https://grovyo.com/main/feed/newForYou?id=${d?._id}`}
                       target="_blank"
                       key={i}
+                      onClick={addSearchCom}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
                     >
                       <div className="flex justify-center items-center">
@@ -592,6 +591,7 @@ const Search = React.memo(({ setShow }) => {
                       href={`https://grovyo.com/${d?.p?.username}`}
                       target="_blank"
                       key={i}
+                      onClick={addSearchPro}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
                     >
                       <div className="flex justify-center items-center">
@@ -626,7 +626,6 @@ const Search = React.memo(({ setShow }) => {
             <div
               className={`p-2 mt-4 flex flex-col gap-5 overflow-y-scroll ${styles.customScrollbar}`}
             >
-              {console.log(recentSearchPro, "recentSearchPro")}
               <div>
                 <div className="dark:bg-[#171717] bg-[#f1f1f1] rounded-xl flex justify-between items-center p-2 px-4">
                   <div className="font-semibold">
@@ -705,6 +704,7 @@ const Search = React.memo(({ setShow }) => {
                       href={`https://grovyo.com/main/feed/newForYou?id=${d?.p?._id}`}
                       target="_blank"
                       key={i}
+                      onClick={addSearchCom}
                       className="flex flex-row items-center py-1 bg-[#f7f7f7] rounded-lg dark:bg-[#0D0D0D] px-3 justify-between"
                     >
                       <div className="flex justify-center items-center">

@@ -22,6 +22,7 @@ function page() {
   const [up, setUp] = useState(false);
   const [select, setSelect] = useState(0);
   const params = useSearchParams();
+  const [loading, setLoading] = useState(false);
   const addressPopup = params?.get("address");
   const [popUp, setPopUp] = useState(false);
   const router = useRouter();
@@ -40,7 +41,7 @@ function page() {
   const removeItem = async (cardId, productId) => {
     try {
       const res = await axios.post(`
-        ${API}/payments/removecartweb/${user?.id}/${cardId}/${productId}
+        ${API}/removecartorder/${user?.id}/${cardId}/${productId}
       `);
       if (res?.data?.success) {
         await fetchCart();
@@ -56,6 +57,7 @@ function page() {
     try {
       const { city, country, landmark, pincode, state, streetaddress } =
         updateAddress;
+
       const res = await axios.post(`${API}/changeAddress/${user?.id}`, {
         streetaddress,
         city,
@@ -98,7 +100,7 @@ function page() {
       });
       setData(newData);
       const res = await axios.post(
-        `${API}/payments/updatequantityweb/${user?.id}/${cartId}`,
+        `${API}/updatequantity/${user?.id}/${cartId}`,
         {
           quantity: quantity + 1,
         }
@@ -127,7 +129,7 @@ function page() {
         });
         setData(newData);
         const res = await axios.post(
-          `${API}/payments/updatequantityweb/${user?.id}/${cartId}`,
+          `${API}/updatequantity/${user?.id}/${cartId}`,
           { quantity: quantity - 1 }
         );
         console.log(res.data);
@@ -139,17 +141,17 @@ function page() {
 
   const fetchCart = async () => {
     try {
-      const res = await axios.get(`${API}/payments/fetchcart/${user?.id}`);
+      const res = await axios.get(`${API}/fetchcart/${user?.id}`);
       // console.log(res.data?.data)
       setData(res.data?.data);
       setUpdateAddress({
         ...updateAddress,
-        streetaddress: res.data?.address?.streetaddress,
-        country: res.data?.address?.country,
-        city: res.data?.address?.city,
-        landmark: res.data?.address?.landmark,
-        pincode: res.data?.address?.pincode,
-        state: res.data?.address?.state,
+        streetaddress: res.data?.addressWeb?.streetaddress,
+        country: res.data?.addressWeb?.country,
+        city: res.data?.addressWeb?.city,
+        landmark: res.data?.addressWeb?.landmark,
+        pincode: res.data?.addressWeb?.pincode,
+        state: res.data?.addressWeb?.state,
       });
       console.log(res.data);
     } catch (error) {
@@ -188,6 +190,7 @@ function page() {
   }, [data, actualPrice, discountedPrice, mrpPrice]);
 
   const placeOrderWithCash = async () => {
+    setLoading(true);
     try {
       const productId = data.map((d) => {
         return d?.c?.product?._id;
@@ -196,16 +199,15 @@ function page() {
       //   deliverycharges: 28,
       //   productId,
       // });
-      const res = await axios.post(
-        `${API}/payments/createnewproductorder/${user?.id}`,
-        {
-          deliverycharges: 28,
-          productId,
-        }
-      );
+      const res = await axios.post(`${API}/createnewproductorder/${user?.id}`, {
+        deliverycharges: 28,
+        productId,
+      });
 
       if (res.data.success) {
         toast.success("Order Placed!");
+        setData([]);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -217,19 +219,16 @@ function page() {
       const productId = data.map((d) => {
         return d?.c?.product?._id;
       });
-      const res = await axios.post(
-        `${API}/payments/createrzporder/${user?.id}`,
-        {
-          deliverycharges: 28,
-          productId,
-          total: actualPrice * 100,
-          path: "main/library/Cart",
-        }
-      );
+      const res = await axios.post(`${API}/createrzporder/${user?.id}`, {
+        deliverycharges: 28,
+        productId,
+        total: actualPrice * 100,
+        path: "main/library/Cart",
+      });
 
-      // if (res.data.success) {
-      //   router.push(res.data?.url);
-      // }
+      if (res.data.success) {
+        router.push(res.data?.url);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -529,12 +528,13 @@ function page() {
 
               <div
                 onClick={() => {
-                  // placeOrderWithCash();
-                  placeOrderWithOnline();
+                  if (loading) return;
+                  placeOrderWithCash();
+                  // placeOrderWithOnline();
                 }}
-                className="py-2 flex justify-center font-semibold text-[13px] items-center bg-[#2e7eef] text-white rounded-xl px-4"
+                className="py-2 flex justify-center font-semibold cursor-pointer text-[13px] items-center bg-[#2e7eef] text-white rounded-xl px-4"
               >
-                Place order
+                {loading ? "Placing order..." : "Place order"}
               </div>
             </div>
             <div
@@ -916,12 +916,15 @@ function page() {
                 </div>
                 <div
                   onClick={() => {
-                    // placeOrderWithCash();
-                    placeOrderWithOnline();
+                    if (loading) return;
+                    placeOrderWithCash();
+                    // placeOrderWithOnline();
                   }}
-                  className="bg-black rounded-lg flex flex-row justify-center items-center py-3"
+                  className="bg-black rounded-lg cursor-pointer flex flex-row justify-center items-center py-3"
                 >
-                  <div className="text-white text-[14px]">PLACE ORDER</div>
+                  <div className="text-white text-[14px]">
+                    {loading ? "Placing order..." : "Place order"}
+                  </div>
                 </div>
               </div>
             </div>

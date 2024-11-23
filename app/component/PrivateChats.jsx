@@ -56,7 +56,7 @@ const PrivateChats = React.forwardRef(
           ? [...hiddenMsg, updatedMessageObj]
           : hiddenMsg;
         dispatch(setHiddenMsgs(updatedHiddenMsgs));
-        await axios.post(`${API}/chats/v1/hideconvmsg/${data?.id}`, { msgid });
+        await axios.post(`${API}/v1/hideconvmsg/${data?.id}`, { msgid });
       } catch (error) {
         console.log(error);
       }
@@ -84,14 +84,11 @@ const PrivateChats = React.forwardRef(
           dispatch(setMessages(updatedMessages));
         }
         setDelopen(false);
-        const res = await axios.post(
-          `${API}/chats/v1/deletemessages/${data?.id}`,
-          {
-            convId: convId,
-            msgIds: msgId,
-            action,
-          }
-        );
+        const res = await axios.post(`${API}/v1/deletemessages/${data?.id}`, {
+          convId: convId,
+          msgIds: msgId,
+          action,
+        });
       } catch (e) {
         console.log(e);
       }
@@ -100,7 +97,7 @@ const PrivateChats = React.forwardRef(
     // Words limit
     const limitWords = (text, wordLimit) => {
       // const words = text.split(" ");
-      return text.length > wordLimit ? text.slice(0, wordLimit) + ".." : text;
+      return text?.length > wordLimit ? text.slice(0, wordLimit) + ".." : text;
     };
 
     const deletepopUp = (mesId) => {
@@ -114,12 +111,9 @@ const PrivateChats = React.forwardRef(
 
     const UnhideChats = async (msgid) => {
       try {
-        const res = await axios.post(
-          `${API}/chats/v1/unhideconvmsg/${data?.id}`,
-          {
-            msgid,
-          }
-        );
+        const res = await axios.post(`${API}/v1/unhideconvmsg/${data?.id}`, {
+          msgid,
+        });
       } catch (error) {
         console.log(error);
       }

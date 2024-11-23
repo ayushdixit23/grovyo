@@ -72,7 +72,7 @@ const CommunityChat = React.memo(
         }
         setDelopen(false);
         const res = await axios.post(
-          `${API}/chats/v1/deletemessagestopic/${data?.id}`,
+          `${API}/v1/deletemessagestopic/${data?.id}`,
           {
             topicId: tId,
             msgIds: msgId,

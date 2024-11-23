@@ -20,7 +20,7 @@ const SearchPage = () => {
     setText(t);
     try {
       if (t) {
-        const res = await axios.post(`${API}/search/searchpros?query=${t}`);
+        const res = await axios.post(`${API}/searchpros?query=${t}`);
 
         console.log(res.data);
         if (res?.data?.success) {
@@ -84,7 +84,7 @@ const SearchPage = () => {
               console.log(filteredIds)
               const res = await axios.post(
                 `
-                ${API}/search/recentSearch`,
+                ${API}/recentSearch`,
                 filteredIds
               );
               setRecentSearch(res.data.users);

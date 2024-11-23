@@ -2,7 +2,10 @@
 import { API } from "@/Essentials";
 import Input from "/app/component/Input";
 import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
-import { socketemitfunc, useSocketContext } from "@/app/(utitlies)/utils/SocketWrapper";
+import {
+  socketemitfunc,
+  useSocketContext,
+} from "@/app/(utitlies)/utils/SocketWrapper";
 import axios from "axios";
 import moment from "moment";
 import { useParams, useSearchParams } from "next/navigation";
@@ -46,7 +49,7 @@ const Chats = memo(({ id, con }) => {
   const [isBlocked, setIsBlocked] = useState(false);
   const [canblock, setCanblock] = useState(false);
   const [reports, setReports] = useState([]);
-  const params = useParams();
+
   const [user, setUser] = useState();
   const messages = useSelector((state) => state.message.messages);
   const [options, setOptions] = useState(false);
@@ -84,9 +87,7 @@ const Chats = memo(({ id, con }) => {
 
   const fetchChats = async () => {
     try {
-      const res = await axios.get(
-        `${API}/chats/fetchconvs/${data?.id}/${id}/${con}`
-      );
+      const res = await axios.get(`${API}/fetchconvs/${data?.id}/${con}/${id}`);
       setIsBlocked(res.data.isblocked);
       setCanblock(res.data.canblock);
       setUser(res.data.otheruserdetails);
@@ -241,7 +242,7 @@ const Chats = memo(({ id, con }) => {
       if (messages?.length >= 20) {
         // setLoad(true);
         const res = await axios.post(
-          `${API}/chats/v1/loadmorechatmsg/${data?.id}`,
+          `${API}/v1/loadmorechatmsg/${data?.id}`,
           {
             convId: con,
             sequence: parseInt(
@@ -324,7 +325,7 @@ const Chats = memo(({ id, con }) => {
     form.append("data", JSON.stringify(mess));
 
     try {
-      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
+      const res = await axios.post(`${API}/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -464,7 +465,7 @@ const Chats = memo(({ id, con }) => {
       //   console.log(res.data);
       // setLoad(true);
 
-      const res = await axios.post(`${API}/chats/v1/sendchatfile`, form, {
+      const res = await axios.post(`${API}/v1/sendchatfile`, form, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -555,7 +556,7 @@ const Chats = memo(({ id, con }) => {
   const handleReport = async ({ type }) => {
     try {
       if (reports?.length > 0) {
-        await axios.post(`${API}/chats/v1/reporting/${data?.id}`, {
+        await axios.post(`${API}/v1/reporting/${data?.id}`, {
           data: reports,
           id: con,
           type: type,
@@ -580,7 +581,7 @@ const Chats = memo(({ id, con }) => {
         },
         socket,
       });
-      const res = await axios.post(`${API}/chats/blockpeople/${data?.id}`, {
+      const res = await axios.post(`${API}/blockpeople/${data?.id}`, {
         userid: id,
         time: Date.now(),
       });
@@ -798,13 +799,7 @@ const Chats = memo(({ id, con }) => {
                 className="flex justify-center relative gap-2 items-center "
               >
                 <BsThreeDotsVertical />
-                {/* <div
-  className={`absolute duration-300 ${
-    options
-      ? "w-auto min-w-[180px] p-2 px-4 top-7 text-xs h-auto right-0 overflow-hidden"  
-      : "w-0 h-0 text-[0px] top-0 px-0 p-0 right-0 overflow-hidden"  
-  } z-40 rounded-lg dark:text-white dark:bg-[#0D0F10] text-[#6e6e6e] bg-[#f5f4f4] shadow-custom-lg`}
-> */}
+
                 <div
                   className={`absolute duration-100 ease-in-out transform ${
                     options
@@ -852,40 +847,6 @@ const Chats = memo(({ id, con }) => {
                       </div>
                       <div>Reports</div>
                     </Link>
-
-                    {/* <div className="">
-                      {isMuted ? (
-                        <div
-                          onClick={handleMute}
-                          className="flex items-center justify-start"
-                        >
-                          <div className="flex justify-center items-center">
-                            <Image
-                              src={unmutepic}
-                              className={`relative top-2 max-w-[40px] max-h-[40px] flex justify-center items-center h-full ${
-                                options ? "" : "hidden"
-                              } `}
-                            />
-                          </div>
-                          <div>Un Mute</div>
-                        </div>
-                      ) : (
-                        <div
-                          onClick={handleMute}
-                          className="flex items-center justify-start"
-                        >
-                          <div className="flex justify-center  items-center">
-                            <Image
-                              src={mutepic}
-                              className={`relative top-2 max-w-[40px] max-h-[40px] flex justify-center items-center h-full ${
-                                options ? "" : "hidden"
-                              } `}
-                            />
-                          </div>
-                          <div>Mute</div>
-                        </div>
-                      )}
-                    </div> */}
 
                     {canblock ? (
                       <div
@@ -977,6 +938,7 @@ const Chats = memo(({ id, con }) => {
                 convId={con}
                 socket={socket}
                 data={data}
+                handleScrollToMessage={handleScrollToMessage}
                 dispatch={dispatch}
               />
             )}

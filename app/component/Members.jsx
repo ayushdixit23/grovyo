@@ -17,7 +17,7 @@ const Members = React.memo(({ id, comId, dash }) => {
   useEffect(() => {
     if (id && comId)
       axios
-        .get(`${API}/chats/web/getallmembers/${id}/${comId}`)
+        .get(`${API}/v1/getallmembers/${id}/${comId}`)
         .then((res) => {
           setAdmin({
             dp: res.data?.admindp,
@@ -74,13 +74,14 @@ const Members = React.memo(({ id, comId, dash }) => {
                 <div key={i} className="mt-4">
                   <div className="flex justify-start items-center gap-2">
                     <div className="w-[45px] h-[45px] rounded-2xl">
-                      <img src={d?.dp} className="w-full h-full rounded-2xl" />
+                      <img
+                        src={d?.dp}
+                        className="w-full h-full object-cover rounded-2xl"
+                      />
                     </div>
                     <div className="flex dark:text-white text-black  flex-col -mt-1 gap-1">
-                      <div className="text-sm font-semibold">
-                        {d?.c?.fullname}
-                      </div>
-                      <div className="text-xs">@{d?.c?.username}</div>
+                      <div className="text-sm font-semibold">{d?.fullname}</div>
+                      <div className="text-xs">@{d?.username}</div>
                     </div>
                   </div>
                 </div>

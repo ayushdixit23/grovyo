@@ -6,7 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { InputOTPPattern } from "@/components/ui/InputOTPPattern";
 import toast from "react-hot-toast";
-import { initOTPless, phoneAuth, verifyOTP } from "@/app/(utitlies)/utils/otpUtils";
+import {
+  initOTPless,
+  phoneAuth,
+  verifyOTP,
+} from "@/app/(utitlies)/utils/otpUtils";
 import axios from "axios";
 import { API } from "@/Essentials";
 import { useAuthContext } from "@/app/(utitlies)/utils/AuthWrapper";
@@ -122,7 +126,7 @@ const Page = () => {
       formDataToSend.append("gender", formData.gender);
       formDataToSend.append("image", formData.profileImg);
 
-      const res = await axios.post(`${API}/login/createUser`, formDataToSend);
+      const res = await axios.post(`${API}/createUser`, formDataToSend);
       if (res.data.success) {
         cookiesSetter(res);
         toast.success("Signup successful!");
@@ -178,7 +182,7 @@ const Page = () => {
 
   const checkIfEmailOrPhoneExists = async () => {
     try {
-      const res = await axios.post(`${API}/login/checkIfEmailOrPhoneExists`, {
+      const res = await axios.post(`${API}/checkIfEmailOrPhoneExists`, {
         email: formData.email,
         phone: 91 + formData.mobileNo,
       });
@@ -241,7 +245,7 @@ const Page = () => {
     if (!username) return; // If no username, don't call the API
 
     try {
-      const res = await axios.post(`${API}/login/checkusername`, { username });
+      const res = await axios.post(`${API}/checkusername`, { username });
 
       if (res.data.success) {
         if (res.data.userexists) {

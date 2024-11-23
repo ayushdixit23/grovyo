@@ -17,7 +17,7 @@ function Page({ params }) {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post(`${API}/product/getprositefull`, {
+      const res = await axios.post(`${API}/getprositefull`, {
         username: decodeUsernameAndNumber(params.id),
       });
       // const res = await axios.post(`${API}/product/getprositefull`, {

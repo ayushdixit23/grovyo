@@ -216,7 +216,7 @@ const MyFeedComponent = ({
             <div className="flex items-center gap-2">
               <div
                 onClick={() => handleLike(d?.posts?.[0]?._id, d?.liked)}
-                className={`dark:bg-graydark flex justify-center rounded-xl ${
+                className={`dark:bg-graydark cursor-pointer flex justify-center rounded-xl ${
                   d?.liked ? "dark:text-white " : ""
                 } items-center border w-full dark:border-[#1A1D21] gap-1.5 p-2 px-4`}
               >

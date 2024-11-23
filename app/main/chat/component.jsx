@@ -39,9 +39,7 @@ const Page = () => {
 
   const fetchAllChats = async () => {
     try {
-      const res = await axios.post(
-        `${API}/chats/v1/fetchallchatsnew/${user?.id}`
-      );
+      const res = await axios.post(`${API}/v1/fetchallchatsnew/${user?.id}`);
       if (res.data.success) {
         dispatch(setData(res.data.conv));
       } else {
@@ -56,7 +54,7 @@ const Page = () => {
 
   const handleStatus = async (index, status, d) => {
     try {
-      const res = await axios.post(`${API}/chats/acceptorrejectmesgreq`, {
+      const res = await axios.post(`${API}/acceptorrejectmesgreq`, {
         reciever: user.id,
         sender: d.req.id._id,
         status,
@@ -87,7 +85,7 @@ const Page = () => {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`${API}/chats/fetchallmsgreqs/${user.id}`);
+      const res = await axios.get(`${API}/fetchallmsgreqs/${user.id}`);
       if (res.data.success) {
         const combinedRequests = res.data.dps.map((dp, i) => ({
           dp,
@@ -120,12 +118,9 @@ const Page = () => {
 
   const removeChat = async (convId) => {
     try {
-      const res = await axios.post(
-        `${API}/chats/removeconversation/${user?.id}`,
-        {
-          convId,
-        }
-      );
+      const res = await axios.post(`${API}/removeconversation/${user?.id}`, {
+        convId,
+      });
 
       if (res.data.success) {
         const updatedData = data.filter((item) => item.convid !== convId);

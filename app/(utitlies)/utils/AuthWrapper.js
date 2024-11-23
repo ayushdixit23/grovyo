@@ -76,7 +76,7 @@ export const AuthContextProvider = ({ children }) => {
         return;
       }
 
-      const res = await axios.get(`${API}/login/verifytoken`, {
+      const res = await axios.get(`${API}/verifytoken`, {
         headers: {
           Authorization: `Bearer ${token}`, // Ensure this header is set
         },

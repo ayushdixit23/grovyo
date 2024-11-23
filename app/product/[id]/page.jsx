@@ -38,9 +38,7 @@ const Products = ({ params }) => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `${API}/product/fetchSingleProduct/${params?.id}`
-      );
+      const res = await axios.get(`${API}/fetchSingleProduct/${params?.id}`);
       setData(res.data.product);
       setId(res.data.product.creator);
       setUrl(res.data.url);
@@ -56,7 +54,7 @@ const Products = ({ params }) => {
     try {
       if (auth) {
         const res = await axios.post(
-          `${API}/payments/webaddtocart/${user?.id}/${params?.id}`,
+          `${API}/addtocart/${user?.id}/${params?.id}`,
           {
             quantity: 1,
           }

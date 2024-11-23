@@ -13,7 +13,7 @@ function page() {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get(`${API}/payments/fetchorders/${user?.id}`);
+      const res = await axios.get(`${API}/fetchorders/${user?.id}`);
       console.log(res.data);
       setOrders(res.data?.data);
     } catch (error) {
