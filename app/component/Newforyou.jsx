@@ -199,7 +199,7 @@ const Newforyou = React.memo(({ id }) => {
       setLoading(true);
       try {
         const res = await axios.post(
-          `${API}/v1/createtopicporder/${data?.id}/${topicData?.id}`,
+          `${API}/payments/v1/createtopicporder/${data?.id}/${topicData?.id}`,
           { path }
         );
         if (res.data.success) {
