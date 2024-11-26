@@ -71,6 +71,28 @@ const Products = ({ params }) => {
     }
   };
 
+  const handleBuyNow = async () => {
+    try {
+      if (auth) {
+        const res = await axios.post(
+          `${API}/addtocart/${user?.id}/${params?.id}`,
+          {
+            quantity: 1,
+          }
+        );
+        if (res.data.success) {
+          toast.success("Item added to cart!");
+          router.push("/main/library/Cart");
+        }
+      } else {
+        toast.error("You are Not Logged In");
+        router.push("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleThumbnailClick = (index) => {
     setActiveSlide(index);
   };
@@ -183,13 +205,19 @@ const Products = ({ params }) => {
                       <p>Add to cart</p>
                     </button>
 
-                    <button className="flex items-center gap-2 dark:bg-[#323d4e] dark:text-white bg-white text-black border border-black p-2  px-9 rounded-xl">
+                    <button
+                      onClick={handleBuyNow}
+                      className="flex items-center gap-2 dark:bg-[#323d4e] cursor-pointer dark:text-white bg-white text-black border border-black p-2  px-9 rounded-xl"
+                    >
                       BUY NOW
                     </button>
                   </div>
                   <div className="fixed bottom-0 left-0 w-full dark:bg-bluedark bg-white sm:hidden">
                     <div className="bg-white dark:bg-bluedark flex justify-center items-center gap-2 p-2 w-full">
-                      <button className="text-sm p-3 px-4 text-black dark:bg-[#323d4e] dark:text-white bg-white border border-black rounded-xl w-[50%]">
+                      <button
+                        onClick={handleBuyNow}
+                        className="text-sm p-3 px-4 cursor-pointer text-black dark:bg-[#323d4e] dark:text-white bg-white border border-black rounded-xl w-[50%]"
+                      >
                         BUY NOW
                       </button>
                       <button
