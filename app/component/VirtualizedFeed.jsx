@@ -303,9 +303,9 @@ const VirtualizedFeed = ({
 
                   <div className="h-[20px] sm:h-[32px] px-2 w-[100%] flex flex-col">
                     <div className="text-[14px] pn:max-sm:text-[12px] dark:text-[#f5f5f5] text-black w-[100%] font-medium text-ellipsis overflow-hidden py-1">
-                      {d?.posts.title.length > 20
-                        ? `${d?.posts.title.slice(0, 30)}...`
-                        : d?.posts.title}
+                      {d?.posts.title?.length > 20
+                        ? `${d?.posts?.title?.slice(0, 30)}...`
+                        : d?.posts?.title}
                     </div>
                   </div>
                 </div>
