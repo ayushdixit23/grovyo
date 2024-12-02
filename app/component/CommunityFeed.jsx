@@ -664,7 +664,7 @@ const CommunityFeed = React.memo(({ id }) => {
                     </span>
                     <span
                       id="success-icon-course-url"
-                      className="hidden inline-flex items-center"
+                      className="inline-flex items-center"
                     >
                       <svg
                         className="w-3.5 h-3.5 text-blue-700 "
