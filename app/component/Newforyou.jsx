@@ -163,6 +163,10 @@ const Newforyou = React.memo(({ id }) => {
     try {
       setIsjoined(!isjoined);
       await axios.post(`${API}/unjoin/${data?.id}/${id}`);
+      socket.emit("decrease-member-count", {
+        comid: id,
+        creator: data?.id,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -301,11 +305,22 @@ const Newforyou = React.memo(({ id }) => {
     }
   };
 
+  useEffect(() => {
+    socket.emit("increase-visitor-count", {
+      comid: id,
+      creator: data?.id,
+    });
+  }, []);
+
   const joinmembers = async () => {
     try {
       setJoinLoading(true);
       const res = await axios.post(`${API}/joincom/${data?.id}/${id}`);
       if (res.data.success) {
+        socket.emit("increase-member-count", {
+          comid: id,
+          creator: data?.id,
+        });
         await fetchEverything();
         setJoinLoading(false);
       }

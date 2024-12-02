@@ -157,6 +157,10 @@ const CommunityFeed = React.memo(({ id }) => {
       setIsjoined(!isjoined);
       await axios.post(`${API}/unjoin/${data?.id}/${id}`);
       router.push("/main/feed/community");
+      socket.emit("decrease-member-count", {
+        comid: id,
+        creator: data?.id,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -166,6 +170,10 @@ const CommunityFeed = React.memo(({ id }) => {
     try {
       const res = await axios.post(`${API}/joincom/${data?.id}/${id}`);
       if (res.data.success) {
+        socket.emit("increase-member-count", {
+          comid: id,
+          creator: data?.id,
+        });
         await fetchCommunity();
         await fetchallPosts();
       }
@@ -565,6 +573,13 @@ const CommunityFeed = React.memo(({ id }) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    socket.emit("increase-visitor-count", {
+      comid: id,
+      creator: data?.id,
+    });
+  }, []);
 
   return (
     <>
